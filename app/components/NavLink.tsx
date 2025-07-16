@@ -13,7 +13,8 @@ interface ILinks {
 const NavLink = ({ slug, label, onClick }: ILinks) => {
 	const { setVisible } = useVisibility();
 	const pathname = usePathname()!.slice(1);
-	const active = slug === pathname ? "text-yellow-500" : "text-black";
+	const active =
+		slug === pathname ? "text-yellow-500" : "text-white md:text-black";
 
 	const { closeSubmenu } = useNavigationContext();
 	const handleClick = () => {
@@ -23,7 +24,7 @@ const NavLink = ({ slug, label, onClick }: ILinks) => {
 	return (
 		<Link
 			data-link="link"
-			className={`font-open-sans font-extrabold text-lg align-bottom hover:text-yellow-500 ${active} pb-2`}
+			className={`font-sans font-bold text-lg align-bottom hover:text-yellow-500 ${active} pb-2`}
 			href={`${process.env.BASE_URL}/${slug}`}
 			onClick={(e) => {
 				(handleClick(), onClick && onClick());

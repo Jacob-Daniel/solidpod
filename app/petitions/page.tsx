@@ -90,7 +90,7 @@ function Frame({
           className="w-full lg:text-xl"
         />
       </header>
-      <div className="col-span-12 flex flex-col md:flex-row gap-y-5 lg:px-0 md:gap-x-5">
+      <div className="col-span-12 grid grid-cols-12 md:flex-row gap-y-5 lg:px-0 md:gap-x-5">
         {children}
       </div>
     </div>

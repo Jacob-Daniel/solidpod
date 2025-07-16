@@ -14,6 +14,7 @@ import {
   SelectOption,
   SelectField,
   FormFields,
+  CreateResponseAction,
 } from "@/lib/types";
 
 type Props = {
@@ -98,14 +99,15 @@ export default function PetitionForm({
       mailing_list: false,
     });
     try {
-      const res = await createSignatureAction(data);
+      const res: CreateResponseAction = await createSignatureAction(data);
+      console.log(res, "ress");
       if (res && "error" in res && res.error) {
         setMessageSend((prev) => ({
           ...prev,
           errorMessage: res?.error?.message as string,
           successMessage: "",
         }));
-      } else if (res && !("error" in res)) {
+      } else if (res && "first_name" in res) {
         setMessageSend((prev) => ({
           ...prev,
           errorMessage: "",

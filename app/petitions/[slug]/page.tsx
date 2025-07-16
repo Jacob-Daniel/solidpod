@@ -65,7 +65,7 @@ export default async function PetitionPage({ params }: { params: Params }) {
 			"/pages?filters[slug][$eq]=petition&populate[sections][on][layout.petition-section][populate]=*&populate[sections][on][layout.social-platforms][populate]=*&populate[sections][on][layout.comment-section][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][form.form-section][populate]=*&populate[sidebar][on][content.petition-stats][populate]=*",
 		),
 		getAPI<Petition[]>(
-			`/petitions?filters[slug][$eq]=${slug}&populate[0]=tags&populate[1]=local&populate[2]=target&populate[3]=signatures&populate[4]=image&populate[5]=target&populate[6]=createdByUser`,
+			`/petitions?filters[slug][$eq]=${slug}&populate[0]=tags&populate[1]=target&populate[2]=signatures&populate[3]=image&populate[4]=target&populate[5]=createdByUser`,
 		),
 		getAPI<Signature[]>(
 			`/signatures?filters[petition][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user`,
@@ -81,20 +81,20 @@ export default async function PetitionPage({ params }: { params: Params }) {
 		notFound();
 	}
 	const petitionMeta: PetitionMeta = {
-		locale: petition.locale,
+		// locale: petition.locale,
 		end_date: petition.end_date,
 		signaturesCount: petition.signaturesCount,
 		targetCount: petition.targetCount,
 		tags: petition.tags,
 		createdByUser: petition.createdByUser,
 		target: petition.target,
-		local: petition.local,
+		// local: petition.local,
 	};
 
-	console.log(signatures, "sig");
+	// console.log(signatures, "sig");
 	return (
 		<main className="grid grid-cols-12 col-span-12 mb-20">
-			<div className="md:col-start-2 md:col-span-10 grid grid-cols-12 md:gap-x-10">
+			<div className="lg:col-start-2 lg:col-span-10 grid grid-cols-12 lg:gap-x-10">
 				{!petition && (
 					<section className="md:px-5 lg:px-0 col-span-12 lg:col-start-2 lg:col-span-7">
 						<p>petition not found</p>
@@ -103,13 +103,10 @@ export default async function PetitionPage({ params }: { params: Params }) {
 				{petition && (
 					<PageContent petition={petition} signatures={signatureData} />
 				)}
-				<aside className="col-span-12 md:col-span-4 flex flex-col gap-y-7">
+				<aside className="col-span-12 lg:col-span-4 flex flex-col gap-y-7">
 					{page &&
 						page.sidebar instanceof Array &&
 						page.sidebar.map((p, index) => {
-							{
-								/*console.log(p, "sidebar");*/
-							}
 							switch (p.__component) {
 								case "form.form-section":
 									return (
@@ -122,15 +119,15 @@ export default async function PetitionPage({ params }: { params: Params }) {
 											petitionTitle={petition.title}
 										/>
 									);
-								case "heading":
-									return <h2>{p.heading}</h2>;
+								case "content.heading":
+									return <h2 key="heading">{p.heading}</h2>;
 								case "content.petition-stats":
 									return (
 										<PetitionStates key="key" stats={p} data={petitionMeta} />
 									);
 
 								default:
-									console.warn("Unknown section type:", p.__component);
+									console.warn("Unknown section type:", "");
 									return null;
 							}
 						})}
@@ -160,10 +157,19 @@ const PageContent = ({
 				objectFit="contain"
 				priority={false}
 			/>
-			<h2 className="font-extrabold text-2xl md:text-4xl leading-8 md:leading-12 mb-3 font-sans">
-				{petition.title}
-			</h2>
-			<RichPageContentRender blocks={petition.content} className="" />
+			<div className="col-span-12 mb-10">
+				<h2 className="font-bold text-2xl md:text-4xl leading-8 md:leading-12 mb-3 font-sans">
+					{petition.title}
+				</h2>
+				<RichPageContentRender blocks={petition.demand} className="mb-10" />
+				<h3 className="font-bold text-lg md:text-xl mb-5 font-sans">
+					Reason to sign
+				</h3>
+				<RichPageContentRender blocks={petition.reason} className="" />
+			</div>
+			<h3 className="font-bold text-lg md:text-xl mb-5 font-sans">
+				Signatures
+			</h3>
 			<Signatures signatures={signatures} />
 		</section>
 	);

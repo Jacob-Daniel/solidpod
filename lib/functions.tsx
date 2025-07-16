@@ -4,6 +4,9 @@ import {
 	CreateMembership,
 	CreateSignature,
 	CreateMembershipResponseAction,
+	CreatePetition,
+	UploadPetition,
+	StrapiResponse,
 	Page,
 } from "@/lib/types";
 
@@ -43,7 +46,7 @@ export async function createAPI<T>({
 	data,
 	route,
 }: {
-	data: CreateMembership | CreateSignature;
+	data: CreateMembership | CreateSignature | CreatePetition | UploadPetition;
 	route: string;
 }): Promise<T> {
 	try {
@@ -57,18 +60,23 @@ export async function createAPI<T>({
 				data: data,
 			}),
 		});
+		console.log(response, "res server");
 		if (!response.ok) {
 			const errorBody = await response.json();
 			throw new Error(errorBody.error?.message || "An unknown error occurred");
 		}
-		let json;
+		let json: StrapiResponse<T>;
 		try {
 			json = await response.json();
+			console.log(json, "json res server");
 		} catch (jsonError) {
 			throw new Error(`Error parsing JSON response: ${jsonError}`);
 		}
-		// console.log(json, "create memb");
-		return json;
+		if ("data" in json) {
+			return json.data;
+		} else {
+			return json;
+		}
 	} catch (error: any) {
 		console.error(
 			"Error occurred while creating membership or signature:",
@@ -128,3 +136,34 @@ export async function getAPIAuth<T>(query: string, jwt: string): Promise<T> {
 // 		},
 // 	};
 // }
+
+// lib/uploadToStrapi.ts
+export async function uploadImage<T>(
+	imageFile: File,
+	jwt: string,
+): Promise<T | null> {
+	try {
+		const formData = new FormData();
+		formData.append("files", imageFile);
+		const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API}/upload`, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${jwt}`,
+			},
+			body: formData,
+		});
+
+		if (!res.ok) {
+			console.error("Image upload failed", res.statusText);
+			return null;
+		}
+
+		const data = await res.json();
+		// Returns the URL or ID of the uploaded image
+		const uploaded = data[0];
+		return uploaded || null;
+	} catch (error) {
+		console.error("Error uploading image:", error);
+		return null;
+	}
+}

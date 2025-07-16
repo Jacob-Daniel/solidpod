@@ -274,3 +274,51 @@ export async function humanValidator({
 		return true;
 	}
 }
+
+export function toSlug(text: string): string {
+	return text
+		.toLowerCase()
+		.trim()
+		.replace(/[^a-z0-9 -]/g, "")
+		.replace(/\s+/g, "-")
+		.replace(/-+/g, "-");
+}
+
+interface TiptapTextNode {
+	type?: string;
+	text?: string;
+}
+
+interface TiptapBlockNode {
+	type: string;
+	children?: TiptapTextNode[];
+}
+
+export function convertTiptapToStrapi(doc: { content: any[] }): any[] {
+	if (!doc || !Array.isArray(doc.content)) return [];
+
+	return doc.content
+		.map((block) => {
+			// Build base block object
+			const baseBlock: any = {
+				type: block.type,
+				children: (block.content || []).map((child: any) => ({
+					type: child.type || "text",
+					text: child.text || "",
+				})),
+			};
+
+			// Add level if heading and attrs.level exists
+			if (block.type === "heading" && block.attrs && block.attrs.level) {
+				baseBlock.level = block.attrs.level;
+			}
+
+			return baseBlock;
+		})
+		.filter((block) => {
+			if (block.type === "paragraph") {
+				return block.children.some((child: any) => child.text.trim() !== "");
+			}
+			return true;
+		});
+}

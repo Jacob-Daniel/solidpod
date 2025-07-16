@@ -13,7 +13,7 @@ import {
 export default async function Footer(): Promise<JSX.Element> {
 	const [footer] = await Promise.all([
 		getAPI<IFooter>(
-			"/footer?populate[column_one][on][content.heading][populate][populate]=*&populate[column_two][on][content.heading][populate][populate]=*&populate[column_three][on][content.heading][populate]=*&populate[column_three][on][layout.navigation][populate][navigation_menu][populate]=navigation_items&populate[column_four][on][layout.social-platforms][populate][organisation][populate]=social_media.social",
+			"/footer?populate[column_one][on][content.heading][populate][populate]=*&populate[column_two][on][content.heading][populate][populate]=*&populate[column_three][on][content.heading][populate]=*&populate[column_one][on][layout.navigation][populate][navigation_menu][populate]=navigation_items&populate[column_four][on][layout.social-platforms][populate][organisation][populate]=social_media.social",
 		),
 	]);
 	return (
@@ -27,7 +27,7 @@ export default async function Footer(): Promise<JSX.Element> {
 							const heading = value.find(
 								(item: FooterComponent): item is HeadingComponent =>
 									item.__component === "content.heading" ||
-									item.__component === "layout.social-platforms",
+									item.__component === "layout.navigation",
 							)?.heading;
 							return (
 								<div key={key} className="flex-1 min-w-[220px] max-w-[300px]">

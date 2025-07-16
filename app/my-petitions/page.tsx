@@ -30,9 +30,9 @@ export default async function MyPetitions() {
 		);
 		const accountCreated = new Date(user.createdAt);
 		return (
-			<div className="pb-20 px-5">
-				<div className="lg:min-h-[600px] z-50 col-span-12 grid grid-cols-12 col-span-12 lg:px-0 lg:col-start-2 lg:col-span-10  pt-20 md:pt-32">
-					<div className="col-span-12 md:col-start-2 md:col-span-10">
+			<main className="grid grid-cols-12 col-span-12 mb-20">
+				<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 md:gap-x-10">
+					<section className="col-span-12 lg:px-0 md:col-span-8">
 						<CreateAccountSuccess />
 						{data[0] &&
 							data[0].sections instanceof Array &&
@@ -68,38 +68,44 @@ export default async function MyPetitions() {
 										return null;
 								}
 							})}
-					</div>
-					<div className="col-span-12 md:col-start-2 md:col-span-10 mb-5">
-						<h2 className="font-sans font-bold text-lg md:text-xl">
-							Created Petitions
-						</h2>
-						<ul>
-							{myPetitions &&
-								myPetitions instanceof Array &&
-								myPetitions.map((petition: Petition, index) => {
-									return (
-										<li key={index}>
-											<Link
-												data-link="link"
-												className={`font-sans text-lg align-bottom hover:text-yellow-500 pb-2 underscore`}
-												href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
-											>
-												{petition.title}
-											</Link>
-										</li>
-									);
-								})}
-						</ul>
-						{!myPetitions && <p>Currently no petitions created.</p>}
-					</div>{" "}
-					<div className="col-span-12 md:col-start-2 md:col-span-10">
-						<h2 className="font-sans font-bold text-lg md:text-xl">
-							Petitions I have signed
-						</h2>
-						<UserSignedPetitions signatures={signatures} />
-					</div>
+						<div className="col-span-12 mb-5">
+							<h2 className="font-sans font-bold text-lg md:text-xl">
+								Created Petitions
+							</h2>
+							<ul>
+								{myPetitions &&
+									myPetitions instanceof Array &&
+									myPetitions.map((petition: Petition, index) => {
+										return (
+											<li key={index}>
+												<Link
+													data-link="link"
+													className={`font-sans text-lg align-bottom hover:text-yellow-500 pb-2 underscore`}
+													href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
+												>
+													{petition.title}
+												</Link>
+											</li>
+										);
+									})}
+							</ul>
+							{!myPetitions && <p>Currently no petitions created.</p>}
+						</div>{" "}
+						<div className="col-span-12">
+							<h2 className="font-sans font-bold text-lg md:text-xl">
+								Petitions I have signed
+							</h2>
+							<UserSignedPetitions signatures={signatures} />
+						</div>
+					</section>
+					<aside className="col-span-12 lg:col-span-4 flex flex-col gap-y-7">
+						<h2 className="font-sans font-bold capitalize">aside</h2>
+						<Link href={`${process.env.BASE_URL}/new-petition`}>
+							New Petition
+						</Link>
+					</aside>
 				</div>
-			</div>
+			</main>
 		);
 	}
 }

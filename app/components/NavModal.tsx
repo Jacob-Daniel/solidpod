@@ -33,7 +33,7 @@ const Modal: React.FC<{ id: string; children: React.ReactNode }> = ({
 		<dialog
 			data-id={id}
 			ref={refDialog}
-			className={`rounded z-50 bg-[#1c251d] backdrop:backdrop-sepia-[3] shadow-lg shadow-gray-500/20 w-[300px] md:w-[400px] h-[350px] p-5 mx-auto top-[10%]`}
+			className={`rounded z-50 bg-blue-600 backdrop:backdrop-sepia-[3] shadow-lg shadow-gray-500/20 w-[300px] md:w-[400px] h-[350px] p-5 mx-auto top-[10%]`}
 			onClick={handleClick}
 		>
 			{children}

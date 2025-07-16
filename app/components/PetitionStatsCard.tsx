@@ -6,7 +6,6 @@ interface StatsCardProps {
   signaturesCount: number;
   targetCount: number;
   title: string;
-  summary: string;
   endDate: string;
   slug: string;
 }
@@ -15,7 +14,6 @@ const PetitionStatsCard = ({
   signaturesCount,
   targetCount,
   title,
-  summary,
   endDate,
 }: StatsCardProps) => {
   const progressPercentage = Math.min(

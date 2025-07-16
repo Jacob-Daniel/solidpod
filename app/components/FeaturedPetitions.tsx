@@ -26,15 +26,15 @@ export default function FeaturedSwiper({
 				featured instanceof Array &&
 				featured.map((petition: Petition, index) => {
 					return (
-						<div className="col-span-12 md:col-span-4">
+						<div className="col-span-12 md:col-span-4 md:max-h-[220px] xl:max-h-[255px] overflow-hidden">
 							<Link
 								href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
-								className="petition relative"
+								className="petition relative block max-h-[150px] md:max-h-[130px] xl:max-h-[180px]"
 							>
 								<BlurImage
 									width={500}
 									height={500}
-									className="z-50 max-h-[500px] max-w-[500px] mb-0"
+									className="z-30"
 									title={petition.title}
 									sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.url}`}
 									shadow={false}
@@ -45,7 +45,7 @@ export default function FeaturedSwiper({
 							</Link>
 							<Text
 								id={petition.id}
-								summary={petition.summary}
+								summary={petition.title}
 								path={petition.slug}
 								route={`${process.env.BASE_URL}/petitions/${petition.slug}`}
 								title={petition.title}
@@ -80,7 +80,7 @@ function Text({
 	targetCount: number;
 }) {
 	return (
-		<div className="bottom-0 w-full bg-blue-600 mb-0 flex flex-col p-2 justify-evenly">
+		<div className="relative bottom-0 w-full bg-blue-600 mb-0 flex flex-col p-2 justify-evenly z-50">
 			<Link
 				href={route}
 				className="block font-sans link text-md xl:text-xl text-white capitalize"
@@ -91,7 +91,6 @@ function Text({
 				signaturesCount={signatureCount}
 				targetCount={targetCount}
 				title={title}
-				summary={summary}
 				endDate={end_date}
 				slug={path}
 			/>
