@@ -8,6 +8,11 @@ import { CreateBasketResponse } from "@/lib/userTypes";
 
 export * from "./dynamicTypes";
 
+export interface StrapiResponse<T> {
+	data: T;
+	meta?: any;
+}
+
 interface BaseDoc {
 	id: number;
 	documentId: string;
@@ -240,8 +245,8 @@ export interface LayoutSidebar {
 	RichTextContent: RichTextContent;
 }
 
-export interface EventSidebar {
-	__component: "layout.event-sidebar";
+export interface Sidebar {
+	__component: "layout.sidebar";
 	id: number;
 	heading: string;
 	share: { message: string };
@@ -331,17 +336,9 @@ export type WelcomeOptions = {
 
 /* ---------- Page & Section Types ---------- */
 
-export interface OurStoryPage extends BaseDoc {
-	slug: string;
-	title: string;
-	banner: Banner;
-	sections: Section[];
-	seo: SEO;
-}
-
 export interface EventPage extends BaseDoc {
 	sections: Section[];
-	sidebar: EventSidebar[];
+	sidebar: Sidebar[];
 	seo: SEO;
 }
 
@@ -350,18 +347,11 @@ export interface Page extends BaseDoc, SEO {
 	slug: string;
 	banner?: Banner;
 	sections: Section[];
-	// sidebar: LayoutSidebar[] | EventSidebar[] | PetitionStats | FormSection;
-	sidebar: PetitionStats | FormSection | EventSidebar[];
+	sidebar: SidebarComponent[];
 	seo: SEO;
 }
 
-export interface WhoWeArePage extends BaseDoc {
-	title: string;
-	slug: string;
-	banner: Banner;
-	sections: Section[];
-	seo: SEO;
-}
+export type SidebarComponent = PetitionStats | FormSection | HeadingComponent;
 
 export interface HomePage extends BaseDoc {
 	sections: Section[];
@@ -380,7 +370,7 @@ export type Section =
 	| LayoutCalendar
 	| ContentGallery
 	| InfoCardSection
-	| EventSidebar;
+	| Sidebar;
 
 export interface FormSection {
 	__component: "form.form-section";
@@ -393,7 +383,16 @@ export interface FormSection {
 export interface FormFields {
 	label: string;
 	name: string;
-	type: "text" | "email" | "boolean" | "textarea" | "select" | "hidden"; // Assuming your enumeration values
+	type:
+		| "text"
+		| "email"
+		| "boolean"
+		| "textarea"
+		| "select"
+		| "hidden"
+		| "date"
+		| "number"
+		| "file"; // Assuming your enumeration values
 	required: boolean;
 	mailing_list: boolean;
 	minLength?: number;
@@ -525,22 +524,37 @@ export interface Event extends BaseDoc {
 export interface Petition extends BaseDoc, PetitionMeta {
 	title: string;
 	slug: string;
-	summary: string;
-	content: RichTextContent;
+	demand: RichTextContent;
+	reason: RichTextContent;
 	image: Media;
 	signatures: Signature[];
 	status: string;
 }
 
+export interface UploadPetition {
+	title: string;
+	slug?: string;
+	demand: RichTextContent;
+	reason: RichTextContent;
+	image: number;
+	end_date: string;
+	targetCount: number;
+	tags?: string[];
+	createdByUser?: string;
+	target: string;
+	ward?: string;
+	borough?: string;
+}
+
 export interface PetitionMeta {
-	locale?: string | null;
 	end_date: string;
 	signaturesCount: number;
 	targetCount: number;
 	tags: string[];
-	createdByUser: Person;
-	target: Organisation;
-	local: Geolocation;
+	createdByUser: string;
+	target: string;
+	ward?: string;
+	borough?: string;
 }
 
 // subHeading?: string;
@@ -849,6 +863,16 @@ export interface Member extends BaseDoc {
 	postcode: string;
 }
 
+export interface CreatePetition {
+	title: string;
+	demand: string;
+	ward: string;
+	decision_maker: string;
+	image: string;
+	reason: string;
+	user?: string;
+}
+
 //Signature
 
 export interface CreateSignature {
@@ -863,11 +887,13 @@ export interface CreateSignature {
 	petition?: string;
 }
 
-export type CreateSignatureResponseAction =
-	| CreateSignatureErrorResponse
-	| Member;
+export type CreateResponseAction =
+	| CreateErrorResponse
+	| CreateSignature
+	| CreatePetition
+	| UploadPetition;
 
-export interface CreateSignatureErrorResponse {
+export interface CreateErrorResponse {
 	error: {
 		status: number;
 		name: string;
@@ -918,3 +944,5 @@ export interface Share {
 	cat: string;
 	imagepath: string;
 }
+
+export type FileUploadResponse = Media;

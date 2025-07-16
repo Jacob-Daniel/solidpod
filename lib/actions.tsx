@@ -3,7 +3,9 @@ import {
 	CreateMembershipResponseAction,
 	CreateMembership,
 	CreateSignature,
-	CreateSignatureResponseAction,
+	CreateResponseAction,
+	CreatePetition,
+	UploadPetition,
 } from "@/lib/types";
 import { createAPI } from "@/lib/functions";
 
@@ -14,20 +16,32 @@ export async function createMembershipAction(
 		data: customerData,
 		route: "memberships",
 	});
-	if ("error" in data) {
-		if (data.error) {
-			return data;
-		}
+	if (data && "error" in data) {
+		return data;
 	}
 	return data;
 }
 
 export async function createSignatureAction(
 	customerData: CreateSignature,
-): Promise<CreateSignatureResponseAction> {
-	const data = await createAPI<CreateSignatureResponseAction>({
+): Promise<CreateResponseAction> {
+	const data = await createAPI<CreateResponseAction>({
 		data: customerData,
 		route: "signatures",
+	});
+	console.log(data, "action data");
+	if (data && "error" in data) {
+		return data;
+	}
+	return data;
+}
+
+export async function createPetitionAction(
+	customerData: UploadPetition,
+): Promise<CreateResponseAction> {
+	const data = await createAPI<CreateResponseAction>({
+		data: customerData,
+		route: "petitions",
 	});
 	if ("error" in data) {
 		if (data.error) {

@@ -62,7 +62,7 @@ export default async function Home() {
             switch (section.__component) {
               case "layout.info-card-section":
                 return (
-                  <div className="col-span-12 grid grid-cols-12 mb-16 gapy-y-5 md:gap-x-5">
+                  <div className="col-span-12 grid grid-cols-12 mb-16 gap-y-5 md:gap-x-5">
                     {section &&
                       section.info_card instanceof Array &&
                       section.info_card.map((card: InfoCard, id: number) => (

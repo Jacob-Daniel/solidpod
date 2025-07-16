@@ -61,7 +61,7 @@ export default function FeaturedSwiper({
 								</Link>
 								<SwiperText
 									id={petition.id}
-									summary={petition.summary}
+									summary={petition.title}
 									path={petition.slug}
 									route={`${process.env.BASE_URL}/petitions/${petition.slug}`}
 									title={petition.title}
