@@ -6,7 +6,7 @@ type Props = {
 
 import Link from "next/link";
 import Image from "next/image";
-import img from "@/public/images/logo.jpg";
+import img from "@/public/images/logo.webp";
 
 export default function Logo() {
 	return (

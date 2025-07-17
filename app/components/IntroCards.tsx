@@ -65,7 +65,7 @@ export default function Intros({
 				{IconComponent && (
 					<IconComponent
 						style={{ color: icon_colour }}
-						className={`text-4xl md:text-3xl mb-1 self-end`}
+						className={`text-4xl md:text-3xl mb-1 self-end ${icon_colour}`}
 						data-swiper-parallax="-300"
 					/>
 				)}
