@@ -78,7 +78,7 @@ export default async function Home() {
                           pagination="swiper-pagination-use"
                           route=""
                           path=""
-                          icon_colour="black"
+                          icon_colour="!text-black"
                         />
                       ))}
                   </div>
