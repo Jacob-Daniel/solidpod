@@ -31,17 +31,19 @@ export default function FeaturedSwiper({
 								href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
 								className="petition relative block max-h-[150px] md:max-h-[130px] xl:max-h-[180px]"
 							>
-								<BlurImage
-									width={500}
-									height={500}
-									className="z-30"
-									title={petition.title}
-									sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.url}`}
-									shadow={false}
-									rounded={false}
-									objectFit="contain"
-									priority={false}
-								/>
+								{petition.image.url && (
+									<BlurImage
+										width={500}
+										height={500}
+										className="z-30"
+										title={petition.title}
+										sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.url}`}
+										shadow={false}
+										rounded={false}
+										objectFit="contain"
+										priority={false}
+									/>
+								)}
 							</Link>
 							<Text
 								id={petition.id}
@@ -83,7 +85,7 @@ function Text({
 		<div className="relative bottom-0 w-full bg-blue-600 mb-0 flex flex-col p-2 justify-evenly z-50">
 			<Link
 				href={route}
-				className="block font-sans link text-md xl:text-xl text-white capitalize"
+				className="block font-sans link text-md xl:text-lg text-white capitalize"
 			>
 				{title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
 			</Link>

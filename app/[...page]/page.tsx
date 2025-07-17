@@ -1,7 +1,4 @@
-import { ReactNode } from "react";
 import { getAPI } from "@/lib/functions";
-import FeaturedPetitions from "@/app/components/FeaturedPetitions";
-import IntroCards from "@/app/components/IntroCards";
 import BannerTop from "@/app/components/BannerTop";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
 
@@ -48,17 +45,24 @@ export default async function Page({
 }) {
   const [pagePath] = params.page ?? [];
   const [[data]] = await Promise.all([
-    getAPI<Page[]>(`/pages?filters[slug][$eq]=${pagePath}&populate=*`),
+    getAPI<Page[]>(
+      `/pages?filters[slug][$eq]=${pagePath}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
+    ),
   ]);
-  console.log(data, "data", pagePath, "slug");
   if (!data)
     return (
       <div>
         <p className="text-black">No content available</p>
       </div>
     );
+  console.log(data.banner, "banner");
   return (
     <main className="grid grid-cols-12 gap-y-10">
+      {data.banner && data.banner.image_versions[0].image.url && (
+        <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
+          <BannerTop banner={data.banner} />
+        </div>
+      )}
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">
         {data &&
           data.sections instanceof Array &&

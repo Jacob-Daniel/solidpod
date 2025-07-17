@@ -42,7 +42,7 @@ import RichPageContentRender from "@/app/components/RichPageContentRender";
 import H2 from "@/app/components/H2";
 
 export default async function Home() {
-  const [featured, data, events] = await Promise.all([
+  const [featured, [data], events] = await Promise.all([
     getAPI<Petition[]>("/featured-petitions"),
     getAPI<Page[]>(
       "/pages?filters[slug][$eq]=home&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*",
@@ -52,17 +52,22 @@ export default async function Home() {
   if (!data) return <div>No content available</div>;
   return (
     <main className="grid grid-cols-12 gap-y-10">
-      <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-        {data[0].banner && <BannerTop banner={data[0].banner} />}
-      </div>
+      {data.banner && data.banner.image_versions[0].image && (
+        <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
+          <BannerTop banner={data.banner} />
+        </div>
+      )}
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">
-        {data[0] &&
-          data[0].sections instanceof Array &&
-          data[0].sections.map((section, index) => {
+        {data &&
+          data.sections instanceof Array &&
+          data.sections.map((section, index) => {
             switch (section.__component) {
               case "layout.info-card-section":
                 return (
-                  <div className="col-span-12 grid grid-cols-12 mb-16 gap-y-5 md:gap-x-5">
+                  <div
+                    key="info_card"
+                    className="col-span-12 grid grid-cols-12 mb-16 gap-y-5 md:gap-x-5"
+                  >
                     {section &&
                       section.info_card instanceof Array &&
                       section.info_card.map((card: InfoCard, id: number) => (
