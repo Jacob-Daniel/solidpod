@@ -26,9 +26,11 @@ export default async function Petitions() {
   // console.log(data, "section");
   return (
     <main className="grid grid-cols-12 gap-y-10">
-      <div className="col-span-12 md:col-span-10 md:col-start-2 grid grid-cols-12">
-        {data.banner && <BannerTop banner={data.banner} />}
-      </div>
+      {data.banner && data.banner.image_versions[0].image && (
+        <div className="col-span-12 md:col-span-10 md:col-start-2 grid grid-cols-12">
+          <BannerTop banner={data.banner} />
+        </div>
+      )}
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">
         {data &&
           data.sections instanceof Array &&

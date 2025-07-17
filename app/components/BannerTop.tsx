@@ -5,7 +5,7 @@ import colors from "tailwindcss/colors";
 export default function BannerTop({ banner }: { banner: Banner }) {
 	console.log(banner.image_versions[0].image.height, "height");
 	return (
-		<div className="col-span-12 relative mt-[0px] bg-blue-600">
+		<div className="col-span-12 relative mt-[0px] bg-gray-200">
 			<div className="col-span-12 h-full">
 				<div id="banner" className="relative z-10">
 					<div className="w-full relative">

@@ -222,6 +222,7 @@ export interface LayoutTextSection {
 	__component: "content.content";
 	id: number;
 	content: RichTextContent;
+	anchor?: string;
 }
 
 export interface ContentGallery {
@@ -351,7 +352,11 @@ export interface Page extends BaseDoc, SEO {
 	seo: SEO;
 }
 
-export type SidebarComponent = PetitionStats | FormSection | HeadingComponent;
+export type SidebarComponent =
+	| PetitionStats
+	| FormSection
+	| HeadingComponent
+	| NavigationComponent;
 
 export interface HomePage extends BaseDoc {
 	sections: Section[];
@@ -681,6 +686,7 @@ export interface MenuItem {
 	is_parent: boolean;
 	parent: MenuItem | null;
 	children: MenuItem[];
+	fragment?: string;
 }
 export type SiteConfig = BaseDoc & {
 	title: string;
