@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
   );
   const general: General = {
     title: data.title,
-    tagline: data.SEO?.metaDescription ?? "Together",
+    tagline: data.SEO?.metaDescription ?? "Petition",
     image: data.logo ?? "logo",
     website: data.SEO?.ogUrl || "url",
     slug: data.title,
