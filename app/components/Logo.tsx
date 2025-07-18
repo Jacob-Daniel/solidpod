@@ -11,7 +11,7 @@ import img from "@/public/images/logo.webp";
 export default function Logo({ tagline }: { tagline: string }) {
 	return (
 		<Container>
-			<h1 className="inline-block w-[50px]">
+			<h1 className="inline-block w-[40px] md:w-[50px]">
 				<Link
 					title="home page link"
 					className="relative"
@@ -23,14 +23,14 @@ export default function Logo({ tagline }: { tagline: string }) {
 					{process.env.COMPANY_NAME as string}
 				</span>
 			</h1>
-			<span className="inline !text-gray-600 text-sm">{tagline}</span>
+			<span className="!text-gray-600 text-sm hidden md:inline">{tagline}</span>
 		</Container>
 	);
 }
 
 const Container = ({ children }: Props) => {
 	return (
-		<div className="relative col-span-12 md:col-span-4 lg:col-start-1 gap-x-5 z-40 align-middle h-[100px] flex flex-row items-center">
+		<div className="md:h-[100px] relative col-span-12 md:col-span-4 lg:col-start-1 gap-x-5 z-40 flex flex-row items-end md:items-center">
 			{children}
 		</div>
 	);

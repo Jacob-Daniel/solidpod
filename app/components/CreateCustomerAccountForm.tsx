@@ -131,14 +131,14 @@ const CustomerForm = () => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex flex-col gap-y-3 p-5 rounded w-full border"
+			className="flex flex-col gap-y-3 p-5 rounded w-full border border-gray-400"
 		>
 			<div className="text-left">
 				<label htmlFor="username" className="font-bold">
 					Name:
 				</label>
 				<input
-					className="border px-1 w-full"
+					className="border border-gray-400 px-1 w-full"
 					type="text"
 					name="username"
 					minLength={3}
@@ -146,7 +146,7 @@ const CustomerForm = () => {
 					autoComplete="off"
 				/>
 				{errors.username && (
-					<span className="text-sm text-red-600">{errors.username}</span>
+					<span className="text-sm text-red-400">{errors.username}</span>
 				)}
 			</div>
 			<div className="text-left">
@@ -154,13 +154,13 @@ const CustomerForm = () => {
 					Mobile:
 				</label>
 				<input
-					className="border px-1 w-full"
+					className="border border-gray-400 px-1 w-full"
 					type="text"
 					name="mobile"
 					required
 				/>
 				{errors.mobile && (
-					<span className="text-sm text-red-600">{errors.mobile}</span>
+					<span className="text-sm text-red-400">{errors.mobile}</span>
 				)}
 			</div>
 			<div className="text-left">
@@ -168,13 +168,13 @@ const CustomerForm = () => {
 					Password:
 				</label>
 				<input
-					className="border px-1 w-full"
+					className="border border-gray-400 px-1 w-full"
 					type="password"
 					name="password"
 					autoComplete="off"
 				/>
 				{errors.password && (
-					<span className="text-sm text-red-600">{errors.password}</span>
+					<span className="text-sm text-red-400">{errors.password}</span>
 				)}
 			</div>
 			<div className="text-left">
@@ -182,27 +182,27 @@ const CustomerForm = () => {
 					Email:
 				</label>
 				<input
-					className="border px-1 w-full"
+					className="border border-gray-400 px-1 w-full"
 					type="email"
 					name="email"
 					required
 				/>
 				{errors.email && (
-					<span className="text-sm text-red-600">{errors.email}</span>
+					<span className="text-sm text-red-400">{errors.email}</span>
 				)}
 			</div>
 			<div className="text-left">
 				<button
 					type="submit"
 					disabled={processing}
-					className={`p-1 px-2 text-white rounded ${processing ? "bg-gray-600" : "bg-black "}`}
+					className={`p-1 px-2 font-bold border border-gray-400 rounded ${processing ? "bg-gray-400" : ""}`}
 				>
 					{processing ? "processing ..." : "Submit"}
 				</button>
 			</div>
 			<div>
 				<p
-					className={`p-2 ${account.errorMessage === "" ? "d-hidden" : "d-block border-red-200 border text-red-600"} ${account.successMessage === "" ? "d-hidden" : "d-block border-green-200 border text-green-600"}`}
+					className={`p-2 ${account.errorMessage === "" ? "d-hidden" : "d-block border-red-200 border text-red-400"} ${account.successMessage === "" ? "d-hidden" : "d-block border-green-200 border text-green-400"}`}
 				>
 					{account.errorMessage || account.successMessage}
 				</p>

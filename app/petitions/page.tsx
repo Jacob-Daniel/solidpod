@@ -27,7 +27,7 @@ export default async function Petitions() {
   return (
     <main className="grid grid-cols-12 gap-y-10">
       {data.banner && data.banner.image_versions[0].image && (
-        <div className="col-span-12 md:col-span-10 md:col-start-2 grid grid-cols-12">
+        <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
           <BannerTop banner={data.banner} />
         </div>
       )}

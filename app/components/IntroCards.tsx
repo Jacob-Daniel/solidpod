@@ -60,7 +60,7 @@ export default function Intros({
 			id={id}
 			className="col-span-12 md:col-span-6 lg:col-span-3 border border-gray-300 rounded p-5"
 		>
-			<div className="grid justify-items-center items-center xl:mb-0 m-auto flex flex-col">
+			<div className="grid justify-items-center items-center xl:mb-0 m-auto flex flex-col bg-white">
 				<h2 className="font-sans font-bold mb-1">{json.heading}</h2>
 				{IconComponent && (
 					<IconComponent
