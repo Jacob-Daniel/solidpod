@@ -6,6 +6,7 @@ interface ILinks {
 	id: number;
 	slug: string;
 	label: string;
+	is_button: string;
 }
 
 export default function NavSpan({ id, slug, label }: ILinks) {
@@ -22,7 +23,7 @@ export default function NavSpan({ id, slug, label }: ILinks) {
 		<span
 			data-id={id}
 			className={`font-open-sans font-extrabold hover:text-yellow-500 align-baseline text-lg pb-0
-        ${active} cursor-pointer md:text-shadow md:shadow-black`}
+        ${active} cursor-pointer md:text-shadow md:shadow-black ${is_button && "border p-1"}`}
 			onClick={handleClick}
 		>
 			{label}

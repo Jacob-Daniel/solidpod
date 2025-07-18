@@ -8,13 +8,13 @@ interface ILinks {
 	slug: string;
 	label: string;
 	onClick?: () => void;
+	is_button: boolean;
 }
 
-const NavLink = ({ slug, label, onClick }: ILinks) => {
+const NavLink = ({ slug, label, onClick, is_button }: ILinks) => {
 	const { setVisible } = useVisibility();
 	const pathname = usePathname()!.slice(1);
-	const active =
-		slug === pathname ? "text-yellow-500" : "text-white md:text-black";
+	const active = slug === pathname ? "!text-yellow-500" : "sm:text-white";
 
 	const { closeSubmenu } = useNavigationContext();
 	const handleClick = () => {
@@ -24,7 +24,7 @@ const NavLink = ({ slug, label, onClick }: ILinks) => {
 	return (
 		<Link
 			data-link="link"
-			className={`font-sans font-bold text-lg align-bottom hover:text-yellow-500 ${active} pb-2`}
+			className={`font-sans font-bold align-bottom hover:!text-yellow-500 ${active} pb-2 ${is_button && "border !border-gray-400 px-2 pt-1 !pb-1 rounded"}`}
 			href={`${process.env.BASE_URL}/${slug}`}
 			onClick={(e) => {
 				(handleClick(), onClick && onClick());

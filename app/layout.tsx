@@ -12,21 +12,6 @@ import { NavigationProvider } from "@/lib/NavigationContext";
 import { getAPI } from "@/lib/functions";
 import type { SiteConfig, General } from "@/lib/types";
 
-// Fonts
-// const playfair = Cabin({
-//   weight: ["400", "500", "600", "700"],
-//   subsets: ["latin"],
-//   display: "swap",
-//   variable: "--font-playfair",
-// });
-
-// const openSans = Open_Sans({
-//   weight: ["300", "400", "500", "600", "700", "800"],
-//   subsets: ["latin"],
-//   display: "swap",
-//   variable: "--font-open-sans",
-// });
-
 const karla = Karla({
   weight: ["300", "400", "500", "600", "700", "800"],
   style: ["normal", "italic"],
@@ -64,11 +49,14 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const data = await getAPI<SiteConfig>(
+    "/site-config?populate[social_media][populate]=*",
+  );
   return (
     <html lang="en">
       <body className={`${karla.variable} w-full h-full`}>
@@ -76,7 +64,7 @@ export default function RootLayout({
           <ClientBasketProvider>
             <Header>
               <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0">
-                <Logo />
+                <Logo tagline={data.tagline} />
                 <NavigationProvider>
                   <Nav type="main" />
                 </NavigationProvider>

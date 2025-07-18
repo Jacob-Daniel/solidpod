@@ -25,7 +25,7 @@ const PetitionStatsCard = ({
   );
 
   return (
-    <div className="flex flex-row text-sm gap-3 justify-end w-full text-white">
+    <div className="flex flex-row text-sm gap-3 justify-end w-full">
       <StatBlock
         value={signaturesCount}
         label="Supporters"
@@ -48,7 +48,7 @@ const StatBlock = ({
   icon: string;
   delta?: number;
 }) => (
-  <span className="border border-blue-500 rounded px-2 py-1 text-xs">
+  <span className="border border-gray-200 rounded px-2 py-1 text-xs">
     {value} {label}
   </span>
 );

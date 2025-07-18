@@ -10,7 +10,7 @@ interface ILinks {
 }
 
 export default function ListItem({ link, data }: ILinks) {
-	const { id, slug, label, is_parent } = link;
+	const { id, slug, label, is_parent, is_button } = link;
 	// console.log(slug, "slug");
 	const parent = "";
 	return (
@@ -21,6 +21,7 @@ export default function ListItem({ link, data }: ILinks) {
 				label={label}
 				is_parent={is_parent}
 				parent={parent}
+				is_button={is_button}
 			/>
 			{is_parent && <SubUlType id={id} links={data} parentSlug={slug} />}
 		</>
@@ -45,6 +46,7 @@ interface IMenuItemTypeProps {
 	label: string;
 	is_parent: boolean;
 	parent: string;
+	is_button: boolean;
 }
 
 function MenuItemType({
@@ -53,10 +55,11 @@ function MenuItemType({
 	label,
 	is_parent,
 	parent,
+	is_button,
 }: IMenuItemTypeProps) {
 	return is_parent ? (
-		<NavSpan id={id} slug={slug} label={label} />
+		<NavSpan id={id} slug={slug} label={label} is_button={is_button} />
 	) : (
-		<NavLink slug={slug} label={label} parent={parent} />
+		<NavLink slug={slug} label={label} parent={parent} is_button={is_button} />
 	);
 }
