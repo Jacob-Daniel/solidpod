@@ -1,6 +1,7 @@
 import { getAPI } from "@/lib/functions";
 import BannerTop from "@/app/components/BannerTop";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
+import { notFound } from "next/navigation";
 
 // import BannerTop from "@/app/components/BannerTop";
 // import VolunteerIntro from "@/app/components/VolunteerIntro";
@@ -49,13 +50,7 @@ export default async function Page({
       `/pages?filters[slug][$eq]=${pagePath}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
     ),
   ]);
-  if (!data)
-    return (
-      <div>
-        <p className="text-black">No content available</p>
-      </div>
-    );
-  console.log(data.banner, "banner");
+  if (!data) notFound();
   return (
     <main className="grid grid-cols-12 gap-y-10">
       {data.banner && data.banner.image_versions[0].image.url && (

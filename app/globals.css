@@ -42,7 +42,6 @@ body.lock-scroll {
 @layer base {
   html {
     font-family: var(--font-karla);
-    /*    font-size: 62.5%;*/
   }
   :root {
     --background: 0 0% 100%;

@@ -11,16 +11,7 @@ export default async function NewPetition() {
 	const session = await auth();
 	if (!session) {
 		redirect("/login");
-		return (
-			<main className="grid grid-cols-12 col-span-12 min-h-[500px] bg-red-500">
-				<div className="grid grid-cols-12 md:grid-cols-10 col-span-12 px-5 md:px-0 md:col-start-2 md:col-span-10 pt-10 md:gap-x-10 lg:gap-x-16 mb-20">
-					fsdfsdf
-					<section className="col-span-12 md:col-span-6">
-						<h2 className="text-3xl z-50 font-sans">Redirecting ...</h2>
-					</section>
-				</div>
-			</main>
-		);
+		return null;
 	} else {
 		const userDocId = session.user.documentId;
 		const user: User = session.user;
@@ -70,9 +61,6 @@ export default async function NewPetition() {
 								}
 							})}
 					</section>
-					{/*				{page && page.sidebar && (
-					<Aside className="" sidebar={page.sidebar[0] as LayoutSidebar} />
-				)}*/}
 				</div>
 			</main>
 		);

@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation"; // Import this hook to access query params
 import CreateCustomerAccountForm from "@/app/components/CreateCustomerAccountForm";
 import PasswordResetForm from "@/app/components/PasswordResetForm";
-import CustomLoginForm from "@/app/components/NextAuthCustomLoginForm";
+import CustomLoginForm from "@/app/components/LoginForm";
 import { IButton, IPanel } from "@/lib/types";
 
 interface IItems {
@@ -64,7 +64,7 @@ export default function AuthTabs() {
 
 const Button: React.FC<IButton> = ({ isActive, title, onShow }) => (
 	<button
-		className={`font-sans inline-block bg-black p-1 text-white md:text-lg cursor-pointer rounded md:px-2 ${isActive ? "bg-yellow-500" : "bg-black"}`}
+		className={`font-sans border inline-block px-2 py-[2px] font-bold cursor-pointer rounded md:px-2 ${isActive ? "border-yellow-400" : "border-gray-400"}`}
 		onClick={onShow}
 	>
 		{title}

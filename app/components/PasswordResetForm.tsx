@@ -89,9 +89,9 @@ const PasswordResetForm = () => {
 	};
 
 	return (
-		<div className="p-5 bg-white border rounded mt-5 flex flex-col">
+		<div className="p-5 bg-white border border-gray-400 rounded mt-5 flex flex-col">
 			<button
-				className="self-start bg-black text-white rounded py-1 px-2 text-left cursor-pointer"
+				className="self-start border border-gray-400 font-bold rounded py-1 px-2 text-left cursor-pointer"
 				onClick={() => setShowResetForm((prev) => !prev)}
 			>
 				{showResetForm ? "Hide" : "Request Password"}
@@ -119,7 +119,7 @@ const PasswordResetForm = () => {
 						{!message.includes("reset email sent") && (
 							<button
 								type="submit"
-								className={`${processing ? "bg-gray-600" : "bg-black"} rounded p-1 text-white`}
+								className={`${processing ? "bg-gray-400" : "bg-black"} rounded p-1 text-white`}
 							>
 								{processing ? "Processing ..." : "Request Password Reset"}
 							</button>
@@ -185,7 +185,7 @@ const PasswordResetForm = () => {
 						<button
 							type="submit"
 							disabled={processing}
-							className={`${processing ? "bg-gray-600" : "bg-black"} rounded p-1 text-white`}
+							className={`${processing ? "bg-gray-400" : "bg-black"} rounded p-1 text-white`}
 						>
 							{processing ? "Processing ..." : "Reset Password"}
 						</button>
