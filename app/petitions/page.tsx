@@ -41,7 +41,7 @@ export default async function Petitions() {
                   <div key={`a-${index}`} className="relative col-span-12">
                     <RichPageContentRender
                       blocks={section.content}
-                      className="w-full lg:text-xl"
+                      className="w-full"
                     />
                   </div>
                 );
@@ -85,11 +85,7 @@ function Frame({
       <header className="col-span-12 flex flex-col">
         <H2
           child={section.heading}
-          className="text-lg md:text-xl lg:text-2xl leading-none font-bold font-sans mb-2"
-        />
-        <RichPageContentRender
-          blocks={section.content}
-          className="w-full lg:text-xl"
+          className="text-lg md:text-lg lg:text-2xl leading-none font-bold font-sans mb-2"
         />
       </header>
       <div className="col-span-12 grid grid-cols-12 md:flex-row gap-y-5 lg:px-0 md:gap-x-5">

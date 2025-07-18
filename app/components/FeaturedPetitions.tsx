@@ -85,7 +85,7 @@ function Text({
 	targetCount: number;
 }) {
 	return (
-		<div className="relative bottom-0 w-full mb-0 flex flex-col py-3 md:py-5 px-3 justify-evenly z-50 gap-y-2">
+		<div className="relative bottom-0 w-full mb-0 flex flex-col py-2 px-3 justify-evenly z-50 gap-y-2 bg-white">
 			<Link href={route} className="block font-sans link font-bold capitalize">
 				{title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
 			</Link>

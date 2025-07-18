@@ -63,7 +63,7 @@ export default async function RootLayout({
         <SessionProvider basePath={process.env.BASE_AUTH_PATH}>
           <ClientBasketProvider>
             <Header>
-              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0">
+              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-gray-300">
                 <Logo tagline={data.tagline} />
                 <NavigationProvider>
                   <Nav type="main" />

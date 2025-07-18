@@ -49,7 +49,7 @@ export default async function Resources() {
           <BannerTop banner={data.banner} />
         </div>
       )}
-      <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-10">
+      <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-5">
         <div className="col-span-12 md:col-span-9 grid-cols-12">
           {data &&
             data.sections instanceof Array &&

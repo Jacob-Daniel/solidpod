@@ -65,7 +65,7 @@ export default function Intros({
 				{IconComponent && (
 					<IconComponent
 						style={{ color: icon_colour }}
-						className={`text-2xl mb-1 ${icon_colour} block`}
+						className={`text-xl mb-1 text-slate-600/40 block`}
 						data-swiper-parallax="-300"
 					/>
 				)}
