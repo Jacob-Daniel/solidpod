@@ -20,7 +20,7 @@ export default async function Footer(): Promise<JSX.Element> {
 		<footer
 			className={`relative z-30 grid grid-cols-12 col-span-12 w-full m-0 mt-16`}
 		>
-			<div className="lg:col-start-2 col-span-12 lg:col-span-10 w-full pt-5 pb-16 px-5 md:px-10 lg:px-0 text-white max-w-[1850px] 2xl:mx-auto text-sm border-top border-t-slate-600 border-t-2">
+			<div className="lg:col-start-2 col-span-12 lg:col-span-10 w-full pt-5 pb-16 px-5 md:px-10 lg:px-0 text-white max-w-[1850px] 2xl:mx-auto text-sm border-top border-t-gray-300 border-t-2">
 				<div className="flex flex-wrap justify-start gap-y-10 z-50 !text-sm">
 					{Object.entries(footer).map(([key, value]) => {
 						if (Array.isArray(value) && value.length > 0) {
@@ -69,7 +69,7 @@ export default async function Footer(): Promise<JSX.Element> {
 					})}
 				</div>
 
-				<div className="mt-10 text-sm flex gap-1 w-full col-span-12">
+				<div className="mt-1text-sm flex gap-1 w-full col-span-12">
 					<span>&copy; {new Date().getFullYear()}</span>
 				</div>
 			</div>

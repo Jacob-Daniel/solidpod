@@ -687,8 +687,10 @@ export interface MenuItem {
 	parent: MenuItem | null;
 	children: MenuItem[];
 	fragment?: string;
+	is_button: boolean;
 }
 export type SiteConfig = BaseDoc & {
+	tagline: string;
 	title: string;
 	logo: IImage;
 	petitionLimit: number;

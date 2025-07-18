@@ -58,20 +58,20 @@ export default function Intros({
 	return (
 		<section
 			id={id}
-			className="col-span-12 md:col-span-6 lg:col-span-3 border rounded p-5"
+			className="col-span-12 md:col-span-6 lg:col-span-3 border border-gray-300 rounded p-5"
 		>
-			<div className="grid justify-items-center xl:mb-0 justify-between m-auto h-[150px]">
-				<h2 className="font-sans font-bold text-lg">{json.heading}</h2>
+			<div className="grid justify-items-center items-center xl:mb-0 m-auto flex flex-col">
+				<h2 className="font-sans font-bold mb-1">{json.heading}</h2>
 				{IconComponent && (
 					<IconComponent
 						style={{ color: icon_colour }}
-						className={`text-4xl md:text-3xl mb-1 self-end ${icon_colour}`}
+						className={`text-2xl mb-1 ${icon_colour} block`}
 						data-swiper-parallax="-300"
 					/>
 				)}
 
 				<p
-					className="leading-snug text-base md:text-[1rem] self-start text-center"
+					className="leading-snug self-start text-center !p-0"
 					dangerouslySetInnerHTML={{ __html: json.text }}
 				/>
 			</div>

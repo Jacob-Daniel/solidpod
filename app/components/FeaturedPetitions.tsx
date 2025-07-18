@@ -26,7 +26,10 @@ export default function FeaturedSwiper({
 				featured instanceof Array &&
 				featured.map((petition: Petition, index) => {
 					return (
-						<div className="col-span-12 md:col-span-4 md:max-h-[220px] xl:max-h-[255px] overflow-hidden">
+						<div
+							key={index}
+							className="col-span-12 md:col-span-4 overflow-hidden border rounded border-gray-300 hover:shadow"
+						>
 							<Link
 								href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
 								className="petition relative block max-h-[150px] md:max-h-[130px] xl:max-h-[180px]"
@@ -82,11 +85,8 @@ function Text({
 	targetCount: number;
 }) {
 	return (
-		<div className="relative bottom-0 w-full bg-blue-600 mb-0 flex flex-col p-2 justify-evenly z-50">
-			<Link
-				href={route}
-				className="block font-sans link text-md xl:text-lg text-white capitalize"
-			>
+		<div className="relative bottom-0 w-full mb-0 flex flex-col py-5 px-2 justify-evenly z-50 gap-y-2">
+			<Link href={route} className="block font-sans link text-md capitalize">
 				{title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
 			</Link>
 			<PetitionStatsCard

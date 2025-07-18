@@ -42,7 +42,7 @@ export default function ResponsiveImage({
 	return (
 		<Image
 			className={className}
-			alt={alt}
+			alt={alt || (selected.image.url as string)}
 			src={imageUrl}
 			placeholder="blur"
 			blurDataURL={blurDataURL}
