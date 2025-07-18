@@ -30,8 +30,8 @@ export default async function MyPetitions() {
 		);
 		const accountCreated = new Date(user.createdAt);
 		return (
-			<main className="grid grid-cols-12 col-span-12 mb-20">
-				<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 md:gap-x-10">
+			<main className="grid grid-cols-12 col-span-12 mb-20 pt-5">
+				<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-10">
 					<section className="col-span-12 lg:px-0 md:col-span-8">
 						<CreateAccountSuccess />
 						{data[0] &&
@@ -40,15 +40,16 @@ export default async function MyPetitions() {
 								switch (section.__component) {
 									case "content.content":
 										return (
-											<div key={`p-${index}`} className="relative col-span-12">
+											<div
+												key={`p-${index}`}
+												className="relative col-span-12 mb-10"
+											>
 												<RichContentRenderer
 													blocks={section.content}
 													className=""
 												/>
-												<h2 className="font-sans text-lg md:text-xl capitalize font-bold">
-													{user.username}
-												</h2>
 												<ul>
+													<li>name: {user.username}</li>
 													<li>email: {user.email}</li>
 													<li>joined: {accountCreated.toLocaleString()}</li>
 													<li></li>
@@ -68,10 +69,9 @@ export default async function MyPetitions() {
 										return null;
 								}
 							})}
-						<div className="col-span-12 mb-5">
-							<h2 className="font-sans font-bold text-lg md:text-xl">
-								Created Petitions
-							</h2>
+						<div className="col-span-12 mb-10">
+							<h2 className="font-sans font-bold md:text-lg">My Petitions </h2>
+							<span className="text-sm font-normal">(view live)</span>
 							<ul>
 								{myPetitions &&
 									myPetitions instanceof Array &&
@@ -80,11 +80,30 @@ export default async function MyPetitions() {
 											<li key={index}>
 												<Link
 													data-link="link"
-													className={`font-sans text-lg align-bottom hover:text-yellow-500 pb-2 underscore`}
+													className={`font-sans underline align-bottom hover:text-yellow-500 pb-2 underscore`}
 													href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
 												>
 													{petition.title}
-												</Link>
+												</Link>{" "}
+											</li>
+										);
+									})}
+							</ul>
+							<h2 className="font-sans font-bold md:text-lg">My Petitions</h2>
+							<span className="text-sm font-normal">(edit)</span>
+							<ul>
+								{myPetitions &&
+									myPetitions instanceof Array &&
+									myPetitions.map((petition: Petition, index) => {
+										return (
+											<li key={index}>
+												<Link
+													data-link="link"
+													className={`font-sans underline align-bottom hover:text-yellow-500 pb-2 underscore`}
+													href={`${process.env.BASE_URL}/my-petitions/${petition.slug}`}
+												>
+													{petition.title}
+												</Link>{" "}
 											</li>
 										);
 									})}
@@ -92,14 +111,13 @@ export default async function MyPetitions() {
 							{!myPetitions && <p>Currently no petitions created.</p>}
 						</div>{" "}
 						<div className="col-span-12">
-							<h2 className="font-sans font-bold text-lg md:text-xl">
+							<h2 className="font-sans font-bold md:text-lg">
 								Petitions I have signed
 							</h2>
 							<UserSignedPetitions signatures={signatures} />
 						</div>
 					</section>
-					<aside className="col-span-12 lg:col-span-4 flex flex-col gap-y-7">
-						<h2 className="font-sans font-bold capitalize">aside</h2>
+					<aside className="col-span-12 md:col-span-4 flex flex-col gap-y-7 bg-gray-200 rounded p-3">
 						<Link href={`${process.env.BASE_URL}/new-petition`}>
 							New Petition
 						</Link>

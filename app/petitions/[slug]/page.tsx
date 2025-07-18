@@ -93,8 +93,8 @@ export default async function PetitionPage({ params }: { params: Params }) {
 
 	// console.log(signatures, "sig");
 	return (
-		<main className="grid grid-cols-12 col-span-12 mb-20">
-			<div className="lg:col-start-2 lg:col-span-10 grid grid-cols-12 lg:gap-x-10">
+		<main className="grid grid-cols-12 col-span-12 mb-20 pt-5">
+			<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-5">
 				{!petition && (
 					<section className="md:px-5 lg:px-0 col-span-12 lg:col-start-2 lg:col-span-7">
 						<p>petition not found</p>
@@ -103,7 +103,7 @@ export default async function PetitionPage({ params }: { params: Params }) {
 				{petition && (
 					<PageContent petition={petition} signatures={signatureData} />
 				)}
-				<aside className="col-span-12 lg:col-span-4 flex flex-col gap-y-7">
+				<aside className="col-span-12 md:col-span-4 flex flex-col gap-y-7">
 					{page &&
 						page.sidebar instanceof Array &&
 						page.sidebar.map((p, index) => {
@@ -149,7 +149,7 @@ const PageContent = ({
 			<BlurImage
 				width={500}
 				height={500}
-				className="z-50 mb-5"
+				className="z-50 mb-3 lg:mb-5"
 				title={petition.title}
 				sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.url}`}
 				shadow={false}
@@ -158,16 +158,16 @@ const PageContent = ({
 				priority={false}
 			/>
 			<div className="col-span-12 mb-10">
-				<h2 className="font-bold text-2xl md:text-4xl leading-8 md:leading-12 mb-3 font-sans">
+				<h2 className="font-bold text-2xl lg:text-4xl mb-3 font-sans">
 					{petition.title}
 				</h2>
 				<RichPageContentRender blocks={petition.demand} className="mb-10" />
-				<h3 className="font-bold text-lg md:text-xl mb-5 font-sans">
+				<h3 className="font-bold text-lg lg:text-xl lg:mb-5 font-sans">
 					Reason to sign
 				</h3>
 				<RichPageContentRender blocks={petition.reason} className="" />
 			</div>
-			<h3 className="font-bold text-lg md:text-xl mb-5 font-sans">
+			<h3 className="font-bold text-lg lg:text-xl lg:mb-5 font-sans">
 				Signatures
 			</h3>
 			<Signatures signatures={signatures} />

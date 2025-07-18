@@ -35,14 +35,14 @@ const CustomLoginForm: React.FC = () => {
 		<form
 			id="loginForm"
 			onSubmit={handleSubmit}
-			className="flex flex-col gap-y-3 border border-gray-400 rounded p-5 items-start"
+			className="flex flex-col gap-y-3 border border-gray-300 rounded p-5 items-start"
 		>
 			<div className="text-left w-full">
 				<label htmlFor="email" className="font-bold">
 					Email
 				</label>
 				<input
-					className="border border-gray-400 px-1 w-full"
+					className="border border-gray-300 px-1 w-full"
 					type="email"
 					id="email"
 					value={email}
@@ -56,7 +56,7 @@ const CustomLoginForm: React.FC = () => {
 					Password
 				</label>
 				<input
-					className="border border-gray-400 px-1 w-full mb-2"
+					className="border border-gray-300 px-1 w-full mb-2"
 					type="password"
 					id="password"
 					value={password}
@@ -68,7 +68,7 @@ const CustomLoginForm: React.FC = () => {
 			{error && <p style={{ color: "red" }}>{error}</p>}
 			<button
 				type="submit"
-				className="border-gray-400 border !flex-shrink p-1 px-2 font-bold rounded cursor-pointer"
+				className="border-gray-300 border !flex-shrink p-1 px-2 font-bold rounded cursor-pointer"
 			>
 				Login
 			</button>
