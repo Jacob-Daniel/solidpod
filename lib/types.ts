@@ -892,7 +892,7 @@ export interface CreateSignature {
 	comment?: string;
 	display_name?: boolean;
 	user?: string;
-	petition?: string;
+	petition: {connect:{documentId: string}};
 }
 
 export type CreateResponseAction =

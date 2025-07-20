@@ -200,6 +200,7 @@ export default function PetitionForm({
         comment: formData.get("comment") as string,
         mailing_list,
         display_name: formData.get("display_name") === "true",
+        petition:{connect: {documentId:petitionDocumentId}},
       };
 
       for (const field of fieldsToValidate) {
@@ -207,7 +208,7 @@ export default function PetitionForm({
         newErrors[field] = errorMessage || "";
       }
 
-      data.petition = petitionDocumentId as string;
+      // data.petitionId = petitionDocumentId as string;
       if (userDocumentId) {
         data.user = userDocumentId as string;
       }
@@ -259,7 +260,7 @@ export default function PetitionForm({
                 </label>
               )}
               {errors[field.name as keyof typeof errors] && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="!text-red-500 text-sm mt-1">
                   {errors[field.name as keyof typeof errors]}
                 </p>
               )}

@@ -241,6 +241,9 @@ export interface CreateAccount {
 	email: string;
 	mobile: string;
 	password: string;
+	postcode: string;
+	last_name: string;
+
 }
 
 export interface SubmitButtonProps {

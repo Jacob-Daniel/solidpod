@@ -2,48 +2,22 @@
 import { auth } from "@/app/auth";
 
 import {
-	CreateBookingResponse,
 	CreateAccount,
 	UpdateBasketData,
 	CreateCustomerResponseAction,
 	CreateBasketResponse,
-	BookingDetails,
-	IPaymentDetails,
 	IOrderResponse,
 } from "@/lib/userTypes";
 
 import {
 	createBasket,
-	createBooking,
-	createCustomer,
-	createOrder,
+	createUser,
 	getBasket,
 	updateBasket,
 	updateBasketStatus,
 	getAPI,
 } from "@/lib/userFunctions";
 
-export async function createBookingAction(
-	bookingData: BookingDetails,
-	basketDocumentId: string,
-): Promise<CreateBookingResponse> {
-	const session = await auth();
-	if (!session || !session.user || !session.jwt) {
-		throw new Error("User is not authenticated or token is missing");
-	}
-	const userDocumentId = session.user.documentId;
-	const createdBooking = await createBooking(
-		bookingData,
-		session.jwt,
-		userDocumentId,
-		basketDocumentId,
-	);
-
-	if (!createdBooking.data) {
-		throw new Error("Failed to create booking");
-	}
-	return createdBooking;
-}
 
 export async function createCustomerAction(
 	customerData: CreateAccount,
@@ -58,35 +32,11 @@ export async function createCustomerAction(
 			};
 	  }
 > {
-	const data = await createCustomer(customerData);
+	const data = await createUser(customerData);
 	if (data.error) {
 		return data;
 	}
 	return data;
-}
-
-export async function createOrderAction(
-	basketDocumentId: string,
-	paymentDetails: IPaymentDetails,
-): Promise<IOrderResponse | null> {
-	const session = await auth();
-	if (!session || !session.user || !session.jwt) {
-		throw new Error("User is not authenticated or token is missing");
-	}
-	const userDocumentId = session.user.documentId;
-	try {
-		const data = await createOrder(
-			session.jwt,
-			userDocumentId,
-			basketDocumentId,
-			paymentDetails,
-		);
-		session.orderId = data.documentId;
-		return data;
-	} catch (error) {
-		console.error("Error creating order:", error);
-		return null;
-	}
 }
 
 export async function createBasketAction(

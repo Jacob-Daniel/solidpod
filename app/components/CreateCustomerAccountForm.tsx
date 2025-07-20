@@ -13,6 +13,8 @@ type FormValues = {
 	mobile: string;
 	password: string;
 	email: string;
+	postcode: string;
+	last_name: string;
 };
 
 const CustomerForm = () => {
@@ -22,6 +24,8 @@ const CustomerForm = () => {
 		mobile: "",
 		password: "",
 		email: "",
+		postcode: "",
+		last_name: "",
 	});
 	const [processing, setProcessing] = useState(false);
 	const [errors, setErrors] = useState<{
@@ -31,6 +35,8 @@ const CustomerForm = () => {
 		mobile: null,
 		password: null,
 		email: null,
+		postcode: null,
+		last_name: null,
 	});
 
 	const [account, setAccount] = useState({
@@ -90,6 +96,8 @@ const CustomerForm = () => {
 			mobile: null,
 			password: null,
 			email: null,
+			postcode: null,
+			last_name: null,
 		};
 
 		const formData = new FormData(event.currentTarget);
@@ -98,6 +106,8 @@ const CustomerForm = () => {
 			email: formData.get("email") as string,
 			mobile: formData.get("mobile") as string,
 			password: formData.get("password") as string,
+			last_name: formData.get("last_name") as string,
+			postcode: formData.get("postcode") as string,
 		};
 
 		// Validate fields and update error state
@@ -148,7 +158,40 @@ const CustomerForm = () => {
 				{errors.username && (
 					<span className="text-sm text-red-400">{errors.username}</span>
 				)}
-			</div>
+							</div>			
+			<div className="text-left">
+
+	<label htmlFor="last_name" className="font-bold">
+					Last Name:
+				</label>
+				<input
+					className="border border-gray-300 px-1 w-full"
+					type="text"
+					name="last_name"
+					minLength={3}
+					required
+					autoComplete="off"
+				/>
+				{errors.last_name && (
+					<span className="text-sm text-red-400">{errors.last_name}</span>
+				)}
+											</div>			
+			<div className="text-left">
+<label htmlFor="postcode" className="font-bold">
+					Postcode:
+				</label>
+				<input
+					className="border border-gray-300 px-1 w-full"
+					type="text"
+					name="postcode"
+					minLength={6}
+					required
+					autoComplete="off"
+				/>
+				{errors.postcode && (
+					<span className="text-sm text-red-400">{errors.postcode}</span>
+				)}				
+			</div>			
 			<div className="text-left">
 				<label htmlFor="mobile" className="font-bold">
 					Mobile:
@@ -195,7 +238,7 @@ const CustomerForm = () => {
 				<button
 					type="submit"
 					disabled={processing}
-					className={`p-1 px-2 font-bold border border-gray-300 rounded ${processing ? "bg-gray-400" : ""}`}
+					className={`p-1 px-2 font-bold border border-green-300 rounded cursor-pointer ${processing ? "bg-gray-400" : ""}`}
 				>
 					{processing ? "processing ..." : "Submit"}
 				</button>

@@ -15,7 +15,7 @@ export default async function MyPetitions() {
 	} else {
 		const [data, myPetitions, user] = await Promise.all([
 			getAPI<Page[]>(`/pages?filters[slug][$eq]=my-petitions&populate=*`),
-			getAPIAuth<Petition>("/myPetitions", session.jwt),
+			getAPIAuth<Petition>("/user-petitions", session.jwt),
 			getAPIAuth<User>("/users/me", session.jwt),
 		]);
 

@@ -7,37 +7,26 @@ import {
 	BookingDetails,
 	BookingDetailsResponse,
 	UpdateBasketData,
-	// ISeason,
-	// Season,
+
 	CreateBasketResponse,
 	CreateBookingResponse,
 	CreateCustomerResponseAction,
-	// IPrices,
-	// Prices,
-	// IDay,
-	// Day,
+
 	CreateAccount,
 	IPaymentDetails,
-	// BookingResponse,
-	// ICampsiteInfo,
-	// ICampsite,
+
 	IApiResponse,
 	IOrderResponse,
-	// IEmailSettings,
 	PageResponse,
 	CampsiteCapacity,
 	DayStatus,
-	// UpdatedDay,
 	ICarouselResponse,
-	// IThemeColours,
 	IActivities,
 	IMediaItem,
 	IMenu,
 	AboutPageResponse,
-	// HomePageResponse,
 	DynamicImage,
 	Files,
-	// BasketDetails,
 } from "@/lib/userTypes";
 
 export async function getAPI<T>(query: string): Promise<T> {
@@ -63,197 +52,7 @@ export async function getAPI<T>(query: string): Promise<T> {
 	return data;
 }
 
-export async function createBooking(
-	bookingData: BookingDetails,
-	token: string,
-	userDocumentId: string,
-	basketDocumentId: string,
-): Promise<CreateBookingResponse> {
-	if (!basketDocumentId) {
-		const newBasket = await createBasketAction(userDocumentId);
-		basketDocumentId = newBasket?.data?.documentId;
-
-		if (!basketDocumentId) {
-			throw new Error("Failed to create basket before booking.");
-		}
-	}
-
-	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_STRAPI_API}/bookings`,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify({ data: bookingData }),
-		},
-	);
-	const data = await response.json();
-	if (!response.ok) {
-		throw new Error("Failed to create booking");
-	}
-	const documentId = data.data.documentId;
-	await updateAPI(
-		"bookings",
-		documentId,
-		token,
-		{ user: userDocumentId },
-		"Failed to update booking",
-	);
-	const updateBasketResp = updateBasketStatus(basketDocumentId, "booking");
-
-	return data;
-}
-
-export async function createOrder(
-	token: string,
-	userDocumentId: string,
-	basketDocumentId: string,
-	paymentDetails: IPaymentDetails,
-): Promise<IOrderResponse> {
-	const order = {
-		total_amount: paymentDetails.totalAmount,
-		user: userDocumentId,
-		payment_id: paymentDetails.paymentId,
-		payment_provider: paymentDetails.paymentProvider,
-		payment_status: "paid",
-		booking: paymentDetails.bookingId,
-	};
-	const url = `${process.env.NEXT_PUBLIC_STRAPI_API}/orders`;
-	const response = await fetch(url, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify({ data: order }),
-	});
-	const { data } = await response.json();
-	console.log(data, "order");
-	if (!response.ok) {
-		throw new Error("Failed to create order");
-	}
-
-	await updateBasketStatus(basketDocumentId, "paid");
-	await updateDaysCollection(paymentDetails.bookingId, token);
-	return data;
-}
-
-async function updateDaysCollection(documentId: string, token: string) {
-	const response: BookingDetailsResponse = await getBooking({
-		documentId: documentId,
-	});
-
-	const bookingDetails = response.data;
-	const numberOfNights = bookingDetails.number_of_nights;
-	const startDate = new Date(bookingDetails.start_date);
-
-	for (let i = 0; i < numberOfNights; i++) {
-		const currentDate = new Date(startDate);
-		currentDate.setDate(startDate.getDate() + i);
-		const dateQuery = currentDate.toISOString().split("T")[0];
-
-		const queryUrl = `${process.env.NEXT_PUBLIC_STRAPI_API}/days?filters[date][$eq]=${dateQuery}&populate=*`;
-		const dayResponse = await fetch(queryUrl, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		if (!dayResponse.ok) {
-			throw new Error(`Failed to fetch day data for date: ${dateQuery}`);
-		}
-
-		const dayData = await dayResponse.json();
-
-		if (!dayData.data || dayData.data.length === 0) {
-			throw new Error(`No day record found for date: ${dateQuery}`);
-		}
-
-		const dayRecord = dayData.data[0];
-		const dayDocumentId = dayRecord.documentId;
-		const dayNumberOfBookings = dayRecord.number_of_bookings;
-
-		const updatedCampsiteCapacity = {
-			total_pitches: dayRecord.campsite_capacity.total_pitches as number,
-			total_capacity: dayRecord.campsite_capacity.total_capacity as number,
-			available_pitches: dayRecord.campsite_capacity.available_pitches - 1,
-			number_of_bookings: dayNumberOfBookings + 1,
-		};
-
-		const updatedDayStatus = calculateDayStatus(updatedCampsiteCapacity);
-
-		const updatedDay = {
-			day_status: updatedDayStatus,
-			number_of_bookings: updatedCampsiteCapacity.number_of_bookings,
-			campsite_capacity: {
-				available_pitches: updatedCampsiteCapacity.available_pitches,
-			},
-		};
-
-		const updateUrl = `${process.env.NEXT_PUBLIC_STRAPI_API}/days/${dayDocumentId}`;
-
-		const updateResponse = await fetch(updateUrl, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${process.env.STRAPI_USER_API_TOKEN}`,
-			},
-			body: JSON.stringify({ data: updatedDay }),
-		});
-
-		if (!updateResponse.ok) {
-			const errorDetails = await updateResponse.json();
-			throw new Error(
-				`Failed to update day record with Error: ${errorDetails.error.message}`,
-			);
-		}
-		revalidateISR("bookings");
-	}
-
-	return { success: true };
-}
-
-function calculateDayStatus(campsiteCapacity: CampsiteCapacity): DayStatus {
-	const { total_pitches, available_pitches } = campsiteCapacity;
-	if (available_pitches <= 0) {
-		return { day_status: "day_full" };
-	} else if (available_pitches <= total_pitches * 0.2) {
-		return { day_status: "day_low" };
-	} else {
-		return { day_status: "day_available" };
-	}
-}
-
-export async function updateAPI(
-	path: string,
-	id: string,
-	token: string,
-	data: Record<string, any>,
-	errorPrefix = "Update failed",
-): Promise<void> {
-	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_STRAPI_API}/${path}/${id}`,
-		{
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify({ data }),
-		},
-	);
-
-	if (!response.ok) {
-		const errorData = await response.json();
-		throw new Error(
-			`${errorPrefix}: ${errorData?.error?.message || "Unknown error"}`,
-		);
-	}
-}
-
-export async function createCustomer(customerData: CreateAccount): Promise<
+export async function createUser(userData: CreateAccount): Promise<
 	| CreateCustomerResponseAction
 	| {
 			error: {
@@ -271,7 +70,7 @@ export async function createCustomer(customerData: CreateAccount): Promise<
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(customerData),
+			body: JSON.stringify(userData),
 		},
 	);
 	const data = await response.json();
