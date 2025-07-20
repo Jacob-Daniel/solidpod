@@ -5,7 +5,9 @@ import { getAPI, getAPIAuth } from "@/lib/functions";
 import Aside from "@/app/components/Aside";
 import CreatePetitionForm from "@/app/components/CreatePetitionForm";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
+import GeneratePDFButton from "@/app/components/GeneratePDFButton";
 import { LayoutSidebar, Page, Petition, User } from "@/lib/types";
+// import {CreatePetitionPDF} from "@/lib/actions"
 
 type Params = Promise<{ parent: string; slug: string }>;
 
@@ -23,9 +25,9 @@ export default async function EditPetitionPage({ params }: { params: Params }) {
 		const userDocId = session.user.documentId;
 		const user: User = session.user;
 		const [[petitionData]] = await Promise.all([
-			getAPI<Petittion[]>(`/petitions?filters[slug][$eq]=${slug}&populate=*`),
+			getAPI<Petition[]>(`/petitions?filters[slug][$eq]=${slug}&populate=*`),
 		]);
-		console.log(petitionData, "data");
+		console.log(session, "sess data");
 		if (!petitionData)
 			return (
 				<main className="grid grid-cols-12 col-span-12 min-h-[500px]">
@@ -37,7 +39,7 @@ export default async function EditPetitionPage({ params }: { params: Params }) {
 				</main>
 			);
 		return (
-			<main className="grid grid-cols-12 col-span-12">
+			<main className="grid grid-cols-12 col-span-12 mt-5">
 				<div className="grid grid-cols-12 lg:grid-cols-10 col-span-12 px-5 lg:px-0 lg:col-start-2 lg:col-span-10 md:gap-x-10 lg:gap-x-16 mb-20">
 					<section className="col-span-12 md:col-span-8">
 						{petitionData &&
@@ -58,6 +60,11 @@ export default async function EditPetitionPage({ params }: { params: Params }) {
 										return null;
 								}
 							})}
+						<GeneratePDFButton
+							documentId={petitionData.documentId}
+							jwt={session.jwt}
+							classes="border border-gray-400 rounded block px-1 cursor-pointer "
+						/>
 					</section>
 				</div>
 			</main>

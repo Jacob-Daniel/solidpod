@@ -86,7 +86,6 @@ export default function RichContentRenderer({
 					}
 
 					case "image": {
-						console.log("image", block);
 						return (
 							<figure key={block.key || index}>
 								{block.url && (
