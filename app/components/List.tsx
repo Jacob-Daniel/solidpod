@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 
 const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
 	const { data: session } = useSession();
-
 	const isLoggedIn = session && session.user;
 	const { setActiveSubmenuId, closeSubmenu, activeSubmenuId } =
 		useNavigationContext();

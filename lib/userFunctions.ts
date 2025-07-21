@@ -2,24 +2,16 @@ import { v4 as uuidv4 } from "uuid";
 export function generateNewSessionId(): string {
 	return uuidv4(); // Generate a new UUID
 }
-import { createBasketAction } from "./userActions";
+// import { createBasketAction } from "./userActions";
 import {
-	BookingDetails,
 	BookingDetailsResponse,
 	UpdateBasketData,
 
 	CreateBasketResponse,
-	CreateBookingResponse,
 	CreateCustomerResponseAction,
-
 	CreateAccount,
-	IPaymentDetails,
-
 	IApiResponse,
-	IOrderResponse,
 	PageResponse,
-	CampsiteCapacity,
-	DayStatus,
 	ICarouselResponse,
 	IActivities,
 	IMediaItem,

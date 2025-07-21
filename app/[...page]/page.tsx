@@ -39,15 +39,15 @@ import {
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 import H2 from "@/app/components/H2";
 
-export default async function Page({
+export default async function DynamicPage({
   params,
 }: {
   params: { page?: string[] };
 }) {
-  const [pagePath] = params.page ?? [];
+  let { page } = await params;
   const [[data]] = await Promise.all([
     getAPI<Page[]>(
-      `/pages?filters[slug][$eq]=${pagePath}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
+      `/pages?filters[slug][$eq]=${page}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
     ),
   ]);
   if (!data) notFound();

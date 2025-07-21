@@ -11,7 +11,8 @@ interface ILinks {
 
 export default function ListItem({ link, data }: ILinks) {
 	const { id, slug, label, is_parent, is_button } = link;
-	// console.log(slug, "slug");
+	// console.log(slug, "slug", data, "data", is_parent, "parent");
+
 	const parent = "";
 	return (
 		<>
@@ -45,7 +46,7 @@ interface IMenuItemTypeProps {
 	slug: string;
 	label: string;
 	is_parent: boolean;
-	parent: string;
+	parent: boolean;
 	is_button: boolean;
 }
 

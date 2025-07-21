@@ -15,7 +15,7 @@ export default function SubUl({ id, links, parentSlug }: ILinks) {
 	const [display, setDisplay] = useState<string>("hidden");
 	useEffect(() => {
 		if (id === activeSubmenuId) {
-			setDisplay("block md:flex md:flex-row");
+			setDisplay("block");
 		} else {
 			setDisplay("hidden");
 		}
@@ -29,7 +29,7 @@ export default function SubUl({ id, links, parentSlug }: ILinks) {
 
 	return (
 		<ul
-			className={`z-50 md:absolute end-0 top-[35px] grid md:gap-x-5 border-1 border-stone-700 md:bg-stone-700/70 items-center py-0 px-2 justify-center ${display} rounded`}
+			className={`z-50 md:absolute top-[35px] grid md:gap-x-5 border-1 border-stone-700 md:bg-white items-center py-0 px-2 justify-center ${display} rounded`}
 		>
 			{links.map((link) => (
 				<li className="flex justify-center" key={link.id}>
