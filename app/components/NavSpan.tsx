@@ -6,10 +6,10 @@ interface ILinks {
 	id: number;
 	slug: string;
 	label: string;
-	is_button: string;
+	is_button: boolean;
 }
 
-export default function NavSpan({ id, slug, label }: ILinks) {
+export default function NavSpan({ id, slug, label, is_button }: ILinks) {
 	const pathname = usePathname()!.slice(1);
 	const active = slug === pathname ? "text-yellow-500" : "text-white";
 
@@ -22,8 +22,8 @@ export default function NavSpan({ id, slug, label }: ILinks) {
 	return (
 		<span
 			data-id={id}
-			className={`font-open-sans font-extrabold hover:text-yellow-500 align-baseline text-lg pb-0
-        ${active} cursor-pointer md:text-shadow md:shadow-black ${is_button && "border p-1"}`}
+			className={`font-sans font-bold hover:text-yellow-500 align-baseline pb-0
+        ${active} cursor-pointer ${is_button && "border p-1"}`}
 			onClick={handleClick}
 		>
 			{label}
