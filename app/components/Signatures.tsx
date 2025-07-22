@@ -38,8 +38,8 @@ const Signatures = ({ signatures }: { signatures: Signature[] }) => {
   }
 
   return (
-    <div>
-      <h2>Recent supporters who signed ({signatures.length})</h2>
+    <div className="mb-10">
+      <p className="mb-3">Recent supporters who signed ({signatures.length})</p>
       <ul className="space-y-4">
         {signatures.map((sig) => (
           <li key={sig.id} className="p-4 border rounded-md shadow-sm">

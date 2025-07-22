@@ -36,12 +36,14 @@ export default function PetitionForm({
   userDocumentId,
   petitionDocumentId,
   petitionTitle,
+  id,
 }: {
   section: FormSection;
   className: string;
   userDocumentId: string;
   petitionDocumentId: string;
   petitionTitle: string;
+  id: string;
 }) {
   const router = useRouter();
   const { form_field } = section;
@@ -200,7 +202,7 @@ export default function PetitionForm({
         comment: formData.get("comment") as string,
         mailing_list,
         display_name: formData.get("display_name") === "true",
-        petition:{connect: {documentId:petitionDocumentId}},
+        petition: { connect: { documentId: petitionDocumentId } },
       };
 
       for (const field of fieldsToValidate) {
@@ -241,11 +243,12 @@ export default function PetitionForm({
       style={{ backgroundColor: section.bg_colour }}
     >
       {section.heading && (
-        <h2 className=" md:text-lg mb-3 font-bold font-sans">
+        <h2 className="text-xl md:text-lg mb-3 font-bold font-sans">
           {section.heading}
         </h2>
       )}
       <form
+        id={id}
         ref={formRef}
         onSubmit={handleSubmit}
         className={`grid grid-cols-1 ${className} bg-white font-sans text-sm`}
@@ -307,7 +310,7 @@ export default function PetitionForm({
                   case "boolean":
                     return (
                       <div className="flex items-center space-x-4">
-                        <label>
+                        <label className="flex gap-x-1 items-baseline ">
                           <input
                             type="radio"
                             name={field.name}
@@ -317,7 +320,7 @@ export default function PetitionForm({
                           />
                           Yes
                         </label>
-                        <label>
+                        <label className="flex gap-x-1 items-baseline ">
                           <input
                             type="radio"
                             name={field.name}
@@ -353,7 +356,7 @@ export default function PetitionForm({
         />
         <button
           type="submit"
-          className={`w-full mb-2 rounded py-1 text-white capitalize hover:bg-gray-350 cursor-pointer ${processing ? "bg-gray-400" : " bg-blue-600"}`}
+          className={`self-start flex-none flex-grow-0 mb-2 font-bold rounded py-1 text-white capitalize hover:bg-gray-350 cursor-pointer ${processing ? "bg-gray-400" : " bg-blue-600"}`}
         >
           {processing ? (
             <svg

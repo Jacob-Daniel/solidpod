@@ -375,7 +375,21 @@ export type Section =
 	| LayoutCalendar
 	| ContentGallery
 	| InfoCardSection
+	| ButtonSection
 	| Sidebar;
+
+export interface ButtonSection extends Button {
+	__component: "elements.button";
+}
+export interface Button {
+	id: string;
+	target: string;
+	label: string;
+	icon: string;
+	hash: string;
+	ariaLabel: string;
+	bg_colour: string;
+}
 
 export interface FormSection {
 	__component: "form.form-section";
@@ -892,7 +906,7 @@ export interface CreateSignature {
 	comment?: string;
 	display_name?: boolean;
 	user?: string;
-	petition: {connect:{documentId: string}};
+	petition: { connect: { documentId: string } };
 }
 
 export type CreateResponseAction =

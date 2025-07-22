@@ -12,7 +12,7 @@ export default async function Nav({ type }: { type: string }) {
 		"/navigations?filters[type][$eq]=main&populate[navigation_items][populate][children][sort]=order:asc&populate[navigation_items][populate][parent]=true&sort=navigation_items.order:desc",
 	);
 	return (
-		<nav className="col-span-12 z-50 bg-transparent md:col-span-8 w-full grid grid-cols-12 justify-end md:align-middle px-5 md:h-[100px] md:items-center md:px-0">
+		<nav className="col-span-12 z-50 bg-transparent md:col-span-8 w-full grid grid-cols-12 justify-end md:align-middle px-5 md:h-[100px] md:items-center md:px-0 text-slate-800">
 			<List nav={nav} type="desktop" />
 			<NavModal
 				nav={nav}
