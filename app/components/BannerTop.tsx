@@ -3,7 +3,6 @@ import ResponsiveImage from "@/app/components/ResponsiveImage";
 import colors from "tailwindcss/colors";
 
 export default function BannerTop({ banner }: { banner: Banner }) {
-	console.log(banner.image_versions[0].image.height, "height");
 	return (
 		<div className="col-span-12 relative mt-[0px] bg-gray-200">
 			<div className="col-span-12 h-full">

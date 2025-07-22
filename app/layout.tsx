@@ -59,7 +59,9 @@ export default async function RootLayout({
   );
   return (
     <html lang="en">
-      <body className={`${karla.variable} w-full h-full min-h-[500px]`}>
+      <body
+        className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900`}
+      >
         <SessionProvider basePath={process.env.BASE_AUTH_PATH}>
           <ClientBasketProvider>
             <Header>

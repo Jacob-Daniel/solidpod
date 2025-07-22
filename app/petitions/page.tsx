@@ -26,7 +26,7 @@ export default async function Petitions() {
   // console.log(data, "section");
   return (
     <main className="grid grid-cols-12 gap-y-10">
-      {data.banner && data.banner.image_versions[0].image && (
+      {data.banner && (
         <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
           <BannerTop banner={data.banner} />
         </div>
@@ -81,7 +81,7 @@ function Frame({
   children: ReactNode;
 }) {
   return (
-    <div className="relative col-span-12 grid grid-cols-12 lg:px-0 px-5 md:px-0">
+    <div className="relative col-span-12 grid grid-cols-12">
       <header className="col-span-12 flex flex-col">
         <H2
           child={section.heading}

@@ -69,7 +69,7 @@ const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
 
 	return (
 		<ul
-			className={`relative z-30 col-span-12 grid-cols-12
+			className={`relative text-slate-800 z-30 col-span-12 grid-cols-12
         align-middle justify-center md:justify-end md:flex items-center gap-x-3 md:gap-x-7 lg:gap-x-7 xl:gap-x-10 ${type === "desktop" ? "hidden" : "md:block"}`}
 		>
 			{formatMenuItems(nav.navigation_items)}

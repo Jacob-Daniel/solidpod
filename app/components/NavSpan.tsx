@@ -11,7 +11,7 @@ interface ILinks {
 
 export default function NavSpan({ id, slug, label, is_button }: ILinks) {
 	const pathname = usePathname()!.slice(1);
-	const active = slug === pathname ? "text-yellow-500" : "text-white";
+	const active = slug === pathname ? "text-yellow-500" : "";
 
 	const { setActiveSubmenuId, activeSubmenuId } = useNavigationContext();
 

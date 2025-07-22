@@ -14,7 +14,7 @@ interface ILinks {
 const NavLink = ({ slug, label, onClick, is_button }: ILinks) => {
 	const { setVisible } = useVisibility();
 	const pathname = usePathname()!.slice(1);
-	const active = slug === pathname ? "!text-yellow-500" : "sm:text-white";
+	const active = slug === pathname ? "!text-yellow-500" : "";
 
 	const { closeSubmenu } = useNavigationContext();
 	const handleClick = () => {

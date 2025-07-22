@@ -6,9 +6,17 @@ import RichPageContentRender from "@/app/components/RichPageContentRender";
 // import EventAside from "@/app/components/EventAside";
 import Signatures from "@/app/components/Signatures";
 import { getAPI } from "@/lib/functions";
-import { Petition, Page, Section, Signature, PetitionMeta } from "@/lib/types";
+import {
+	Petition,
+	Page,
+	Section,
+	Signature,
+	PetitionMeta,
+	ButtonSection,
+} from "@/lib/types";
 import PetitionStates from "@/app/components/PetitionStats";
 import PetitionForm from "@/app/components/PetitionForm";
+import SignNowCard from "@/app/components/SignNowCard";
 // import { siteMetadata } from "@/lib/utils";
 // import type { Organisation } from "@/lib/types";
 // const getOrg = cache(() =>
@@ -62,7 +70,7 @@ export default async function PetitionPage({ params }: { params: Params }) {
 	const userDocId = (session && session.user.documentId) ?? "";
 	const [pageData, petitionData, signatureData] = await Promise.all([
 		getAPI<Page[]>(
-			"/pages?filters[slug][$eq]=petition&populate[sections][on][layout.petition-section][populate]=*&populate[sections][on][layout.social-platforms][populate]=*&populate[sections][on][layout.comment-section][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][form.form-section][populate]=*&populate[sidebar][on][content.petition-stats][populate]=*",
+			"/pages?filters[slug][$eq]=petition&populate[sections][on][layout.petition-section][populate]=*&populate[sections][on][layout.social-platforms][populate]=*&populate[sections][on][layout.comment-section][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][form.form-section][populate]=*&populate[sidebar][on][content.petition-stats][populate]=*&populate[sections][on][elements.button][populate]=*",
 		),
 		getAPI<Petition[]>(
 			`/petitions?filters[slug][$eq]=${slug}&populate[0]=tags&populate[1]=target&populate[2]=signatures&populate[3]=image&populate[4]=target&populate[5]=createdByUser`,
@@ -90,8 +98,8 @@ export default async function PetitionPage({ params }: { params: Params }) {
 		target: petition.target,
 		// local: petition.local,
 	};
-
-	// console.log(signatures, "sig");
+	// const target = page.sections[1].target
+	console.log(page.sections[1], "sections target");
 	return (
 		<main className="grid grid-cols-12 col-span-12 mb-20 pt-5">
 			<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-5">
@@ -101,7 +109,11 @@ export default async function PetitionPage({ params }: { params: Params }) {
 					</section>
 				)}
 				{petition && (
-					<PageContent petition={petition} signatures={signatureData} />
+					<PageContent
+						petition={petition}
+						signatures={signatureData}
+						button={page.sections[1]}
+					/>
 				)}
 				<aside className="col-span-12 md:col-span-4 flex flex-col gap-y-7">
 					{page &&
@@ -112,6 +124,7 @@ export default async function PetitionPage({ params }: { params: Params }) {
 									return (
 										<PetitionForm
 											key="form"
+											id={page.sections[1].hash}
 											section={p}
 											className="bg-blue-200"
 											userDocumentId={userDocId}
@@ -119,8 +132,6 @@ export default async function PetitionPage({ params }: { params: Params }) {
 											petitionTitle={petition.title}
 										/>
 									);
-								case "content.heading":
-									return <h2 key="heading">{p.heading}</h2>;
 								case "content.petition-stats":
 									return (
 										<PetitionStates key="key" stats={p} data={petitionMeta} />
@@ -140,9 +151,11 @@ export default async function PetitionPage({ params }: { params: Params }) {
 const PageContent = ({
 	petition,
 	signatures,
+	button,
 }: {
 	petition: Petition;
 	signatures: Signature[];
+	button: ButtonSection;
 }) => {
 	return (
 		<section className="col-span-12 md:col-span-8 flex flex-col justify-start ">
@@ -157,19 +170,25 @@ const PageContent = ({
 				objectFit="contain"
 				priority={false}
 			/>
+
+			<SignNowCard
+				key="key"
+				count={petition.signaturesCount}
+				button={button}
+				classes="md:hidden"
+			/>
+
 			<div className="col-span-12 mb-10">
 				<h2 className="font-bold text-2xl lg:text-4xl mb-3 font-sans">
 					{petition.title}
 				</h2>
 				<RichPageContentRender blocks={petition.demand} className="mb-10" />
-				<h3 className="font-bold text-lg lg:text-xl lg:mb-5 font-sans">
+				<h3 className="font-bold text-xl mb-3 lg:mb-5 font-sans">
 					Reason to sign
 				</h3>
 				<RichPageContentRender blocks={petition.reason} className="" />
 			</div>
-			<h3 className="font-bold text-lg lg:text-xl lg:mb-5 font-sans">
-				Signatures
-			</h3>
+			<h3 className="font-bold text-xl lg:mb-5 font-sans">Signatures</h3>
 			<Signatures signatures={signatures} />
 		</section>
 	);

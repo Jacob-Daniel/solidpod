@@ -16,7 +16,7 @@ const UL = ({
 	page?: string;
 }) => {
 	return (
-		<ul className={`flex flex-col ${className}`}>
+		<ul className={`flex flex-col text-slate-800 ${className}`}>
 			{menu &&
 				type !== "sidebar" &&
 				menu.navigation_menu.navigation_items instanceof Array &&
@@ -44,7 +44,7 @@ const UL = ({
 						<Link
 							onClick={onNavItemClick}
 							href={`${process.env.NEXT_PUBLIC_BASE_URL}/${page}#${item.fragment}`}
-							className={`hover:text-red-400 capitalize inline text-sm`}
+							className={`hover:text-red-400 capitalize inline text-sm text-slate-800`}
 							target={item.target}
 						>
 							{item.label}
