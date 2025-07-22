@@ -1,6 +1,5 @@
 import { Banner, Section } from "@/lib/types";
 import ResponsiveImage from "@/app/components/ResponsiveImage";
-import colors from "tailwindcss/colors";
 
 export default function BannerTop({ banner }: { banner: Banner }) {
 	return (
@@ -17,16 +16,6 @@ export default function BannerTop({ banner }: { banner: Banner }) {
 					</div>
 				</div>
 			</div>
-			{/*			<div className="absolute z-50 bottom-2 lg:bottom-7 w-full grid grid-cols-12">
-				<div className="relative col-span-12 px-5 lg:px-0  lg:col-start-2">
-					<h3 className="font-quicksand mb-1 lg:mb-2 text-white font-heading font-extrabold text-2xl md:text-3xl lg:text-4xl text-white leading-none">
-						{banner.heading}
-					</h3>
-					<span className="block text-sm md:text-md lg:text-xl text-white md:bg-none z-0">
-						{banner.sub_heading}
-					</span>
-				</div>
-			</div>*/}
 		</div>
 	);
 }
