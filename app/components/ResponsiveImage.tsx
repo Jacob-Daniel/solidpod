@@ -16,7 +16,10 @@ export default function ResponsiveImage({
 	const desktop = banner.find((b) => b.version === "desktop");
 
 	if (!mobile && !desktop) return null;
-
+	const altImage =
+		desktop?.image.url ||
+		mobile?.image.url ||
+		(process.env.COMPANY_NAME as string);
 	const mobileUrl = mobile
 		? `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${mobile.image.url}`
 		: undefined;
@@ -34,7 +37,7 @@ export default function ResponsiveImage({
 			{desktopUrl && <source media="(min-width: 601px)" srcSet={desktopUrl} />}
 			<Image
 				className={className}
-				alt={alt}
+				alt={alt || altImage}
 				src={desktopUrl || mobileUrl!}
 				width={desktop?.image.width}
 				height={desktop?.image.height}

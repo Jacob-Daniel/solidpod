@@ -22,7 +22,7 @@ export default async function NewPetition() {
 		]);
 		if (!page)
 			return (
-				<main className="grid grid-cols-12 col-span-12 min-h-[500px]">
+				<main className="grid grid-cols-12 col-span-12 min-h-[500px] bg-red-200">
 					<div className="grid grid-cols-12 md:grid-cols-10 col-span-12 px-5 md:px-0 md:col-start-2 md:col-span-10 pt-10 md:gap-x-10 lg:gap-x-16 mb-20">
 						<section className="col-span-12 md:col-span-6">
 							content not found
@@ -32,6 +32,7 @@ export default async function NewPetition() {
 			);
 		return (
 			<main className="grid grid-cols-12 col-span-12">
+				rfsdfsdsdf
 				<div className="grid grid-cols-12 lg:grid-cols-10 col-span-12 px-5 lg:px-0 lg:col-start-2 lg:col-span-10 md:gap-x-10 lg:gap-x-16 mb-20">
 					<section className="col-span-12 md:col-span-8">
 						{page &&
