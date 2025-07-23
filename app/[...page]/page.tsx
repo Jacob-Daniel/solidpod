@@ -23,7 +23,6 @@ import { notFound } from "next/navigation";
 //     </section>
 //   ),
 // });
-// import SectionTabs from "@/app/components/SectionTabs";
 
 import {
   InfoCard,
