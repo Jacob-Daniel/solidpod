@@ -25,7 +25,6 @@ import RichContentRenderer from "@/app/components/RichPageContentRender";
 //     </section>
 //   ),
 // });
-// import SectionTabs from "@/app/components/SectionTabs";
 
 import {
   InfoCard,
@@ -41,14 +40,22 @@ import {
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 import H2 from "@/app/components/H2";
 
+async function fetchFeaturedPeitions() {
+  return getAPI<Petition[]>("/featured-petitions");
+}
+
+async function fetchHomePage() {
+  return getAPI<Page[]>(
+    "/pages?filters[slug][$eq]=home&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*",
+  );
+}
+
 export default async function Home() {
-  const [featured, [data], events] = await Promise.all([
-    getAPI<Petition[]>("/featured-petitions"),
-    getAPI<Page[]>(
-      "/pages?filters[slug][$eq]=home&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*",
-    ),
-    getAPI<Event[]>("/events?populate=image"),
+  const [[data], featured] = await Promise.all([
+    fetchHomePage(),
+    fetchFeaturedPeitions(),
   ]);
+
   if (!data) return <div>No content available</div>;
   return (
     <main className="grid grid-cols-12 gap-y-10">

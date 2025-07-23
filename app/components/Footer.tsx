@@ -1,7 +1,6 @@
 import { getAPI } from "@/lib/functions";
 import * as React from "react";
 import UL from "@/app/components/UL";
-import CompanySocial from "@/app/components/CompanySocial";
 
 import {
 	// ILeaflet,
@@ -48,14 +47,6 @@ export default async function Footer(): Promise<JSX.Element> {
 															type="footer"
 															className="mb-3 text-sm text-slate-800"
 															classNameLi="pb-0 !leading-none"
-														/>
-													);
-												case "layout.social-platforms":
-													return (
-														<CompanySocial
-															key={index}
-															socialPlatforms={block}
-															styles="flex gap-x-2"
 														/>
 													);
 												default:

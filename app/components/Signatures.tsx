@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import type { Signature } from "@/lib/types";
 
@@ -9,15 +7,6 @@ type User = {
   username: string;
   email: string;
 };
-
-// type Signature = {
-//   id: number;
-//   documentId: string;
-//   comment: string | null;
-//   anonymize: boolean;
-//   createdAt: string;
-//   user: User;
-// };
 
 type Props = {
   signatures: Signature[];

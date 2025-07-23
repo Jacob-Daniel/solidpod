@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { ButtonSection } from "@/lib/types";
-import Icon from "@/app/components/Icon";
+import StaticIcon from "@/app/components/StaticIcon";
 const SignNowCard = ({
   count,
   button,
@@ -27,11 +27,10 @@ const SignNowCard = ({
           className="font-bold font-sans bg-yellow-400 rounded-md px-3 py-1 flex gap-x-1 items-center"
           onClick={handleClick}
         >
-          <Icon
-            icon={button.icon}
-            label="sign now"
-            size="text-sm"
-            className=""
+          <StaticIcon
+            iconName={button.icon}
+            color="black"
+            className="mb-0 text-slate-600/40 block"
           />
           {button.label}
         </button>
