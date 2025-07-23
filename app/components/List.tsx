@@ -19,7 +19,6 @@ const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
 	const handleMenuItemClick = (id: number) => {
 		setActiveSubmenuId(id);
 	};
-
 	const formatMenuItems = (items: MenuItem[]) => {
 		return (
 			items &&
@@ -27,14 +26,20 @@ const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
 			items
 				.filter((item) => !item.parent)
 				.map((item) => {
-					// replace "Login" with "Logout" dynamically
 					const isLoginItem = item.label.toLowerCase() === "login";
 					const isMyPetitions = item.slug.toLowerCase() === "my-petitions";
+					const isNewPetition = item.slug.toLowerCase() === "new-petition";
 					const userDisplayName = session?.user?.name || "My Petitions";
 
 					const modifiedItem = {
 						...item,
-						slug: isLoginItem && isLoggedIn ? "/logout" : item.slug,
+						server_slug: item.slug,
+						slug:
+							isLoginItem && isLoggedIn
+								? "/logout"
+								: isNewPetition && !isLoggedIn
+									? "login"
+									: item.slug,
 						label:
 							isLoginItem && isLoggedIn
 								? "Logout"

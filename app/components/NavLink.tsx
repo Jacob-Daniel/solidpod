@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -6,16 +7,16 @@ import { useVisibility } from "@/lib/VisibilityContext";
 
 interface ILinks {
 	slug: string;
+	server_slug: string;
 	label: string;
 	onClick?: () => void;
 	is_button: boolean;
 }
 
-const NavLink = ({ slug, label, onClick, is_button }: ILinks) => {
+const NavLink = ({ slug, label, onClick, is_button, server_slug }: ILinks) => {
 	const { setVisible } = useVisibility();
 	const pathname = usePathname()!.slice(1);
-	const active = slug === pathname ? "!text-yellow-500" : "";
-
+	const active = server_slug === pathname ? "!text-yellow-500" : "";
 	const { closeSubmenu } = useNavigationContext();
 	const handleClick = () => {
 		closeSubmenu;

@@ -91,7 +91,7 @@ const PasswordResetForm = () => {
 	return (
 		<div className="p-5 bg-white border border-gray-300 rounded mt-5 flex flex-col">
 			<button
-				className="self-start border border-gray-300 font-bold rounded py-1 px-2 text-left cursor-pointer"
+				className="self-start border border-gray-300 font-bold rounded py-1 px-2 text-left cursor-pointer mb-3"
 				onClick={() => setShowResetForm((prev) => !prev)}
 			>
 				{showResetForm ? "Hide" : "Request Password"}
@@ -104,7 +104,7 @@ const PasswordResetForm = () => {
 						key="reques"
 						id="requestReset"
 						onSubmit={handleSubmitRequest}
-						className="flex flex-col gap-y-3"
+						className="flex flex-col gap-y-3 items-start"
 					>
 						<input
 							type="email"
@@ -113,13 +113,13 @@ const PasswordResetForm = () => {
 							onChange={(e) => setEmail(e.target.value)}
 							placeholder="Enter your email"
 							required
-							className="border p-2"
+							className="border border-gray-300 px-1 w-full"
 							autoComplete="new-pasword"
 						/>
 						{!message.includes("reset email sent") && (
 							<button
 								type="submit"
-								className={`${processing ? "bg-gray-400" : "bg-black"} rounded p-1 text-white`}
+								className={`px-2 py-1 !flex-shrink cursor-pointer border border-gray-300 ${processing ? "bg-gray-400" : ""} rounded font-bold`}
 							>
 								{processing ? "Processing ..." : "Request Password Reset"}
 							</button>

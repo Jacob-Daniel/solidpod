@@ -694,6 +694,7 @@ export interface MenuItem {
 	id: number;
 	label: string;
 	slug: string;
+	server_slug: string;
 	target: "_self" | "_blank";
 	active: boolean;
 	order: number;

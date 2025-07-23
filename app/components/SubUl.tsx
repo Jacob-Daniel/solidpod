@@ -22,9 +22,9 @@ export default function SubUl({ id, links, parentSlug }: ILinks) {
 	}, [activeSubmenuId, id]);
 
 	const handleSubLinkClick = (e: React.MouseEvent) => {
-		e.stopPropagation(); // Prevent bubbling
-		setDisplay("hidden"); // Hide submenu
-		closeSubmenu(); // Close submenu contextually
+		e.stopPropagation();
+		setDisplay("hidden");
+		closeSubmenu();
 	};
 
 	return (
