@@ -33,7 +33,7 @@ import {
 // });
 
 // Dynamic import lazy
-import BlurImage from "@/app/components/ClientBlurImage";
+import BlurImage from "@/app/components/BlurImage";
 //Server
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 
