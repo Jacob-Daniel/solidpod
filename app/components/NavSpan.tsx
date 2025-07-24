@@ -20,7 +20,7 @@ export default function NavSpan({ id, slug, label, is_button }: ILinks) {
 	return (
 		<span
 			data-id={id}
-			className={`font-sans font-bold hover:text-yellow-500 align-baseline pb-0
+			className={`font-sans font-bold hover:text-yellow-300 align-baseline pb-0
         ${active} cursor-pointer ${is_button && "border p-1"}`}
 			onClick={handleClick}
 		>

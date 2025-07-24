@@ -31,11 +31,11 @@ import { Page } from "@/lib/types";
 // import H2 from "@/app/components/H2";
 async function fetchPage() {
   return getAPI<Page[]>(
-    `/pages?filters[slug][$eq]=resources&populate[banner][populate][image_versions][populate]=image&populate[sections][on][content.content][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][layout.navigation][populate][navigation_menu][populate]=*`,
+    `/pages?filters[slug][$eq]=user-guide&populate[banner][populate][image_versions][populate]=image&populate[sections][on][content.content][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][layout.navigation][populate][navigation_menu][populate]=*`,
   );
 }
 
-export default async function Resources() {
+export default async function UserGuide() {
   const [data] = await fetchPage();
   if (!data)
     return (
@@ -92,7 +92,7 @@ export default async function Resources() {
                         type="sidebar"
                         className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar"
                         classNameLi="pb-1 !leading-none"
-                        page="resources"
+                        page="user-guide"
                       />
                     </div>
                   );

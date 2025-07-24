@@ -37,7 +37,7 @@ export default function RichContentRenderer({
 				switch (block.type) {
 					case "paragraph": {
 						return (
-							<p className="text-base md:text-md mb-4" key={block.key || index}>
+							<p className="mb-3 text-base" key={block.key || index}>
 								{block.children.map((child: InlineNode, childIndex: number) => {
 									if (isTextNode(child)) {
 										// Render plain text
@@ -109,7 +109,7 @@ export default function RichContentRenderer({
 								key={block.key || index}
 							>
 								{block.children.map((item: ListItemNode, itemIndex: number) => (
-									<li key={item.key || itemIndex} className="md:text-md">
+									<li key={item.key || itemIndex} className="text-base">
 										{item.children.map((child, childIndex) =>
 											child.type === "text" ? (
 												child.text

@@ -322,3 +322,33 @@ export function convertTiptapToStrapi(doc: { content: any[] }): any[] {
 			return true;
 		});
 }
+
+export function useScrollSpy(ids: string[], offset = 100) {
+	const [activeId, setActiveId] = useState("");
+
+	useEffect(() => {
+		const handler = () => {
+			let closestId = "";
+			let closestOffset = Infinity;
+
+			ids.forEach((id) => {
+				const el = document.getElementById(id);
+				if (el) {
+					const rect = el.getBoundingClientRect();
+					const diff = Math.abs(rect.top - offset);
+					if (rect.top - offset < 0 && diff < closestOffset) {
+						closestOffset = diff;
+						closestId = id;
+					}
+				}
+			});
+			setActiveId(closestId);
+		};
+
+		window.addEventListener("scroll", handler, { passive: true });
+		handler(); // initial check
+		return () => window.removeEventListener("scroll", handler);
+	}, [ids, offset]);
+
+	return activeId;
+}

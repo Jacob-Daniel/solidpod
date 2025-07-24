@@ -25,7 +25,7 @@ const NavLink = ({ slug, label, onClick, is_button, server_slug }: ILinks) => {
 	return (
 		<Link
 			data-link="link"
-			className={`font-sans font-bold align-bottom hover:!text-yellow-500 ${active} pb-2 ${is_button && "border !border-gray-400 px-2 pt-1 !pb-1 rounded"}`}
+			className={`font-sans font-bold align-bottom hover:!text-yellow-300 ${active} pb-2 ${is_button && "border !border-gray-400 px-2 pt-1 !pb-1 rounded"}`}
 			href={`${process.env.BASE_URL}/${slug}`}
 			onClick={(e) => {
 				(handleClick(), onClick && onClick());
