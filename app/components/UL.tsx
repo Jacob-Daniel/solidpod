@@ -36,21 +36,6 @@ const UL = ({
 						</Link>
 					</li>
 				))}
-			{menu &&
-				type === "sidebar" &&
-				menu.navigation_menu.navigation_items instanceof Array &&
-				menu.navigation_menu.navigation_items.map((item) => (
-					<li className={`${classNameLi}`} key={item.id}>
-						<Link
-							onClick={onNavItemClick}
-							href={`${process.env.NEXT_PUBLIC_BASE_URL}/${page}#${item.fragment}`}
-							className={`hover:text-red-400 capitalize inline text-sm text-slate-800`}
-							target={item.target}
-						>
-							{item.label}
-						</Link>
-					</li>
-				))}
 		</ul>
 	);
 };
