@@ -98,7 +98,7 @@ const PasswordResetForm = () => {
 			</button>
 			{showResetForm && (
 				<div>
-					<b>Reset Your Password</b>
+					{/*<b>Email</b>*/}
 					<form
 						autoComplete="off"
 						key="reques"
@@ -121,7 +121,7 @@ const PasswordResetForm = () => {
 								type="submit"
 								className={`px-2 py-1 !flex-shrink cursor-pointer border border-gray-300 ${processing ? "bg-gray-400" : ""} rounded font-bold`}
 							>
-								{processing ? "Processing ..." : "Request Password Reset"}
+								{processing ? "Processing ..." : "Submit"}
 							</button>
 						)}
 					</form>

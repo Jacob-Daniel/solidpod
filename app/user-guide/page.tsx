@@ -1,9 +1,13 @@
 import { ReactNode } from "react";
 import { getAPI } from "@/lib/functions";
-import UlPageContent from "@/app/components/UlPageContent";
+import UlPageContentAnchors from "@/app/components/UlPageContentAnchors";
 import BannerTop from "@/app/components/BannerTop";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
-
+type Tags = {
+  label: string;
+  target: string;
+  fragment: string;
+};
 // import BannerTop from "@/app/components/BannerTop";
 // import VolunteerIntro from "@/app/components/VolunteerIntro";
 // import PlaceSwiper from "@/app/components/PlaceSwiperWrapper";
@@ -27,8 +31,7 @@ import RichContentRenderer from "@/app/components/RichPageContentRender";
 // import SectionTabs from "@/app/components/SectionTabs";
 
 import { Page } from "@/lib/types";
-// import RichPageContentRender from "@/app/components/RichPageContentRender";
-// import H2 from "@/app/components/H2";
+
 async function fetchPage() {
   return getAPI<Page[]>(
     `/pages?filters[slug][$eq]=user-guide&populate[banner][populate][image_versions][populate]=image&populate[sections][on][content.content][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][layout.navigation][populate][navigation_menu][populate]=*`,
@@ -43,6 +46,14 @@ export default async function UserGuide() {
         <p className="text-black">No content available</p>
       </div>
     );
+  const tags: Tags[] =
+    data?.sections
+      ?.filter((section) => section.__component === "content.content")
+      ?.map((section) => ({
+        fragment: section?.anchor as string,
+        label: section?.anchor as string,
+        target: "_self",
+      })) ?? [];
   return (
     <main className="grid grid-cols-12 gap-y-10">
       {data.banner && data.banner.image_versions[0].image.url && (
@@ -81,24 +92,21 @@ export default async function UserGuide() {
             data.sidebar instanceof Array &&
             data.sidebar.map((block, index: number) => {
               switch (block.__component) {
-                case "layout.navigation":
+                case "layout.sidebar":
                   return (
-                    <div key={index} className="sticky absolute top-3">
-                      <h3 className="text-sm mb-1 font-semibold">
-                        On this page
-                      </h3>
-                      <UlPageContent
-                        menu={block}
+                    <div key={index} className="sticky absolute top-3 text-sm">
+                      {block && block.heading && (
+                        <p className="mb-2">{block.heading}</p>
+                      )}
+                      <UlPageContentAnchors
+                        list={tags}
                         type="sidebar"
                         className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar"
                         classNameLi="pb-1 !leading-none"
-                        page="user-guide"
+                        page="resources"
                       />
                     </div>
                   );
-                case "content.heading":
-                  return <h2 key="heading">{block.heading}</h2>;
-
                 default:
                   console.warn("Unknown section type:", "");
                   return null;

@@ -28,8 +28,7 @@ export interface Session {
 	user: User;
 }
 
-export interface User {
-	documentId: string;
+export interface User extends BaseDoc {
 	jwt: string;
 	username: string;
 	name?: string | null;
@@ -356,6 +355,7 @@ export type SidebarComponent =
 	| PetitionStats
 	| FormSection
 	| HeadingComponent
+	| LayoutSidebar
 	| NavigationComponent;
 
 export interface HomePage extends BaseDoc {

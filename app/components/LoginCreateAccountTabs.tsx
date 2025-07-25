@@ -17,8 +17,8 @@ export default function AuthTabs() {
 	const searchParams = useSearchParams(); // Use search params hook to get query params
 	const accountParam = searchParams.get("account"); // Get the 'account' query param
 	const tabs: IItems[] = [
-		{ id: 0, title: "Login Form" },
-		{ id: 1, title: "Create Account Form" },
+		{ id: 0, title: "Login" },
+		{ id: 1, title: "Create Account" },
 	];
 
 	const [activeIndex, setActiveIndex] = useState(0);

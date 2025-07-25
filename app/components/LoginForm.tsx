@@ -70,7 +70,7 @@ const CustomLoginForm: React.FC = () => {
 				type="submit"
 				className="border-gray-300 border !flex-shrink p-1 px-2 font-bold rounded cursor-pointer"
 			>
-				Login
+				Submit
 			</button>
 		</form>
 	);
