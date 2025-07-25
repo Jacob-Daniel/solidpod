@@ -42,10 +42,10 @@ const SignedPetitionsList: React.FC<Props> = ({
 
   return (
     <div>
-      <h2>Petitions You Signed ({signatures.length})</h2>
-      <ul className="space-y-4">
+      <p className="mb-3">Petitions You Signed ({signatures.length})</p>
+      <ul className="space-y-4 text-sm">
         {signatures.map((sig) => (
-          <li key={sig.id} className="p-4 border rounded-md shadow-sm">
+          <li key={sig.id} className="p-4 border border-gray-300 rounded">
             <p className="text-sm text-gray-500">
               Signed on:{" "}
               <time dateTime={sig.createdAt}>{formatDate(sig.createdAt)}</time>

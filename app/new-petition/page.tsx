@@ -32,8 +32,12 @@ export default async function NewPetition() {
 			);
 		return (
 			<main className="grid grid-cols-12 col-span-12">
-				rfsdfsdsdf
 				<div className="grid grid-cols-12 lg:grid-cols-10 col-span-12 px-5 lg:px-0 lg:col-start-2 lg:col-span-10 md:gap-x-10 lg:gap-x-16 mb-20">
+					<div className="col-span-12 mb-5 bg-yellow-300 flex items-center justify-center h-[100px]">
+						<h2 className="font-bold text-xl">
+							Good Luck Creating Your Petition
+						</h2>
+					</div>
 					<section className="col-span-12 md:col-span-8">
 						{page &&
 							page.sections instanceof Array &&
