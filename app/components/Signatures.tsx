@@ -29,9 +29,9 @@ const Signatures = ({ signatures }: { signatures: Signature[] }) => {
   return (
     <div className="mb-10">
       <p className="mb-3">Recent supporters who signed ({signatures.length})</p>
-      <ul className="space-y-4">
+      <ul className="space-y-4 text-base">
         {signatures.map((sig) => (
-          <li key={sig.id} className="p-4 border rounded-md shadow-sm">
+          <li key={sig.id} className="p-4 border rounded-md border-gray-200">
             <p className="text-sm text-gray-500">
               Signed on:{" "}
               <time dateTime={sig.createdAt}>{formatDate(sig.createdAt)}</time>

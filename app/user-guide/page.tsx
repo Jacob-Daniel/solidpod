@@ -103,7 +103,7 @@ export default async function UserGuide() {
                         type="sidebar"
                         className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar"
                         classNameLi="pb-1 !leading-none"
-                        page="resources"
+                        page="user-guide"
                       />
                     </div>
                   );
