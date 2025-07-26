@@ -160,8 +160,10 @@ const PageContent = ({
 				<h2 className="font-bold text-2xl lg:text-4xl mb-3 font-sans">
 					{petition.title}
 				</h2>
-				<RichPageContentRender blocks={petition.demand} className="mb-10" />
-				<h3 className="font-bold text-xl mb-3 lg:mb-5 font-sans">
+				<RichPageContentRender blocks={petition.demand} className="mb-16" />
+			</div>
+			<div className="col-span-12 mb-10">
+				<h3 className="font-bold text-xl mb-3 lg:mb-3 font-sans">
 					Reason to sign
 				</h3>
 				<RichPageContentRender blocks={petition.reason} className="" />
