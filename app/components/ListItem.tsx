@@ -5,11 +5,12 @@ import NavSpan from "@/app/components/NavSpan";
 import SubUl from "@/app/components/SubUl";
 
 interface ILinks {
+	type: string;
 	link: MenuItem;
 	data: MenuItem[];
 }
 
-export default function ListItem({ link, data }: ILinks) {
+export default function ListItem({ type, link, data }: ILinks) {
 	const { id, slug, label, is_parent, is_button, server_slug } = link;
 	return (
 		<>
@@ -20,6 +21,7 @@ export default function ListItem({ link, data }: ILinks) {
 				label={label}
 				is_parent={is_parent}
 				is_button={is_button}
+				type={type}
 			/>
 			{is_parent && <SubUlType id={id} links={data} parentSlug={slug} />}
 		</>
@@ -44,6 +46,7 @@ interface IMenuItemTypeProps {
 	label: string;
 	is_parent: boolean;
 	is_button: boolean;
+	type: string;
 }
 
 function MenuItemType({
@@ -53,11 +56,19 @@ function MenuItemType({
 	label,
 	is_parent,
 	is_button,
+	type,
 }: IMenuItemTypeProps) {
 	return is_parent ? (
-		<NavSpan id={id} slug={slug} label={label} is_button={is_button} />
+		<NavSpan
+			type={type}
+			id={id}
+			slug={slug}
+			label={label}
+			is_button={is_button}
+		/>
 	) : (
 		<NavLink
+			type={type}
 			slug={slug}
 			label={label}
 			is_button={is_button}

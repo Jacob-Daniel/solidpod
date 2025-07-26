@@ -29,12 +29,12 @@ import RichContentRenderer from "@/app/components/RichPageContentRender";
 import {
   InfoCard,
   Page,
-  Event,
-  InfoCardSection,
-  FeaturedSection,
-  FeaturedEventSection,
-  PlacesSection,
-  SharedSEO,
+  // Event,
+  // InfoCardSection,
+  // FeaturedSection,
+  // FeaturedEventSection,
+  // PlacesSection,
+  // SharedSEO,
   Petition,
 } from "@/lib/types";
 import RichPageContentRender from "@/app/components/RichPageContentRender";

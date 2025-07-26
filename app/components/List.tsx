@@ -63,6 +63,7 @@ const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
 							}}
 						>
 							<ListItem
+								type={type}
 								link={modifiedItem}
 								data={modifiedItem.children || []}
 							/>
@@ -74,8 +75,7 @@ const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
 
 	return (
 		<ul
-			className={`relative text-slate-800 z-30 col-span-12 grid-cols-12
-        align-middle justify-center md:justify-end md:flex items-center gap-x-3 md:gap-x-7 lg:gap-x-7 xl:gap-x-10 ${type === "desktop" ? "hidden" : "md:block"}`}
+			className={`relative text-slate-800 z-30 col-span-12 align-middle justify-center md:justify-end md:flex items-center gap-x-3 ${type === "desktop" ? "hidden md:gap-x-5 xl:gap-x-7 " : "md:block"} ${type === "user" && "hidden md:block"}`}
 		>
 			{formatMenuItems(nav.navigation_items)}
 			{/*<SearchModal id="navbarSearchModal" display="hidden md:flex" />*/}
