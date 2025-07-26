@@ -203,7 +203,7 @@ export default async function MyPetitions() {
 													type="sidebar"
 													className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar"
 													classNameLi="pb-1 !leading-none"
-													page="resources"
+													page="my-petitions"
 												/>
 											</div>
 										);

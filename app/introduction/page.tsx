@@ -105,7 +105,7 @@ export default async function Introduction() {
                         type="sidebar"
                         className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar"
                         classNameLi="pb-1 !leading-none"
-                        page="resources"
+                        page="introduction"
                       />
                     </div>
                   );
