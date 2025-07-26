@@ -61,7 +61,7 @@ export default async function UserGuide() {
           <BannerTop banner={data.banner} />
         </div>
       )}
-      <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 lg:gap-x-10 scroll-mt-24 pb-[250px]">
+      <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 pb-[250px]">
         <div className="border border-gray-200 rounded p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
           {data &&
             data.sections instanceof Array &&

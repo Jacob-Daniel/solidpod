@@ -29,7 +29,7 @@ const UL = ({
 									? `${process.env.NEXT_PUBLIC_BASE_URL}/${item.slug === "home" ? "" : item.slug}`
 									: item.slug
 							}
-							className={`hover:text-red-400 first-letter:uppercase inline ${type === "main" ? "text-md" : "text-sm"}`}
+							className={`hover:text-red-400 first-letter:uppercase inline ${type === "main" ? "text-base" : "text-sm"}`}
 							target={item.target}
 						>
 							{item.label}

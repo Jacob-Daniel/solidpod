@@ -58,7 +58,7 @@ export default async function MyPetitions() {
 
 		return (
 			<main className="grid grid-cols-12 col-span-12 mb-20 pt-5">
-				<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-10">
+				<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-7">
 					<section className="col-span-12 md:col-span-9 border border-gray-300 p-3 rounded">
 						<CreateAccountSuccess />
 						{data &&
@@ -104,7 +104,7 @@ export default async function MyPetitions() {
 													/>
 													<Link
 														href={`${process.env.BASE_URL}/new-petition`}
-														className="border border-yellow-300  bg-yellow-500 rounded-lg p-2 font-bold"
+														className="bg-yellow-300 rounded-lg p-2 font-bold"
 													>
 														New Petition
 													</Link>
