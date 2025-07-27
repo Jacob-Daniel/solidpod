@@ -43,7 +43,7 @@ async function fetchPetitionData(slug: string) {
 
 async function fetchSignatureData(slug: string) {
 	return getPagAPI<Signature[]>(
-		`/signatures?filters[petition][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user&pagination[page]=1&pagination[pageSize]=2`,
+		`/signatures?filters[$and][0][petition][slug][$eq]=${slug}&filters[$and][1][comment][$notNull]=true&populate=user&pagination[page]=1&pagination[pageSize]=2`,
 	);
 }
 
@@ -150,7 +150,7 @@ const PageContent = ({
 				<RichPageContentRender blocks={petition.reason} className="" />
 			</div>
 
-			<h3 className="font-bold text-xl lg:mb-5 font-sans">Signatures</h3>
+			<h3 className="font-bold text-xl lg:mb-5 font-sans">Comments</h3>
 			<Signatures
 				signatures={signatures}
 				totalCount={meta.pagination.total}
@@ -184,7 +184,7 @@ const Sidebar = ({
 									key="form"
 									id={page.sections[1].hash}
 									section={p}
-									className="bg-blue-200"
+									className=""
 									userDocumentId={userDocId}
 									petitionDocumentId={petition.documentId}
 									petitionTitle={petition.title}

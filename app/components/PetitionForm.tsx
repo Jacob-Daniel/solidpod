@@ -251,7 +251,7 @@ export default function PetitionForm({
         id={id}
         ref={formRef}
         onSubmit={handleSubmit}
-        className={`grid grid-cols-1 ${className} bg-white font-sans text-sm`}
+        className={`${className} `}
       >
         {section.form_field &&
           section.form_field instanceof Array &&
@@ -349,14 +349,14 @@ export default function PetitionForm({
         </label>
         <input
           id="human"
-          className="border border-gray-400 mb-3 p-1 text-sm text-slate-800"
+          className="border border-gray-400 mb-3 p-1 text-sm text-slate-800 w-full"
           type="text"
           name="human"
           required
         />
         <button
           type="submit"
-          className={`self-start flex-none flex-grow-0 mb-2 font-bold rounded py-1 text-white capitalize hover:bg-gray-350 cursor-pointer ${processing ? "bg-gray-400" : " bg-blue-600"}`}
+          className={`self-start !flex-shrink mb-2 font-bold text-lg rounded px-3 p-2 text-white capitalize hover:bg-gray-350 cursor-pointer ${processing ? "bg-gray-400" : " bg-blue-600"}`}
         >
           {processing ? (
             <svg
