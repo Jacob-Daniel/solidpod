@@ -1,55 +1,34 @@
 import { auth } from "@/app/auth";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { getAPI } from "@/lib/functions";
+import { getAPI, getPagAPI } from "@/lib/functions";
 import {
 	Petition,
 	Page,
-	Section,
 	Signature,
 	PetitionMeta,
 	ButtonSection,
+	API,
+	Meta,
 } from "@/lib/types";
 
-// Keep heavy components lazy-loaded
-// const BlurImage = dynamic(() => import("@/app/components/BlurImage"), {
-// 	loading: () => <div className="animate-pulse bg-gray-200 rounded"></div>,
-// 	ssr: true,
-// });
-
-// const RichPageContentRender = dynamic(
-// 	() => import("@/app/components/RichPageContentRender"),
-// 	{
-// 		loading: () => (
-// 			<div className="animate-pulse h-32 bg-gray-100 rounded"></div>
-// 		),
-// 		ssr: true,
-// 	},
-// );
-
-// const Signatures = dynamic(() => import("@/app/components/Signatures"), {
-// 	loading: () => <div className="text-center p-4">Loading signatures...</div>,
-// 	ssr: false,
-// });
-
-// Dynamic import lazy
 import BlurImage from "@/app/components/BlurImage";
-//Server
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 
-// Keep lightweight components as regular imports
 import Signatures from "@/app/components/Signatures";
 import PetitionStates from "@/app/components/PetitionStats";
 import PetitionForm from "@/app/components/PetitionForm";
 import SignNowCard from "@/app/components/SignNowCard";
+import { Metadata } from "next";
 
-type Params = Promise<{ parent: string; slug: string }>;
+interface Params {
+	parent: string;
+	slug: string;
+}
 
 interface IParams {
 	slug: string;
 }
 
-// Data fetching functions - separated for better organization
 async function fetchPageData() {
 	return getAPI<Page[]>(
 		"/pages?filters[slug][$eq]=petition&populate[sections][on][layout.petition-section][populate]=*&populate[sections][on][layout.social-platforms][populate]=*&populate[sections][on][layout.comment-section][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][form.form-section][populate]=*&populate[sidebar][on][content.petition-stats][populate]=*&populate[sections][on][elements.button][populate]=*",
@@ -63,8 +42,8 @@ async function fetchPetitionData(slug: string) {
 }
 
 async function fetchSignatureData(slug: string) {
-	return getAPI<Signature[]>(
-		`/signatures?filters[petition][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user`,
+	return getPagAPI<Signature[]>(
+		`/signatures?filters[petition][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user&pagination[page]=1&pagination[pageSize]=2`,
 	);
 }
 
@@ -74,20 +53,18 @@ export async function generateStaticParams(): Promise<IParams[]> {
 }
 
 export default async function PetitionPage({ params }: { params: Params }) {
-	const { slug } = await params;
+	const { slug } = params;
 	if (!slug) return notFound();
 
-	// Fetch user session
 	const session = await auth();
 	const userDocId = (session && session.user.documentId) ?? "";
 
-	// Parallel data fetching at the top level
-	const [pageData, petitionData, signatureData] = await Promise.all([
-		fetchPageData(),
-		fetchPetitionData(slug),
-		fetchSignatureData(slug),
-	]);
-
+	const [pageData, petitionData, { data: signatures, meta }] =
+		await Promise.all([
+			fetchPageData(),
+			fetchPetitionData(slug),
+			fetchSignatureData(slug),
+		]);
 	const [page]: Page[] = pageData;
 	const [petition]: Petition[] = petitionData;
 
@@ -95,7 +72,6 @@ export default async function PetitionPage({ params }: { params: Params }) {
 		notFound();
 	}
 
-	// Prepare petition metadata
 	const petitionMeta: PetitionMeta = {
 		end_date: petition.end_date,
 		signaturesCount: petition.signaturesCount,
@@ -110,8 +86,10 @@ export default async function PetitionPage({ params }: { params: Params }) {
 			<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-5">
 				<PageContent
 					petition={petition}
-					signatures={signatureData}
+					signatures={signatures}
 					button={page.sections[1]}
+					meta={meta}
+					slug={slug}
 				/>
 
 				<Sidebar
@@ -125,15 +103,18 @@ export default async function PetitionPage({ params }: { params: Params }) {
 	);
 }
 
-// Separate PageContent component - now receives all data as props
 const PageContent = ({
 	petition,
 	signatures,
 	button,
+	meta,
+	slug,
 }: {
 	petition: Petition;
 	signatures: Signature[];
 	button: ButtonSection;
+	meta: Meta;
+	slug: string;
 }) => {
 	return (
 		<section className="col-span-12 md:col-span-8 flex flex-col justify-start">
@@ -170,12 +151,16 @@ const PageContent = ({
 			</div>
 
 			<h3 className="font-bold text-xl lg:mb-5 font-sans">Signatures</h3>
-			<Signatures signatures={signatures} />
+			<Signatures
+				signatures={signatures}
+				totalCount={meta.pagination.total}
+				pageSize={meta.pagination.pageSize}
+				slug={slug}
+			/>
 		</section>
 	);
 };
 
-// Separate Sidebar component for better organization
 const Sidebar = ({
 	page,
 	userDocId,

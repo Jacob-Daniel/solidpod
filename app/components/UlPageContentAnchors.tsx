@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { MenuItem, NavigationComponent } from "@/lib/types";
+// import { MenuItem, NavigationComponent } from "@/lib/types";
 import { useScrollSpy } from "@/lib/clientFunctions";
 
 type Tags = {
@@ -23,7 +23,6 @@ const UlPageContentAnchors = ({
 	onNavItemClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 	page?: string;
 }) => {
-	console.log(list, "tag list");
 	const tags: Tags[] =
 		list.map((item) => ({
 			fragment: item.fragment,

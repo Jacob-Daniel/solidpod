@@ -5,6 +5,7 @@ import {
 } from "@/lib/dynamicTypes";
 
 import { CreateBasketResponse } from "@/lib/userTypes";
+import { Metadata } from "next";
 
 export * from "./dynamicTypes";
 
@@ -550,6 +551,13 @@ export interface Petition extends BaseDoc, PetitionMeta {
 	status: string;
 }
 
+export interface API {
+	data: Data;
+	meta: Metadata;
+}
+
+export type Data = Signature[] | User | Media | Petition[];
+
 export interface UploadPetition {
 	title: string;
 	slug?: string;
@@ -776,9 +784,9 @@ export interface SVG {
 }
 
 export interface GradientStop {
-	offset: string; // e.g., "5%" or "100%"
-	color: string; // e.g., "#FFB74D"
-	opacity: number; // Value between 0 and 1
+	offset: string;
+	color: string;
+	opacity: number;
 }
 
 export type Footer = {
