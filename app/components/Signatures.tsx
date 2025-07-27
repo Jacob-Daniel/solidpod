@@ -35,7 +35,7 @@ const Signatures = ({ signatures, totalCount, pageSize, slug }: Props) => {
     const nextPage = page + 1;
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_API}/signatures?filters[petition][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user&pagination[page]=${nextPage}&pagination[pageSize]=${pageSize}&populate=user`,
+      `${process.env.NEXT_PUBLIC_STRAPI_API}/signatures?filters[$and][0][petition][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user&pagination[page]=${nextPage}&pagination[pageSize]=${pageSize}&populate=user`,
     );
 
     const json = await res.json();
@@ -53,7 +53,13 @@ const Signatures = ({ signatures, totalCount, pageSize, slug }: Props) => {
   const hasMore = items.length < totalCount;
 
   if (!signatures || signatures.length === 0) {
-    return <p>No signed petitions found.</p>;
+    return (
+      <div className="font-sans bg-blue-100 p-3">
+        <h2 className="font-bold !text-blue-700/60 text-center text-xl">
+          Be the first to comment!
+        </h2>
+      </div>
+    );
   }
 
   return (

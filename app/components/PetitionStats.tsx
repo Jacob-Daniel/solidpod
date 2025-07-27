@@ -31,55 +31,67 @@ const PetitionStats = ({
     : null;
 
   return (
-    <div className="bg-gray-50 border border-gray-200 px-3 py-1 rounded-xl shadow-sm">
-      <h2 className="text-xl font-semibold mb-2 font-sans">Petition Stats</h2>
+    <div>
+      {(sCount && (
+        <div className="bg-gray-50 border border-gray-200 px-3 py-1 rounded-xl shadow-sm">
+          <h2 className="text-xl font-semibold mb-2 font-sans">
+            Petition Stats
+          </h2>
+          <ul className="space-y-2 text-gray-800">
+            <li>
+              <strong>Total Signatures:</strong> {sCount}
+            </li>
 
-      <ul className="space-y-2 text-gray-800">
-        <li>
-          <strong>Total Signatures:</strong> {sCount}
-        </li>
+            {tCount !== undefined && (
+              <li>
+                <strong>Target:</strong> {tCount}
+              </li>
+            )}
 
-        {tCount !== undefined && (
-          <li>
-            <strong>Target:</strong> {tCount}
-          </li>
-        )}
+            {percentage !== null && showProgressBar && (
+              <li>
+                <div className="w-full bg-gray-200 rounded-full h-4 mt-1">
+                  <div
+                    className="bg-green-500 h-4 rounded-full"
+                    style={{ width: `${percentage}%` }}
+                  />
+                </div>
+                <div className="text-sm text-gray-600 mt-1">
+                  {percentage}% of goal
+                </div>
+              </li>
+            )}
 
-        {percentage !== null && showProgressBar && (
-          <li>
-            <div className="w-full bg-gray-200 rounded-full h-4 mt-1">
-              <div
-                className="bg-green-500 h-4 rounded-full"
-                style={{ width: `${percentage}%` }}
-              />
-            </div>
-            <div className="text-sm text-gray-600 mt-1">
-              {percentage}% of goal
-            </div>
-          </li>
-        )}
+            {endDate && (
+              <li>
+                <strong>Time Left:</strong>{" "}
+                {daysLeft !== null
+                  ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""}`
+                  : "N/A"}
+              </li>
+            )}
 
-        {endDate && (
-          <li>
-            <strong>Time Left:</strong>{" "}
-            {daysLeft !== null
-              ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""}`
-              : "N/A"}
-          </li>
-        )}
-
-        {startDate && (
-          <li>
-            <strong>Started:</strong> {new Date(startDate).toLocaleDateString()}
-          </li>
-        )}
-        {data.target && (
-          <li>
-            <strong>Decision Maker:</strong>
-            {data.target.name}
-          </li>
-        )}
-      </ul>
+            {startDate && (
+              <li>
+                <strong>Started:</strong>{" "}
+                {new Date(startDate).toLocaleDateString()}
+              </li>
+            )}
+            {data.target && (
+              <li>
+                <strong>Decision Maker:</strong>
+                {data.target.name}
+              </li>
+            )}
+          </ul>
+        </div>
+      )) || (
+        <div className="font-sans bg-blue-100 p-3">
+          <h2 className="font-bold !text-blue-700/60 text-center text-xl">
+            Be the first to sign!
+          </h2>
+        </div>
+      )}
     </div>
   );
 };
