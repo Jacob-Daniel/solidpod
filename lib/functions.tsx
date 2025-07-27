@@ -8,6 +8,7 @@ import {
 	UploadPetition,
 	StrapiResponse,
 	Page,
+	Meta,
 } from "@/lib/types";
 
 export async function getFiles(name: string): Promise<Files> {
@@ -40,6 +41,25 @@ export async function getAPI<T>(query: string): Promise<T> {
 	}
 	const { data } = await response.json();
 	return data;
+}
+
+export async function getPagAPI<T>(
+	query: string,
+): Promise<{ data: T; meta: Meta }> {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_STRAPI_API}${query}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		},
+	);
+	if (!response.ok) {
+		console.log("error getAPI");
+		throw new Error("Failed to Get API End Point");
+	}
+	return await response.json();
 }
 
 export async function createAPI<T>({
