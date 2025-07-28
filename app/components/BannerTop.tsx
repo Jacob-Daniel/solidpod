@@ -15,6 +15,16 @@ export default function BannerTop({ banner }: { banner: Banner }) {
 						/>
 					</div>
 				</div>
+				<div className="absolute z-30 bottom-0 top-0 w-full h-full bg-slate-600/60 flex items-center justify-center">
+					<div className="relative flex flex-col md:flex-row gap-x-2 items-baseline">
+						<h2 className="inline font-quicksand mb-0 text-white font-heading font-extrabold text-4xl lg:text-5xl !text-white leading-none">
+							{banner.heading}
+						</h2>
+						<span className="text-3xl lg:text-4xl text-white md:bg-none z-0 font-extralight lowercase">
+							{banner.sub_heading}
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

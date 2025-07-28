@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { createCustomerAction } from "@/lib/userActions";
+import { createAccountAction } from "@/lib/userActions";
 import { CreateAccount } from "@/lib/userTypes";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -17,7 +17,7 @@ type FormValues = {
 	last_name: string;
 };
 
-const CustomerForm = () => {
+const AccountForm = () => {
 	const router = useRouter();
 	const [formValues, setFormValues] = useState<FormValues>({
 		username: "",
@@ -46,13 +46,15 @@ const CustomerForm = () => {
 
 	const triggerCreateCustomer = async ({ data }: { data: CreateAccount }) => {
 		try {
-			const res = await createCustomerAction(data);
+			const res = await createAccountAction(data);
+			console.log(res, "create");
 			if ((res as any).error) {
 				const errorMsg = (res as any).error.details
 					? `${(res as any).error.message} ${(res as any).error.details}`
 					: (res as any).error.message ||
 						`An error occurred ${(res as any).error.status}`;
 				setAccount((prev) => ({ ...prev, errorMessage: errorMsg }));
+				console.log(account, "account error mes");
 			} else if ((res as any).jwt && (res as any).user) {
 				const signInResult = await signIn("credentials", {
 					redirect: false,
@@ -60,7 +62,6 @@ const CustomerForm = () => {
 					email: data.email,
 					password: data.password,
 				});
-
 				if (signInResult?.ok) {
 					router.push(`/my-petitions?createAccountSuccess=1`);
 				} else {
@@ -69,6 +70,7 @@ const CustomerForm = () => {
 						errorMessage:
 							"Login failed after registration. Please try to log in manually.",
 					}));
+					console.log(account, "account error mes");
 				}
 			} else {
 				setAccount((prev) => ({
@@ -76,6 +78,7 @@ const CustomerForm = () => {
 					errorMessage:
 						"Unexpected response format. Please check server configuration.",
 				}));
+				console.log(account, "account error mes");
 			}
 		} catch (error) {
 			console.log("Error creating customer:", error);
@@ -83,13 +86,14 @@ const CustomerForm = () => {
 				...prev,
 				errorMessage: "An unexpected error occurred. Please try again later.",
 			}));
+			console.log(error, "error mes");
 		} finally {
 		}
 	};
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		setProcessing(true); // Start processing immediately
+		setProcessing(true);
 
 		const newErrors: { [key in keyof FormValues]: string | null } = {
 			username: null,
@@ -110,34 +114,29 @@ const CustomerForm = () => {
 			postcode: formData.get("postcode") as string,
 		};
 
-		// Validate fields and update error state
 		for (const [field, value] of Object.entries(data)) {
 			const fieldName = field as keyof FormValues;
 			const errorMessage = validateInput(fieldName, value);
 
 			if (errorMessage === null) {
-				newErrors[fieldName] = ""; // Validation passed, clear error
+				newErrors[fieldName] = "";
 			} else {
-				newErrors[fieldName] = errorMessage; // Set the error message
+				newErrors[fieldName] = errorMessage;
 			}
 		}
 
-		setErrors(newErrors); // Set errors state immediately
-
-		// Check if there are errors (using `newErrors` instead of `errors`)
+		setErrors(newErrors);
 		const hasErrors = Object.values(newErrors).some((error) => error !== "");
 
 		if (!hasErrors) {
-			// No errors, trigger the customer creation process
 			await triggerCreateCustomer({ data });
 		} else {
-			// Errors present, leave processing state as is
 			console.log("Validation errors:", newErrors);
 		}
 
-		setProcessing(false); // Stop processing after validation or form submission
+		setProcessing(false);
 	};
-
+	console.log(account, "account");
 	return (
 		<form
 			onSubmit={handleSubmit}
@@ -158,10 +157,9 @@ const CustomerForm = () => {
 				{errors.username && (
 					<span className="text-sm text-red-400">{errors.username}</span>
 				)}
-							</div>			
+			</div>
 			<div className="text-left">
-
-	<label htmlFor="last_name" className="font-bold">
+				<label htmlFor="last_name" className="font-bold">
 					Last Name:
 				</label>
 				<input
@@ -175,9 +173,9 @@ const CustomerForm = () => {
 				{errors.last_name && (
 					<span className="text-sm text-red-400">{errors.last_name}</span>
 				)}
-											</div>			
+			</div>
 			<div className="text-left">
-<label htmlFor="postcode" className="font-bold">
+				<label htmlFor="postcode" className="font-bold">
 					Postcode:
 				</label>
 				<input
@@ -190,8 +188,8 @@ const CustomerForm = () => {
 				/>
 				{errors.postcode && (
 					<span className="text-sm text-red-400">{errors.postcode}</span>
-				)}				
-			</div>			
+				)}
+			</div>
 			<div className="text-left">
 				<label htmlFor="mobile" className="font-bold">
 					Mobile:
@@ -254,4 +252,4 @@ const CustomerForm = () => {
 	);
 };
 
-export default CustomerForm;
+export default AccountForm;

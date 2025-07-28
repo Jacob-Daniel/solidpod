@@ -29,7 +29,7 @@ export default function SubUl({ id, links, parentSlug }: ILinks) {
 
 	return (
 		<ul
-			className={`z-50 mt-[5px] md:mt-0 md:absolute top-[35px] border border-gray-400 grid md:gap-x-5 md:bg-white items-center py-0 px-2 justify-center ${display} rounded py-1`}
+			className={`z-50 mt-[5px] md:mt-0 md:absolute top-[35px] border border-gray-400 grid md:gap-x-5 md:bg-white items-center py-0 px-2 justify-center ${display} rounded py-1 bg-white`}
 		>
 			{links.map((link) => (
 				<li className="flex justify-center" key={link.id}>
