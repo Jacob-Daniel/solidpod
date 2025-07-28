@@ -6,7 +6,6 @@ export function generateNewSessionId(): string {
 import {
 	BookingDetailsResponse,
 	UpdateBasketData,
-
 	CreateBasketResponse,
 	CreateCustomerResponseAction,
 	CreateAccount,
@@ -65,8 +64,10 @@ export async function createUser(userData: CreateAccount): Promise<
 			body: JSON.stringify(userData),
 		},
 	);
-	const data = await response.json();
+	console.log("Raw response text:", response);
 
+	const data = await response.json();
+	console.log(data, "createuser data");
 	if (!response.ok) {
 		return {
 			error: {

@@ -129,9 +129,9 @@ export default async function Home() {
 function Frame({ children }: { children: ReactNode }) {
   return (
     <div className="col-span-12  mb-5 gap-y-5 lg:px-0 ">
-      <h2 className="font-sans font-bold mb-3 text-md md:text-lg lg:text-2xl">
+      {/*      <h2 className="font-sans font-bold mb-3 text-md md:text-lg lg:text-2xl">
         Petitions
-      </h2>
+      </h2>*/}
       <div className="relative col-span-12 grid grid-cols-12 gap-y-5 md:gap-x-5">
         {children}
       </div>

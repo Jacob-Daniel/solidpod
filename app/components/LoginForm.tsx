@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 const CustomLoginForm: React.FC = () => {
 	const [email, setEmail] = useState<string>("");
+	const [loading, setLoading] = useState<boolean>(false);
 	const router = useRouter();
 
 	const [password, setPassword] = useState<string>("");
@@ -12,6 +13,7 @@ const CustomLoginForm: React.FC = () => {
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		setError(null);
+		setLoading(true);
 
 		const result = await signIn("credentials", {
 			redirect: false,
@@ -27,7 +29,9 @@ const CustomLoginForm: React.FC = () => {
 			} else {
 				console.error("Unknown error during login:", result.error);
 			}
+			setLoading(false);
 		} else {
+			setLoading(false);
 			router.push("/my-petitions");
 		}
 	};
@@ -68,9 +72,9 @@ const CustomLoginForm: React.FC = () => {
 			{error && <p style={{ color: "red" }}>{error}</p>}
 			<button
 				type="submit"
-				className="border-gray-300 border !flex-shrink p-1 px-2 font-bold rounded cursor-pointer"
+				className={`border-gray-300 border !flex-shrink p-1 px-2 font-bold rounded cursor-pointer ${loading && "bg-gray-400"}`}
 			>
-				Submit
+				{(loading && "loading ...") || "Submit"}
 			</button>
 		</form>
 	);

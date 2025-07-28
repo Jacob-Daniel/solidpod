@@ -2,7 +2,7 @@
 import { useState, Suspense, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation"; // Import this hook to access query params
-import CreateCustomerAccountForm from "@/app/components/CreateCustomerAccountForm";
+import CreateCustomerAccountForm from "@/app/components/CreateAccountForm";
 import PasswordResetForm from "@/app/components/PasswordResetForm";
 import CustomLoginForm from "@/app/components/LoginForm";
 import { IButton, IPanel } from "@/lib/types";

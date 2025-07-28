@@ -243,7 +243,6 @@ export interface CreateAccount {
 	password: string;
 	postcode: string;
 	last_name: string;
-
 }
 
 export interface SubmitButtonProps {
@@ -279,7 +278,7 @@ export interface ValidationError {
 	};
 }
 
-export type CreateCustomerResponseAction = {
+export type CreateAccountResponseAction = {
 	data?: Customer | null;
 	error?: {
 		status: number;

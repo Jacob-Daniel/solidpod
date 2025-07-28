@@ -4,7 +4,7 @@ import { auth } from "@/app/auth";
 import {
 	CreateAccount,
 	UpdateBasketData,
-	CreateCustomerResponseAction,
+	CreateAccountResponseAction,
 	CreateBasketResponse,
 	IOrderResponse,
 } from "@/lib/userTypes";
@@ -18,11 +18,8 @@ import {
 	getAPI,
 } from "@/lib/userFunctions";
 
-
-export async function createCustomerAction(
-	customerData: CreateAccount,
-): Promise<
-	| CreateCustomerResponseAction
+export async function createAccountAction(customerData: CreateAccount): Promise<
+	| CreateAccountResponseAction
 	| {
 			error: {
 				status: string;
@@ -33,6 +30,7 @@ export async function createCustomerAction(
 	  }
 > {
 	const data = await createUser(customerData);
+	console.log("create res", data);
 	if (data.error) {
 		return data;
 	}
