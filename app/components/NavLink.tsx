@@ -34,7 +34,7 @@ const NavLink = ({
 	return (
 		<Link
 			data-link="link"
-			className={`text-base ${(type === "desktop" || type === "mobile") && "font-bold"} font-sans align-bottom ${active} p-1 ${is_button && "border !border-gray-300 px-1 py-[3px]"}`}
+			className={`text-base ${(type === "desktop" || type === "mobile") && "font-bold"} font-sans align-bottom ${active} p-1 ${is_button && "bg-green-300 px-1 py-[3px]"}`}
 			href={`${process.env.BASE_URL}/${slug}`}
 			onClick={(e) => {
 				(handleClick(), onClick && onClick());
