@@ -17,11 +17,11 @@ export default function Intros({
 	icon_colour: string;
 }) {
 	return (
-		<section
+		<div
 			id={id}
-			className="col-span-12 md:col-span-6 lg:col-span-3 border border-gray-300 hover:shadow rounded p-5"
+			className="inline-block md:inline md:col-span-6 lg:col-span-3 border border-gray-300 hover:shadow rounded p-5"
 		>
-			<div className="grid justify-items-center items-center xl:mb-0 m-auto flex flex-col bg-white">
+			<div className="whitespace-normal grid justify-items-center items-center xl:mb-0 m-auto flex flex-col bg-white">
 				<h2 className="font-sans font-bold mb-1">{json.heading}</h2>
 				<StaticIcon
 					iconName={json.icon}
@@ -34,6 +34,6 @@ export default function Intros({
 					dangerouslySetInnerHTML={{ __html: json.text }}
 				/>
 			</div>
-		</section>
+		</div>
 	);
 }
