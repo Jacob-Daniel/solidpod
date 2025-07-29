@@ -57,7 +57,6 @@ export default async function Home() {
     fetchFeaturedPeitions(),
     fetchTags(),
   ]);
-
   if (!data) return <div>No content available</div>;
   return (
     <main className="grid grid-cols-12 gap-y-10">

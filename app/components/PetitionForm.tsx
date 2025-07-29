@@ -90,8 +90,7 @@ export default function PetitionForm({
     data,
   }: {
     data: CreateSignature;
-  }) => {
-    // console.log("router", router);
+  }): Promise<boolean> => {
     setErrors({
       first_name: "",
       last_name: "",
@@ -100,33 +99,33 @@ export default function PetitionForm({
       comment: "",
       mailing_list: false,
     });
+
     try {
       const res: CreateResponseAction = await createSignatureAction(data);
-      console.log(res, "ress");
+
       if (res && "error" in res && res.error) {
         setMessageSend((prev) => ({
           ...prev,
           errorMessage: res?.error?.message as string,
           successMessage: "",
         }));
+        return false; // failure
       } else if (res && "first_name" in res) {
         setMessageSend((prev) => ({
           ...prev,
           errorMessage: "",
-          successMessage:
-            `Success: ${res.first_name} added name to petition!` as string,
+          successMessage: `Success: ${res.first_name} added name to petition!`,
         }));
 
-        // Redirect to success page with query params
         const queryParams = new URLSearchParams({
           first_name: res.first_name || "",
           last_name: res.last_name || "",
           page_url: window.location.href,
           title: petitionTitle,
-          // Add any other properties from res you want to pass
         }).toString();
 
         router.push(`/petitions/support-success?${queryParams}`);
+        return true; // success
       }
     } catch (error) {
       console.log("Error creating signature:", error);
@@ -134,8 +133,9 @@ export default function PetitionForm({
         ...prev,
         errorMessage: "An unexpected error occurred. Please try again later.",
       }));
-    } finally {
+      return false; // failure
     }
+    return false;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -170,6 +170,7 @@ export default function PetitionForm({
         email: "",
         mailing_list: false,
         comment: "",
+        petition: "",
       };
 
       const formData = new FormData(formRef.current);
@@ -218,8 +219,14 @@ export default function PetitionForm({
       const hasErrors = Object.values(newErrors).some((error) => error !== "");
 
       if (!hasErrors) {
-        await triggerCreatePetitionSignature({ data });
-        formRef.current?.reset();
+        setProcessing(true);
+        const success = await triggerCreatePetitionSignature({ data });
+        setProcessing(false);
+
+        if (success) {
+          formRef.current?.reset(); // reset only on success
+          setState(initValues); // also reset your state values if you want
+        }
       } else {
         setErrors(newErrors);
         console.log("Validation errors:", newErrors);

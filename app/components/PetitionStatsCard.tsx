@@ -1,6 +1,5 @@
 "use client";
-
-// import { Progress } from '@/components/ui/progress'; // Or your preferred UI library
+import { FaFire } from "react-icons/fa";
 
 interface StatsCardProps {
   signaturesCount: number;
@@ -8,6 +7,7 @@ interface StatsCardProps {
   title: string;
   endDate: string;
   slug: string;
+  lastSignature: string;
 }
 
 const PetitionStatsCard = ({
@@ -15,7 +15,16 @@ const PetitionStatsCard = ({
   targetCount,
   title,
   endDate,
+  lastSignature,
 }: StatsCardProps) => {
+  console.log(lastSignature, "last");
+  const isActive = (lastSignature: string) => {
+    const now = new Date();
+    const last = new Date(lastSignature); // Use raw date object here
+    const diff = now.getTime() - last.getTime();
+    return diff < 1000 * 60 * 60; // 1 hour
+  };
+
   const progressPercentage = Math.min(
     Math.round((signaturesCount / targetCount) * 100),
     100,
@@ -33,6 +42,12 @@ const PetitionStatsCard = ({
         delta={15} // You would calculate this from your data
       />
       <StatBlock value={daysRemaining} label="Days left" icon="⏳" />
+      {isActive(lastSignature) && (
+        <FaFire
+          className="text-yellow-600 animate-pulse-hot"
+          title="Active petition"
+        />
+      )}
     </div>
   );
 };

@@ -11,13 +11,38 @@ export default {
 	theme: {
 		extend: {
 			keyframes: {
+				pulsehot: {
+					"0%, 100%": { transform: "scale(1)", opacity: "1" },
+					"50%": { transform: "scale(1.25)", opacity: "0.6" },
+				},
 				"fade-in": {
 					"0%": { opacity: "0" },
 					"100%": { opacity: "1" },
 				},
+				"slide-in-lr": {
+					"0%": { transform: "translateX(-100%)", opacity: "0" },
+					"100%": { transform: "translateX(0)", opacity: "1" },
+				},
+				"slide-in-rl": {
+					"0%": { transform: "translateX(100%)", opacity: "0" },
+					"100%": { transform: "translateX(0)", opacity: "1" },
+				},
+				"slide-in-tb": {
+					"0%": { transform: "translateY(-100%)", opacity: "0" },
+					"100%": { transform: "translateY(0)", opacity: "1" },
+				},
+				"slide-in-bt": {
+					"0%": { transform: "translateY(100%)", opacity: "0" },
+					"100%": { transform: "translateY(0)", opacity: "1" },
+				},
 			},
 			animation: {
 				"fade-in": "fade-in 0.5s ease-out forwards",
+				"slide-in-lr": "slide-in-lr 0.5s ease-out forwards",
+				"slide-in-rl": "slide-in-rl 0.5s ease-out forwards",
+				"slide-in-tb": "slide-in-tb 0.5s ease-out forwards",
+				"slide-in-bt": "slide-in-bt 0.5s ease-out forwards",
+				"pulse-hot": "pulsehot 1s infinite",
 			},
 			screens: {
 				retina: "425px",
