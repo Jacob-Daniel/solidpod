@@ -6,7 +6,7 @@ import ShowDate from "@/app/components/ShowDate";
 import PetitionStatsCard from "@/app/components/PetitionStatsCard";
 import "swiper/css";
 import "swiper/css/pagination";
-import BlurDataImageClient from "./BlurDataImageClient";
+import BlurDataImageClient from "@/app/components/BlurDataImageClient";
 import { FeaturedSection, Petition } from "@/lib/types";
 
 export default function FeaturedSwiper({
@@ -57,6 +57,7 @@ export default function FeaturedSwiper({
 								end_date={petition.end_date}
 								signatureCount={petition.signaturesCount}
 								targetCount={petition.targetCount}
+								lastSignature={petition.last_signature}
 							/>
 						</div>
 					);
@@ -74,6 +75,7 @@ function Text({
 	end_date,
 	signatureCount,
 	targetCount,
+	lastSignature,
 }: {
 	id: number;
 	summary: string;
@@ -83,11 +85,19 @@ function Text({
 	end_date: string;
 	signatureCount: number;
 	targetCount: number;
+	lastSignature: string;
 }) {
+	console.log(lastSignature, "l sg");
 	return (
 		<div className="relative bottom-0 w-full mb-0 flex flex-col py-2 px-3 justify-evenly z-50 gap-y-2 bg-white">
-			<Link href={route} className="block font-sans link font-bold capitalize">
-				{title.charAt(0).toUpperCase() + title.slice(1).toLowerCase()}
+			{signatureCount > 100 && (
+				<span
+					className="z-50 w-3 h-3 rounded-full bg-red-600 animate-pulse-hot absolute top-2 end-2"
+					title="Hot Petition!"
+				/>
+			)}
+			<Link href={route} className="block font-sans link font-bold">
+				{title}
 			</Link>
 			<PetitionStatsCard
 				signaturesCount={signatureCount}
@@ -95,6 +105,7 @@ function Text({
 				title={title}
 				endDate={end_date}
 				slug={path}
+				lastSignature={lastSignature}
 			/>
 		</div>
 	);

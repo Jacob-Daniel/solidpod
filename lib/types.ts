@@ -549,6 +549,7 @@ export interface Petition extends BaseDoc, PetitionMeta {
 	image: Media;
 	signatures: Signature[];
 	status: string;
+	last_signature: string;
 }
 
 export interface API {
@@ -582,6 +583,7 @@ export interface PetitionMeta {
 	target: string;
 	ward?: string;
 	borough?: string;
+	last_signature: string;
 }
 
 // subHeading?: string;

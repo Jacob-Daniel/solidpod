@@ -38,7 +38,6 @@ export default async function ResponsiveImage({
 						`data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
 				)
 		: rgbDataURL(245, 245, 245);
-
 	return (
 		<picture>
 			{mobileUrl && <source media="(max-width: 600px)" srcSet={mobileUrl} />}
