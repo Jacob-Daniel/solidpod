@@ -6,7 +6,7 @@ import ShowDate from "@/app/components/ShowDate";
 import PetitionStatsCard from "@/app/components/PetitionStatsCard";
 import "swiper/css";
 import "swiper/css/pagination";
-import BlurImage from "./BlurImage";
+import BlurDataImageClient from "./BlurDataImageClient";
 import { FeaturedSection, Petition } from "@/lib/types";
 
 export default function FeaturedSwiper({
@@ -35,16 +35,16 @@ export default function FeaturedSwiper({
 								className="petition relative block max-h-[150px] md:max-h-[130px] xl:max-h-[180px]"
 							>
 								{petition.image.url && (
-									<BlurImage
-										width={500}
-										height={500}
+									<BlurDataImageClient
 										className="z-30"
 										title={petition.title}
-										sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.url}`}
+										image={petition.image}
 										shadow={false}
 										rounded={false}
 										objectFit="contain"
-										priority={false}
+										priority={true}
+										height={petition.image.height}
+										width={petition.image.width}
 									/>
 								)}
 							</Link>

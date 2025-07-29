@@ -22,14 +22,14 @@ export default function TagList({ tags }: TagListProps) {
     "bg-orange-100 text-orange-800",
   ];
   return (
-    <div className="col-span-12 flex flex-wrap gap-1">
+    <div className="col-span-12 flex flex-wrap gap-2">
       {tags.map((tag, index) => {
         const colorClass = bgColors[index % bgColors.length];
         return (
           <Link
             key={tag.id}
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/petitions/tag/${tag.slug}`}
-            className={`px-3 py-1 border border-gray-300 rounded text-sm hover:shadow transition ${colorClass}`}
+            className={`px-3 py-1 border border-gray-300 rounded text-base hover:shadow transition ${colorClass}`}
           >
             {tag.name}
           </Link>
