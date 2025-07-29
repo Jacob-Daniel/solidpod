@@ -116,21 +116,10 @@ const PageContent = ({
 	meta: Meta;
 	slug: string;
 }) => {
-	console.log(petition.image, "image");
 	return (
 		<section className="col-span-12 md:col-span-8 flex flex-col justify-start">
-			{/*			<BlurImage
-				width={500}
-				height={500}
-				title={petition.title}
-				sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.url}`}
-				shadow={false}
-				rounded={false}
-				objectFit="contain"
-				priority={false}
-			/>*/}
 			<BlurDataImage
-				className="z-50 mb-3 lg:mb-5"
+				className="z-50 mb-3 lg:mb-5 w-full"
 				title={petition.title}
 				image={petition.image}
 				shadow={false}
