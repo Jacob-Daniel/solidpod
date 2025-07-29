@@ -11,7 +11,7 @@ import {
 	Meta,
 } from "@/lib/types";
 
-import BlurImage from "@/app/components/BlurImage";
+import BlurDataImage from "@/app/components/BlurDataImage";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 
 import Signatures from "@/app/components/Signatures";
@@ -116,20 +116,30 @@ const PageContent = ({
 	meta: Meta;
 	slug: string;
 }) => {
+	console.log(petition.image, "image");
 	return (
 		<section className="col-span-12 md:col-span-8 flex flex-col justify-start">
-			<BlurImage
+			{/*			<BlurImage
 				width={500}
 				height={500}
-				className="z-50 mb-3 lg:mb-5"
 				title={petition.title}
 				sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.url}`}
 				shadow={false}
 				rounded={false}
 				objectFit="contain"
 				priority={false}
+			/>*/}
+			<BlurDataImage
+				className="z-50 mb-3 lg:mb-5"
+				title={petition.title}
+				image={petition.image}
+				shadow={false}
+				rounded={false}
+				objectFit="contain"
+				priority={true}
+				height={petition.image.height}
+				width={petition.image.width}
 			/>
-
 			<SignNowCard
 				key="key"
 				count={petition.signaturesCount}

@@ -104,7 +104,7 @@ const Signatures = ({ signatures, totalCount, pageSize, slug }: Props) => {
           >
             {loading ? "Loading..." : "Load More"}
           </button>
-        )) || <p className="text-gray-500 text-base">No more comments...</p>}
+        )) || <p className="text-gray-400 text-sm">..end comments</p>}
       </div>
     </section>
   );
