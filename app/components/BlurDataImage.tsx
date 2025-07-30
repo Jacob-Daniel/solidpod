@@ -1,46 +1,39 @@
 import Image from "next/image";
-import type { IImage } from "@/lib/types";
-export default async function BlurImage({
+export default function BlurServerImage({
 	className,
 	title,
-	image,
+	imageUrl,
 	shadow = true,
 	rounded = false,
 	objectFit,
 	width,
 	height,
 	priority = false,
+	blurDataUrl,
 }: {
 	className: string;
 	title: string;
-	image: IImage;
+	imageUrl: string;
 	shadow: boolean;
 	rounded: boolean;
 	objectFit: "contain" | "cover" | "fill" | "none" | "scale-down";
 	width: number;
 	height: number;
 	priority?: boolean;
+	blurDataUrl: string;
 }) {
-	const blurDataURL = await fetch(
-		`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${image.formats.thumbnail.url}`,
-	)
-		.then((res) => res.arrayBuffer())
-		.then(
-			(buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-		);
-
-	const imageUrl = `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${image.url}`;
+	const imgurl = `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${imageUrl}`;
 	return (
 		<Image
 			className={`mx-auto 
 			${rounded && "rounded"}
 			${shadow && "shadow-[5px_5px_7px_rgba(0,0,0,0.2)]"} ${className}`}
 			alt={title}
-			src={imageUrl}
+			src={imgurl}
 			width={width}
 			height={height}
 			placeholder="blur"
-			blurDataURL={blurDataURL}
+			blurDataURL={blurDataUrl}
 			priority={priority}
 		/>
 	);

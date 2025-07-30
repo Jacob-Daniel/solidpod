@@ -1,16 +1,7 @@
 import Link from "next/link";
+import type { Tags } from "@/lib/types";
 
-type Tag = {
-  id: number;
-  name: string;
-  slug: string;
-};
-
-type TagListProps = {
-  tags: Tag[];
-};
-
-export default function TagList({ tags }: TagListProps) {
+export default function TagList({ tags }: { tags: Tags[] }) {
   const bgColors = [
     "bg-red-100 text-red-800",
     "bg-blue-100 text-blue-800",

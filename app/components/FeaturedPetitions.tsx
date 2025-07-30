@@ -87,7 +87,6 @@ function Text({
 	targetCount: number;
 	lastSignature: string;
 }) {
-	console.log(lastSignature, "l sg");
 	return (
 		<div className="relative bottom-0 w-full mb-0 flex flex-col py-2 px-3 justify-evenly z-50 gap-y-2 bg-white">
 			{signatureCount > 100 && (
