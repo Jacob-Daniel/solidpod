@@ -50,10 +50,6 @@ export default async function Home() {
   ]);
   if (!data) return <div>No content available</div>;
 
-  console.log(
-    data?.banner?.image_versions[1].image.formats.thumbnail.url,
-    "banner",
-  );
   const blurDataUrl = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
   )
