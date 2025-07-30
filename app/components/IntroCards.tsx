@@ -26,7 +26,7 @@ export default function Intros({
 				<StaticIcon
 					iconName={json.icon}
 					color={icon_colour}
-					className="text-xl mb-1 text-yellow-300 block"
+					className="text-xl mb-1 text-black/90 block"
 				/>
 
 				<p
