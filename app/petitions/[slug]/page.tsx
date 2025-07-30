@@ -44,7 +44,7 @@ async function fetchPetitionData(slug: string) {
 
 async function fetchSignatureData(slug: string) {
 	return getPagAPI<Signature[]>(
-		`/signatures?filters[$and][0][petition][slug][$eq]=${slug}&filters[$and][1][comment][$notNull]=true&populate=user&pagination[page]=1&pagination[pageSize]=2`,
+		`/signatures?filters[$and][0][petitions][slug][$eq]=${slug}&filters[$and][1][comment][$notNull]=true&populate=user&pagination[page]=1&pagination[pageSize]=2`,
 	);
 }
 
