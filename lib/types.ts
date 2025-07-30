@@ -377,11 +377,19 @@ export type Section =
 	| ContentGallery
 	| InfoCardSection
 	| ButtonSection
+	| ContentHeading
 	| Sidebar;
 
 export interface ButtonSection extends Button {
 	__component: "elements.button";
 }
+
+export interface ContentHeading {
+	__component: "content.heading";
+	id: number;
+	heading: string;
+}
+
 export interface Button {
 	id: string;
 	target: string;
@@ -725,6 +733,11 @@ export type SiteConfig = BaseDoc & {
 
 export type MenuCategory = BaseDoc & {
 	description: string;
+	slug: string;
+	name: string;
+};
+
+export type Tags = BaseDoc & {
 	slug: string;
 	name: string;
 };

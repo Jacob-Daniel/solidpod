@@ -1,17 +1,19 @@
 import Image from "next/image";
 import { ImageVersion } from "@/lib/types";
-import { rgbDataURL } from "@/lib/functions";
+// import { rgbDataURL } from "@/lib/functions";
 
-export default async function ResponsiveImage({
+export default function ResponsiveImage({
 	banner,
 	className,
 	alt,
 	priority = true,
+	blurDataUrl,
 }: {
 	banner: ImageVersion[];
 	className: string;
 	alt: string;
 	priority?: boolean;
+	blurDataUrl: string;
 }) {
 	const mobile = banner.find((b) => b.version === "mobile");
 	const desktop = banner.find((b) => b.version === "desktop");
@@ -28,16 +30,7 @@ export default async function ResponsiveImage({
 	const desktopUrl = desktop
 		? `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${desktop.image.url}`
 		: undefined;
-	const blurDataURL = desktop?.image.formats.thumbnail?.url
-		? await fetch(
-				`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${desktop.image.formats.thumbnail.url}`,
-			)
-				.then((res) => res.arrayBuffer())
-				.then(
-					(buf) =>
-						`data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-				)
-		: rgbDataURL(245, 245, 245);
+
 	return (
 		<picture>
 			{mobileUrl && <source media="(max-width: 600px)" srcSet={mobileUrl} />}
@@ -48,7 +41,7 @@ export default async function ResponsiveImage({
 				width={desktopUrl ? desktop?.image.width : mobile?.image.width}
 				height={desktopUrl ? desktop?.image.height : mobile?.image.height}
 				placeholder="blur"
-				blurDataURL={blurDataURL}
+				blurDataURL={blurDataUrl}
 				priority={priority}
 			/>
 		</picture>

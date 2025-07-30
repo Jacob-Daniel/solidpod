@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { auth } from "@/app/auth";
 import { notFound } from "next/navigation";
 import { getAPI, getPagAPI } from "@/lib/functions";
@@ -11,7 +12,7 @@ import {
 	Meta,
 } from "@/lib/types";
 
-import BlurDataImage from "@/app/components/BlurDataImage";
+import BlurServerImage from "@/app/components/BlurDataImage";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 
 import Signatures from "@/app/components/Signatures";
@@ -79,17 +80,30 @@ export default async function PetitionPage({ params }: { params: Params }) {
 		tags: petition.tags,
 		createdByUser: petition.createdByUser,
 		target: petition.target,
+		last_signature: petition.last_signature,
 	};
+	const buttonSection = page.sections.find(
+		(section): section is ButtonSection =>
+			section.__component === "elements.button",
+	);
 
+	const blurDataUrl = await fetch(
+		`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${petition.image.formats.thumbnail.url}`,
+	)
+		.then((res) => res.arrayBuffer())
+		.then(
+			(buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
+		);
 	return (
 		<main className="grid grid-cols-12 col-span-12 mb-20 pt-5">
 			<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-5">
 				<PageContent
 					petition={petition}
 					signatures={signatures}
-					button={page.sections[1]}
+					button={buttonSection}
 					meta={meta}
 					slug={slug}
+					blurDataUrl={blurDataUrl}
 				/>
 
 				<Sidebar
@@ -102,39 +116,45 @@ export default async function PetitionPage({ params }: { params: Params }) {
 		</main>
 	);
 }
-
 const PageContent = ({
 	petition,
 	signatures,
 	button,
 	meta,
 	slug,
+	blurDataUrl,
 }: {
 	petition: Petition;
 	signatures: Signature[];
-	button: ButtonSection;
+	button?: ButtonSection;
 	meta: Meta;
 	slug: string;
+	blurDataUrl: string;
 }) => {
 	return (
 		<section className="col-span-12 md:col-span-8 flex flex-col justify-start">
-			<BlurDataImage
-				className="z-50 mb-3 lg:mb-5 w-full"
-				title={petition.title}
-				image={petition.image}
-				shadow={false}
-				rounded={false}
-				objectFit="contain"
-				priority={true}
-				height={petition.image.height}
-				width={petition.image.width}
-			/>
-			<SignNowCard
-				key="key"
-				count={petition.signaturesCount}
-				button={button}
-				classes="md:hidden"
-			/>
+			<Suspense fallback={<div>Loading images...</div>}>
+				<BlurServerImage
+					className="z-50 mb-3 lg:mb-5 w-full"
+					title={petition.title}
+					imageUrl={petition.image.url}
+					shadow={false}
+					rounded={false}
+					objectFit="contain"
+					priority={true}
+					height={petition.image.height}
+					width={petition.image.width}
+					blurDataUrl={blurDataUrl}
+				/>
+			</Suspense>
+			{button && (
+				<SignNowCard
+					key="key"
+					count={petition.signaturesCount}
+					button={button}
+					classes="md:hidden"
+				/>
+			)}
 
 			<div className="col-span-12 mb-10">
 				<h2 className="font-bold text-2xl lg:text-4xl mb-3 font-sans">

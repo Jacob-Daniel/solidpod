@@ -46,6 +46,15 @@ export default async function UserGuide() {
         <p className="text-black">No content available</p>
       </div>
     );
+
+  const blurDataUrl = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
+  )
+    .then((res) => res.arrayBuffer())
+    .then(
+      (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
+    );
+
   const tags: Tags[] =
     data?.sections
       ?.filter((section) => section.__component === "content.content")
@@ -58,7 +67,7 @@ export default async function UserGuide() {
     <main className="grid grid-cols-12 gap-y-5 md:gap-y-10">
       {data.banner && data.banner.image_versions[0].image.url && (
         <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-          <BannerTop banner={data.banner} />
+          <BannerTop banner={data.banner} blurDataUrl={blurDataUrl} />
         </div>
       )}
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 md:pb-[250px]">

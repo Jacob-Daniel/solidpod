@@ -38,13 +38,21 @@ export default async function PetitionTagPage({ params }: { params: Params }) {
 			"/pages?filters[slug][$eq]=petitions-tag-page&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*",
 		),
 	]);
-	console.log(featured, "featured");
 	if (!data) return <div>No content available</div>;
+
+	const blurDataUrl = await fetch(
+		`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
+	)
+		.then((res) => res.arrayBuffer())
+		.then(
+			(buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
+		);
+
 	return (
 		<main className="grid grid-cols-12 gap-y-10">
 			{data.banner && (
 				<div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-					<BannerTop banner={data.banner} />
+					<BannerTop banner={data.banner} blurDataUrl={blurDataUrl} />
 				</div>
 			)}
 			<div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">

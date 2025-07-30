@@ -1,12 +1,13 @@
 // import { unstable_cacheTag as cacheTag } from "next/cache";
 import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
-import { getAPI, getAPIAuth } from "@/lib/functions";
-import Aside from "@/app/components/Aside";
+import { getAPI } from "@/lib/functions";
+// import Aside from "@/app/components/Aside";
 import CreatePetitionForm from "@/app/components/CreatePetitionForm";
-import RichPageContentRender from "@/app/components/RichPageContentRender";
+// import RichPageContentRender from "@/app/components/RichPageContentRender";
 import GeneratePDFButton from "@/app/components/GeneratePDFButton";
-import { LayoutSidebar, Page, Petition, User } from "@/lib/types";
+import { Petition, SessionUser } from "@/lib/types";
+// import { LayoutSidebar, Page, Petition, User, SessionUser } from "@/lib/types";
 // import {CreatePetitionPDF} from "@/lib/actions"
 
 type Params = Promise<{ parent: string; slug: string }>;
@@ -20,14 +21,13 @@ export default async function EditPetitionPage({ params }: { params: Params }) {
 	const session = await auth();
 	if (!session) {
 		redirect("/login");
-		return null;
 	} else {
-		const userDocId = session.user.documentId;
-		const user: User = session.user;
+		// const userDocId = session.user.documentId;
+		const user: SessionUser = session.user;
 		const [[petitionData]] = await Promise.all([
 			getAPI<Petition[]>(`/petitions?filters[slug][$eq]=${slug}&populate=*`),
 		]);
-		console.log(session, "sess data");
+		// console.log(petitionData, "p data");
 		if (!petitionData)
 			return (
 				<main className="grid grid-cols-12 col-span-12 min-h-[500px]">

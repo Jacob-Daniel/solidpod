@@ -35,11 +35,10 @@ const Signatures = ({ signatures, totalCount, pageSize, slug }: Props) => {
     const nextPage = page + 1;
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_API}/signatures?filters[$and][0][petition][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user&pagination[page]=${nextPage}&pagination[pageSize]=${pageSize}&populate=user`,
+      `${process.env.NEXT_PUBLIC_STRAPI_API}/signatures?filters[$and][0][petitions][slug][$eq]=${slug}&filters[$and][1][comment][$notnull]=true&populate=user&pagination[page]=${nextPage}&pagination[pageSize]=${pageSize}&populate=user`,
     );
 
     const json = await res.json();
-
     setItems((prev) => [...prev, ...json.data]);
     setPage(nextPage);
     setLoading(false);

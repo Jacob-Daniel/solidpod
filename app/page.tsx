@@ -5,6 +5,7 @@ import IntroCards from "@/app/components/IntroCards";
 import BannerTop from "@/app/components/BannerTop";
 import TagList from "@/app/components/TagList";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
+import { InfoCard, Page, Petition, Tags } from "@/lib/types";
 
 // import BannerTop from "@/app/components/BannerTop";
 // import VolunteerIntro from "@/app/components/VolunteerIntro";
@@ -27,22 +28,12 @@ import RichContentRenderer from "@/app/components/RichPageContentRender";
 //   ),
 // });
 
-interface Tag {
-  name: string;
-  slug: string;
-}
-
-interface TagData {
-  data: Tag[];
-}
-import { InfoCard, Page, Petition } from "@/lib/types";
-
 async function fetchFeaturedPeitions() {
   return getAPI<Petition[]>("/featured-petitions");
 }
 
 async function fetchTags() {
-  return getAPI<TagData[]>("/tags");
+  return getAPI<Tags[]>("/tags");
 }
 
 async function fetchHomePage() {
@@ -52,17 +43,29 @@ async function fetchHomePage() {
 }
 
 export default async function Home() {
-  const [[data], featured, tagData] = await Promise.all([
+  const [[data], featured, tags] = await Promise.all([
     fetchHomePage(),
     fetchFeaturedPeitions(),
     fetchTags(),
   ]);
   if (!data) return <div>No content available</div>;
+
+  console.log(
+    data?.banner?.image_versions[1].image.formats.thumbnail.url,
+    "banner",
+  );
+  const blurDataUrl = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
+  )
+    .then((res) => res.arrayBuffer())
+    .then(
+      (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
+    );
   return (
     <main className="grid grid-cols-12 gap-y-10">
       {data.banner && data.banner.image_versions[0].image && (
         <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-          <BannerTop banner={data.banner} />
+          <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
         </div>
       )}
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">
@@ -107,20 +110,19 @@ export default async function Home() {
                   </section>
                 );
               case "layout.featured":
-                if (section.heading === "tags") {
-                  return <TagList key={index} tags={tagData} />;
-                } else if (section.heading === "Petitions") {
-                  return (
-                    <Frame key={index}>
-                      <FeaturedPetitions
-                        featured={featured}
-                        section={section}
-                        view={1}
-                        gap={0}
-                      />
-                    </Frame>
-                  );
-                }
+                return (
+                  <Frame key={index}>
+                    <FeaturedPetitions
+                      featured={featured}
+                      section={section}
+                      view={1}
+                      gap={0}
+                    />
+                  </Frame>
+                );
+              case "content.heading":
+                return <TagList key={index} tags={tags} />;
+
               default:
                 console.warn("Unknown section type:", section.__component);
                 return null;
