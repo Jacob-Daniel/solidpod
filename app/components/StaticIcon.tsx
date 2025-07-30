@@ -6,6 +6,7 @@ import {
   FaUserFriends,
   FaPenFancy,
   FaPen,
+  FaFire,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
@@ -15,6 +16,7 @@ const iconMap: Record<string, IconType> = {
   FaUserFriends,
   FaPenFancy,
   FaPen,
+  FaFire,
 };
 
 export default function StaticIcon({

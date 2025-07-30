@@ -1,8 +1,8 @@
 "use client";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Pagination } from "swiper/modules";
 import Link from "next/link";
-import ShowDate from "@/app/components/ShowDate";
+// import ShowDate from "@/app/components/ShowDate";
 import PetitionStatsCard from "@/app/components/PetitionStatsCard";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -89,17 +89,17 @@ function Text({
 }) {
 	return (
 		<div className="relative bottom-0 w-full mb-0 flex flex-col py-2 px-3 justify-evenly z-50 gap-y-2 bg-white">
-			{signatureCount > 100 && (
+			{/*			{signatureCount > 10 && (
 				<span
 					className="z-50 w-3 h-3 rounded-full bg-red-600 animate-pulse-hot absolute top-2 end-2"
 					title="Hot Petition!"
 				/>
-			)}
+			)}*/}
 			<Link href={route} className="block font-sans link font-bold">
 				{title}
 			</Link>
 			<PetitionStatsCard
-				signaturesCount={signatureCount}
+				signatureCount={signatureCount}
 				targetCount={targetCount}
 				title={title}
 				endDate={end_date}

@@ -1,8 +1,8 @@
 "use client";
-import { FaFire } from "react-icons/fa";
-
+import StaticIcon from "@/app/components/StaticIcon";
+import { formatDate } from "@/lib/clientFunctions";
 interface StatsCardProps {
-  signaturesCount: number;
+  signatureCount: number;
   targetCount: number;
   title: string;
   endDate: string;
@@ -11,7 +11,7 @@ interface StatsCardProps {
 }
 
 const PetitionStatsCard = ({
-  signaturesCount,
+  signatureCount,
   targetCount,
   title,
   endDate,
@@ -26,27 +26,26 @@ const PetitionStatsCard = ({
   };
 
   const progressPercentage = Math.min(
-    Math.round((signaturesCount / targetCount) * 100),
+    Math.round((signatureCount / targetCount) * 100),
     100,
   );
   const daysRemaining = Math.ceil(
     (new Date(endDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24),
   );
-
   return (
-    <div className="flex flex-row text-sm gap-3 justify-end w-full">
-      <StatBlock
-        value={signaturesCount}
-        label="Supporters"
-        icon="👥"
-        delta={15} // You would calculate this from your data
-      />
-      <StatBlock value={daysRemaining} label="Days left" icon="⏳" />
+    <div className="flex flex-row text-base gap-3 justify-end w-full">
+      <StatBlock value={signatureCount} label="Supporters" type="sup" />
+      <StatBlock value={daysRemaining} label="Days left" type="days" />
+
       {isActive(lastSignature) && (
-        <FaFire
-          className="text-yellow-600 animate-pulse-hot"
-          title="Active petition"
-        />
+        <span className="border border-gray-200 rounded px-2 py-1 text-xs">
+          {formatDate(new Date(lastSignature), true, true)} Last signature
+          <StaticIcon
+            iconName="faFire"
+            color="red"
+            className="mb-0 text-slate-600/40 block"
+          />
+        </span>
       )}
     </div>
   );
@@ -55,16 +54,29 @@ const PetitionStatsCard = ({
 const StatBlock = ({
   value,
   label,
-  icon,
+  type,
   delta,
 }: {
-  value: string | number;
+  value: number;
   label: string;
-  icon: string;
+  type: string;
   delta?: number;
 }) => (
-  <span className="border border-gray-200 rounded px-2 py-1 text-xs">
-    {value} {label}
+  <span className="border border-gray-200 rounded px-2 py-1 text-base">
+    {value} {label}{" "}
+    {type === "sup" && value > 10 && (
+      <StaticIcon
+        iconName="FaFire"
+        color=""
+        className="mb-0 inline text-yellow-500 animate-pulse"
+      />
+    )}{" "}
+    {type === "days" && value < 10 && (
+      <span
+        className="z-50 w-3 h-3 rounded-full bg-red-600 animate-pulse-hot inline-block"
+        title="Hot Petition!"
+      />
+    )}
   </span>
 );
 
