@@ -48,8 +48,12 @@ export default async function Resources() {
       </div>
     );
 
+  const img =
+    data?.banner?.image_versions.find((v) => v.version === "desktop")?.image ??
+    data?.banner?.image_versions[0]?.image;
+
   const blurDataUrl = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
+    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
   )
     .then((res) => res.arrayBuffer())
     .then(

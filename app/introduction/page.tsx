@@ -8,31 +8,9 @@ type Tags = {
   target: string;
   fragment: string;
 };
-// import BannerTop from "@/app/components/BannerTop";
-// import VolunteerIntro from "@/app/components/VolunteerIntro";
-// import PlaceSwiper from "@/app/components/PlaceSwiperWrapper";
-// const VolunteerIntro = dynamic(
-//   () => import("@/app/components/VolunteerIntro"),
-//   {
-//     loading: () => (
-//       <section className="grid grid-cols-12 col-span-12 md:gap-x-0 bg-white mb-16 bg-gray-400">
-//         Loading VolunteerIntro...
-//       </section>
-//     ),
-//   },
-// );
-// const PlaceSwiper = dynamic(() => import("@/app/components/PlaceSwiper"), {
-//   loading: () => (
-//     <section className="w-full gap-y-0 relative bg-gray-400">
-//       Loading Places...
-//     </section>
-//   ),
-// });
-// import SectionTabs from "@/app/components/SectionTabs";
 
 import { Page } from "@/lib/types";
-// import RichPageContentRender from "@/app/components/RichPageContentRender";
-// import H2 from "@/app/components/H2";
+
 async function fetchPage() {
   return getAPI<Page[]>(
     `/pages?filters[slug][$eq]=introduction&populate[banner][populate][image_versions][populate]=image&populate[sections][on][content.content][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][layout.navigation][populate][navigation_menu][populate]=*`,
@@ -47,13 +25,6 @@ export default async function Introduction() {
         <p className="text-black">No content available</p>
       </div>
     );
-  const blurDataUrl = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
-  )
-    .then((res) => res.arrayBuffer())
-    .then(
-      (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-    );
   const tags: Tags[] =
     data?.sections
       ?.filter((section) => section.__component === "content.content")
@@ -62,6 +33,18 @@ export default async function Introduction() {
         label: section?.anchor as string,
         target: "_self",
       })) ?? [];
+
+  const img =
+    data?.banner?.image_versions.find((v) => v.version === "desktop")?.image ??
+    data?.banner?.image_versions[0]?.image;
+
+  const blurDataUrl = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
+  )
+    .then((res) => res.arrayBuffer())
+    .then(
+      (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
+    );
 
   return (
     <main className="grid grid-cols-12 gap-y-5 md:gap-y-10">
