@@ -21,7 +21,7 @@ export default function SubLink({
 }: ILinks) {
 	const { setVisible } = useVisibility();
 	const pathname = usePathname()!.slice(1);
-	const active = slug === pathname ? "bg-yellow-300" : "";
+	const active = slug === pathname ? "text-blue-600" : "";
 	const { activeSubmenuId, closeSubmenu } = useNavigationContext();
 	const url = `${process.env.BASE_URL}/${slug}`;
 	// const url =
@@ -30,7 +30,7 @@ export default function SubLink({
 	// 	: `${process.env.BASE_URL}/${slug}`;
 	return (
 		<Link
-			className={`text-base font-bold align-bottom !hover:text-yellow-300 ${active} px-1`}
+			className={`text-base font-bold align-bottom hover:text-black/75 ${active} px-1`}
 			href={url}
 			onClick={(e) => {
 				// e.preventDefault();
