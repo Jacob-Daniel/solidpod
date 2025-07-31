@@ -22,12 +22,12 @@ export default function Intros({
 			className="inline-block md:inline md:col-span-6 lg:col-span-3 border border-gray-300 hover:shadow rounded p-5"
 		>
 			<div className="whitespace-normal grid justify-items-center items-center xl:mb-0 m-auto flex flex-col bg-white">
-				<h2 className="font-sans font-bold mb-1">{json.heading}</h2>
 				<StaticIcon
 					iconName={json.icon}
 					color={icon_colour}
 					className="text-xl mb-1 text-black/90 block"
 				/>
+				<h2 className="font-sans font-bold mb-1">{json.heading}</h2>
 
 				<p
 					className="leading-snug self-start text-center !p-0 text-base"

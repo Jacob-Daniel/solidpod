@@ -25,7 +25,7 @@ const NavLink = ({
 	const { setVisible } = useVisibility();
 	const pathname = usePathname()!.slice(1);
 	const active =
-		server_slug === pathname && type === "desktop" ? "!bg-yellow-300" : "";
+		server_slug === pathname && type === "desktop" ? "!text-blue-600" : "";
 	const { closeSubmenu } = useNavigationContext();
 	const handleClick = () => {
 		closeSubmenu;
@@ -34,7 +34,7 @@ const NavLink = ({
 	return (
 		<Link
 			data-link="link"
-			className={`text-base ${(type === "desktop" || type === "mobile") && "font-bold"} font-sans align-bottom ${active} p-1 ${is_button && "bg-green-300 px-1 py-[3px]"}`}
+			className={`text-base ${(type === "desktop" || type === "mobile") && "font-bold"} hover:text-black/75 font-sans align-bottom ${active} ${is_button && "border border-gray-300 rounded px-2 py-[5px]"}`}
 			href={`${process.env.BASE_URL}/${slug}`}
 			onClick={(e) => {
 				(handleClick(), onClick && onClick());

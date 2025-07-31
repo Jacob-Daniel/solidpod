@@ -18,6 +18,7 @@ async function fetchPage() {
 }
 
 async function fetchPetitions(jwt: string) {
+	console.log(jwt, "jwt");
 	return getAPIAuth<Petition>("/user-petitions", jwt);
 }
 

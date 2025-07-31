@@ -62,7 +62,7 @@ const StatBlock = ({
   type: string;
   delta?: number;
 }) => (
-  <span className="border border-gray-200 rounded px-2 py-1 text-base">
+  <span className="border border-gray-300 rounded px-1 py-[3px] text-base flex items-center gap-x-1 ">
     {value} {label}{" "}
     {type === "sup" && value > 10 && (
       <StaticIcon
@@ -73,7 +73,7 @@ const StatBlock = ({
     )}{" "}
     {type === "days" && value < 10 && (
       <span
-        className="z-50 w-3 h-3 rounded-full bg-red-600 animate-pulse-hot inline-block"
+        className="z-50 w-[10px] h-[10px] rounded-full bg-red-600 animate-pulse-hot inline"
         title="Hot Petition!"
       />
     )}

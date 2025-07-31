@@ -11,11 +11,8 @@ const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
 	const isLoggedIn = session && session.user;
 	const { setActiveSubmenuId, closeSubmenu, activeSubmenuId } =
 		useNavigationContext();
-
 	useWindowListener("click", closeSubmenu);
-
 	useEffect(() => {}, [activeSubmenuId]);
-
 	const handleMenuItemClick = (id: number) => {
 		setActiveSubmenuId(id);
 	};

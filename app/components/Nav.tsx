@@ -26,9 +26,9 @@ export default async function Nav({ type }: { type: string }) {
 	};
 
 	return (
-		<nav className="col-span-12 z-50 md:col-span-8 md:flex md:flex-col md:gap-y-1 md:pt-2 md:px-5 md:h-[100px] justify-start md:px-0 text-slate-800">
-			<List nav={user} type="user" />
+		<nav className="col-span-12 z-50 md:col-span-8 md:flex md:gap-x-5 md:h-[70px] justify-end md:px-0 text-slate-800">
 			<List nav={nav} type="desktop" />
+			<List nav={user} type="user" />
 			<NavModal
 				id="navModal"
 				nav={combinded}
