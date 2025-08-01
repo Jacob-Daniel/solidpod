@@ -1,40 +1,39 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import * as SolidClient from "@inrupt/solid-client";
-import solidSession from "./SolidSession"; // your singleton
+import {
+  login,
+  handleIncomingRedirect,
+  getDefaultSession,
+} from "@inrupt/solid-client-authn-browser";
+import { getSolidDataset, getThing, getIri } from "@inrupt/solid-client";
 
 export default function SolidLogin({ solidServer }) {
   const [webId, setWebId] = useState(null);
   const [podRoot, setPodRoot] = useState(null);
-  const [callbackUrl, setCallbackUrl] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const callback = new URL("/callback", window.location.origin).toString();
-      setCallbackUrl(callback);
-    }
-
     async function handleRedirect() {
-      await solidSession.handleIncomingRedirect({
+      await handleIncomingRedirect({
         restorePreviousSession: true,
       });
 
-      if (solidSession.info.isLoggedIn) {
-        const webId = solidSession.info.webId;
+      const session = getDefaultSession();
+
+      if (session.info.isLoggedIn) {
+        const webId = session.info.webId;
         setWebId(webId);
 
         try {
-          const profileDoc = await SolidClient.getSolidDataset(webId);
-          const profile = SolidClient.getThing(profileDoc, webId);
-          const podRoot = SolidClient.getIri(
+          const profileDoc = await getSolidDataset(webId);
+          const profile = getThing(profileDoc, webId);
+          const podRoot = getIri(
             profile,
             "http://www.w3.org/ns/pim/space#storage",
           );
           setPodRoot(podRoot);
         } catch (err) {
           console.error("Error loading profile or pod root", err);
-          setWebId(webId);
         }
       }
 
@@ -45,15 +44,13 @@ export default function SolidLogin({ solidServer }) {
   }, []);
 
   const handleLogin = async () => {
-    if (!callbackUrl) {
-      console.error("Missing callback URL");
-      return;
-    }
+    const callbackUrl = new URL("/callback", window.location.origin).toString();
+    console.log("Logging in with redirectUrl:", callbackUrl);
 
-    await solidSession.login({
-      clientName: "My Solid App",
+    await login({
       oidcIssuer: solidServer,
       redirectUrl: callbackUrl,
+      clientName: "My Solid App",
     });
   };
 
@@ -71,7 +68,10 @@ export default function SolidLogin({ solidServer }) {
       {!loading && !webId && (
         <>
           <p>Not logged in</p>
-          <button onClick={handleLogin} disabled={!callbackUrl}>
+          <button
+            className="border bg-white cursor-pointer p-2 py-1 rounded"
+            onClick={handleLogin}
+          >
             Login
           </button>
         </>

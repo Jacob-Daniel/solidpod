@@ -1,6 +1,5 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
-import Login from "../components/Login";
 // import FileUpload from "../components/FileUpload";
 // import FileViewer from "../components/FileViewer";
 import "./globals.css";
