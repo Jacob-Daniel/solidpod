@@ -15,9 +15,7 @@ export default function CallbackPage() {
   useEffect(() => {
     async function completeLogin() {
       await handleIncomingRedirect();
-
       const session = getDefaultSession();
-
       if (session.info.isLoggedIn) {
         setWebId(session.info.webId);
 
@@ -56,7 +54,7 @@ export default function CallbackPage() {
         <div>
           <p>Not logged in.</p>
           <Link href="/" className="text-blue-400">
-            Back to home
+            Home
           </Link>
         </div>
       )}

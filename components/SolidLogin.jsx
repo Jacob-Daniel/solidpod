@@ -45,8 +45,6 @@ export default function SolidLogin({ solidServer }) {
 
   const handleLogin = async () => {
     const callbackUrl = new URL("/callback", window.location.origin).toString();
-    console.log("Logging in with redirectUrl:", callbackUrl);
-
     await login({
       oidcIssuer: solidServer,
       redirectUrl: callbackUrl,
