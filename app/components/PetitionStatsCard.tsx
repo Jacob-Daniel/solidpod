@@ -38,12 +38,12 @@ const PetitionStatsCard = ({
       <StatBlock value={daysRemaining} label="Days left" type="days" />
 
       {isActive(lastSignature) && (
-        <span className="border border-gray-200 rounded px-2 py-1 text-xs">
-          {formatDate(new Date(lastSignature), true, true)} Last signature
+        <span className="border border-gray-300 rounded px-1 py-[3px] text-base flex items-center gap-x-1 ">
+          {formatDate(new Date(lastSignature), true, true, false)}
           <StaticIcon
-            iconName="faFire"
-            color="red"
-            className="mb-0 text-slate-600/40 block"
+            iconName="FaFire"
+            color=""
+            className="mb-0 text-yellow-500 animate-pulse w-[10px] h-[10px]"
           />
         </span>
       )}

@@ -63,6 +63,7 @@ export function formatDate(
 	date: Date | undefined | null,
 	abbrMonth: boolean = false,
 	abbrYear: boolean = false,
+	incDay: boolean = false,
 ): string {
 	if (!date) {
 		return "Invalid Date";
@@ -88,13 +89,13 @@ export function formatDate(
 	const month = abbrMonth
 		? monthNames[date.getMonth()].substring(0, 3)
 		: monthNames[date.getMonth()];
-	const day = dayNames[date.getDay()];
+	const day = incDay ? `${dayNames[date.getDay()]}${" "}` : "";
 
 	const year = abbrYear
 		? "'" + (date.getFullYear() % 100).toString().padStart(2, "0")
 		: date.getFullYear().toString();
 
-	return `${day} ${date.getDate()} ${month} ${year}`;
+	return `${day}${date.getDate()} ${month} ${year}`;
 }
 
 export function useWindowListener(eventType: string, listener: any) {

@@ -72,7 +72,10 @@ export default async function RootLayout({
                 </NavigationProvider>
               </div>
             </Header>
-            {children}
+            <div className="w-full max-w-[1500px] align-middle mx-auto">
+              {children}
+            </div>
+
             <Footer />
           </ClientBasketProvider>
         </SessionProvider>
