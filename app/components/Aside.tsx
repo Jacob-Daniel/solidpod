@@ -15,7 +15,7 @@ export default function aside({
 	const { address, managing_organisation, events, slug } = place;
 	const upcomingEvent = events && events.length > 0 ? events[0] : null;
 	return (
-		<aside className="bg-gray-200 p-3 rounded-xl shadow-sm space-y-4 col-span-12 md:col-span-4">
+		<aside className="bg-gray-200 p-3 rounded-xl shadow-sm space-y-4 col-span-12 md:col-span-4 dark:bg-inherit dark:text-white">
 			<h2 className="text-xl font-extrabold mb-0">{sidebar.heading}</h2>
 			<p className="text-sm text-gray-700">{sidebar.place.name}</p>
 

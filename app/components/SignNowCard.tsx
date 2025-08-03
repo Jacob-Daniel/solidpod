@@ -22,7 +22,7 @@ const SignNowCard = ({
     <div
       className={`w-full px-3 pb-3 relative mb-2 flex justify-center ${classes}`}
     >
-      <div className="h-[60px] bg-white px-7 pt-4 pb-4 rounded border-b w-65 border-gray-200 -top-12 absolute z-50 flex gap-x-7 justify-center items-center">
+      <div className="h-[60px] bg-white px-7 pt-4 pb-4 rounded border-b w-65 border-gray-200 dark:border-zinc-500 dark:border-zinc-500 -top-12 absolute z-50 flex gap-x-7 justify-center items-center">
         <button
           className="font-bold font-sans bg-yellow-400 rounded-md px-3 py-1 flex gap-x-1 items-center"
           onClick={handleClick}

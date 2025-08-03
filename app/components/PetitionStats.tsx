@@ -33,11 +33,11 @@ const PetitionStats = ({
   return (
     <div>
       {(sCount && (
-        <div className="bg-gray-50 border border-gray-200 px-3 py-1 rounded-xl shadow-sm">
-          <h2 className="text-xl font-semibold mb-2 font-sans">
+        <div className="bg-gray-50 dark:bg-inherit border border-gray-200 dark:border-zinc-500 dark:border-zinc-500 px-3 py-1 rounded-xl shadow-sm">
+          <h2 className="text-xl font-semibold mb-2 font-sans text-gray-800 dark:text-white">
             Petition Stats
           </h2>
-          <ul className="space-y-2 text-gray-800">
+          <ul className="space-y-2">
             <li>
               <strong>Total Signatures:</strong> {sCount}
             </li>
@@ -56,7 +56,7 @@ const PetitionStats = ({
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
-                <div className="text-sm text-gray-600 mt-1">
+                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                   {percentage}% of goal
                 </div>
               </li>

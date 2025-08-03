@@ -19,13 +19,13 @@ export default function Intros({
 	return (
 		<div
 			id={id}
-			className="inline-block md:inline md:col-span-6 lg:col-span-3 border border-gray-300 hover:shadow rounded p-5"
+			className="inline-block md:inline md:col-span-6 lg:col-span-3 border border-gray-300 dark:border-zinc-500 hover:shadow rounded p-5"
 		>
-			<div className="whitespace-normal grid justify-items-center items-center xl:mb-0 m-auto flex flex-col bg-white">
+			<div className="whitespace-normal grid justify-items-center items-center xl:mb-0 m-auto flex flex-col bg-white dark:bg-inherit">
 				<StaticIcon
 					iconName={json.icon}
 					color={icon_colour}
-					className="text-xl mb-1 text-black/90 block"
+					className="text-xl mb-1 text-black/90 dark:text-white block"
 				/>
 				<h2 className="font-sans font-bold mb-1">{json.heading}</h2>
 

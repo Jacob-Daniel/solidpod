@@ -64,7 +64,7 @@ export default function AuthTabs() {
 
 const Button: React.FC<IButton> = ({ isActive, title, onShow }) => (
 	<button
-		className={`font-sans border inline-block px-2 py-[2px] font-bold cursor-pointer rounded md:px-2 ${isActive ? "border-yellow-400" : "border-gray-300"}`}
+		className={`font-sans border inline-block px-2 py-[2px] font-bold cursor-pointer rounded md:px-2 ${isActive ? "border-yellow-400" : "border-gray-300 dark:border-zinc-500"}`}
 		onClick={onShow}
 	>
 		{title}

@@ -38,7 +38,7 @@ const PetitionStatsCard = ({
       <StatBlock value={daysRemaining} label="Days left" type="days" />
 
       {isActive(lastSignature) && (
-        <span className="border border-gray-300 rounded px-1 py-[3px] text-base flex items-center gap-x-1 ">
+        <span className="border border-gray-300 dark:border-zinc-500 rounded px-1 py-[3px] text-base flex items-center gap-x-1 ">
           {formatDate(new Date(lastSignature), true, true, false)}
           <StaticIcon
             iconName="FaFire"
@@ -62,7 +62,7 @@ const StatBlock = ({
   type: string;
   delta?: number;
 }) => (
-  <span className="border border-gray-300 rounded px-1 py-[3px] text-base flex items-center gap-x-1 ">
+  <span className="border border-gray-300 dark:border-zinc-500 rounded px-1 py-[3px] text-base flex items-center gap-x-1 ">
     {value} {label}{" "}
     {type === "sup" && value > 10 && (
       <StaticIcon
