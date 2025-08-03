@@ -21,7 +21,7 @@ const UL = ({
 				type !== "sidebar" &&
 				menu.navigation_menu.navigation_items instanceof Array &&
 				menu.navigation_menu.navigation_items.map((item) => (
-					<li className={`${classNameLi}`} key={item.id}>
+					<li className={`${classNameLi} dark:text-white`} key={item.id}>
 						<Link
 							onClick={onNavItemClick}
 							href={

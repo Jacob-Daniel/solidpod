@@ -54,7 +54,7 @@ export default async function Introduction() {
         </div>
       )}
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 md:pb-[250px]">
-        <div className="md:border md:border-gray-200 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
+        <div className="md:border md:border-gray-200 dark:border-zinc-500 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
           {data &&
             data.sections instanceof Array &&
             data.sections.map((section, index) => {
@@ -79,7 +79,7 @@ export default async function Introduction() {
               }
             })}
         </div>
-        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-gray-200 bg-gray-100 shadow relative">
+        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-gray-200 dark:border-zinc-500 bg-gray-100 shadow relative  dark:bg-inherit dark:text-white">
           {" "}
           {data &&
             data.sidebar instanceof Array &&
@@ -94,7 +94,7 @@ export default async function Introduction() {
                       <UlPageContentAnchors
                         list={tags}
                         type="sidebar"
-                        className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar"
+                        className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar text-slate-800 dark:text-white"
                         classNameLi="pb-1 !leading-none"
                         page="introduction"
                       />

@@ -28,11 +28,11 @@ export default function FeaturedSwiper({
 					return (
 						<div
 							key={index}
-							className="col-span-12 md:col-span-4 overflow-hidden border rounded border-gray-300 hover:shadow"
+							className="col-span-12 md:col-span-4 overflow-hidden border rounded border-gray-300 dark:border-zinc-500 hover:shadow"
 						>
 							<Link
 								href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
-								className="petition relative block max-h-[150px] md:max-h-[130px] xl:max-h-[180px]"
+								className="petition relative block"
 							>
 								{petition.image.url && (
 									<BlurDataImageClient
@@ -88,7 +88,7 @@ function Text({
 	lastSignature: string;
 }) {
 	return (
-		<div className="relative bottom-0 w-full mb-0 flex flex-col py-2 px-3 justify-evenly z-50 gap-y-2 bg-white">
+		<div className="relative bottom-0 w-full mb-0 flex flex-col pb-2 pt-1 px-3 justify-evenly z-50 gap-y-2 bg-white dark:bg-inherit">
 			<Link href={route} className="block font-sans link font-bold">
 				{title}
 			</Link>

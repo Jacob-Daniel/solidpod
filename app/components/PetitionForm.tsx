@@ -246,7 +246,7 @@ export default function PetitionForm({
   }
   return (
     <section
-      className="col-span-12"
+      className="col-span-12 text-sm"
       style={{ backgroundColor: section.bg_colour }}
     >
       {section.heading && (

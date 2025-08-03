@@ -20,7 +20,7 @@ export default function TagList({ tags }: { tags: Tags[] }) {
           <Link
             key={tag.id}
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/petitions/tag/${tag.slug}`}
-            className={`px-3 py-1 border border-gray-300 rounded text-base hover:shadow transition ${colorClass}`}
+            className={`px-3 py-1 border border-gray-300 dark:border-zinc-500 rounded text-base hover:shadow transition ${colorClass}`}
           >
             {tag.name}
           </Link>

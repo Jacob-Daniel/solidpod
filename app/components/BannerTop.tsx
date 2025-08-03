@@ -9,7 +9,7 @@ export default function BannerTop({
 	blurDataUrl: string;
 }) {
 	return (
-		<div className="col-span-12 relative mt-[0px] bg-gray-200">
+		<div className="col-span-12 relative mt-[0px] bg-gray-200 dark:border dark:border-zinc-500">
 			<div className="col-span-12 h-full">
 				<div id="banner" className="relative z-10">
 					<div className="w-full relative">

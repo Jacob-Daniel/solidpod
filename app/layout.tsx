@@ -58,9 +58,9 @@ export default async function RootLayout({
     "/site-config?populate[social_media][populate]=*",
   );
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans`}
+        className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans dark:bg-zinc-800 text-black dark:text-white`}
       >
         <SessionProvider basePath={process.env.BASE_AUTH_PATH}>
           <ClientBasketProvider>

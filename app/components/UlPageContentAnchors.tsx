@@ -41,7 +41,7 @@ const UlPageContentAnchors = ({
 	};
 	const activeId = useScrollSpy(tags.map(({ fragment }) => fragment));
 	return (
-		<ul className={`flex flex-col text-slate-800 ${className}`}>
+		<ul className={`flex flex-col ${className}`}>
 			{tags &&
 				tags instanceof Array &&
 				tags.map((item, index) => (
@@ -53,7 +53,7 @@ const UlPageContentAnchors = ({
 								handleScroll(e);
 							}}
 							href={`${process.env.NEXT_PUBLIC_BASE_URL}/${page}#${item.fragment}`}
-							className={`cursor-pointer capitalize inline text-sm text-slate-800 ${activeId === item.fragment && "ps-0 !text-slate-500"}`}
+							className={`cursor-pointer capitalize inline text-sm ${activeId === item.fragment && "ps-0 !text-slate-500"}`}
 							target={item.target}
 						>
 							{activeId === item.fragment && (

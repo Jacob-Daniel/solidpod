@@ -60,7 +60,7 @@ export default async function MyPetitions() {
 		return (
 			<main className="grid grid-cols-12 col-span-12 mb-20 pt-5">
 				<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-7">
-					<section className="col-span-12 md:col-span-9 border border-gray-300 p-3 rounded">
+					<section className="col-span-12 md:col-span-9 border border-gray-300 dark:border-zinc-500 p-3 rounded">
 						<CreateAccountSuccess />
 						{data &&
 							data.sections instanceof Array &&
@@ -185,7 +185,7 @@ export default async function MyPetitions() {
 								}
 							})}
 					</section>
-					<aside className="flex-1 col-span-12 md:col-span-3 flex flex-col gap-y-7 border p-3 rounded border-gray-200 bg-gray-100 shadow relative">
+					<aside className="flex-1 col-span-12 md:col-span-3 flex flex-col gap-y-7 border p-3 rounded border-gray-200 dark:border-zinc-500 bg-gray-100 shadow relative">
 						{data &&
 							data.sidebar instanceof Array &&
 							data.sidebar.map((block, index: number) => {

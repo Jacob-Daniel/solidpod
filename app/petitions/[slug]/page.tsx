@@ -135,7 +135,7 @@ const PageContent = ({
 		<section className="col-span-12 md:col-span-8 flex flex-col justify-start">
 			<Suspense fallback={<div>Loading images...</div>}>
 				<BlurServerImage
-					className="z-50 mb-3 lg:mb-5 w-full"
+					className="z-50 mb-3 lg:mb-5 w-full dark:border dark:border-gray-300"
 					title={petition.title}
 					imageUrl={petition.image.url}
 					shadow={false}
