@@ -14,7 +14,9 @@ export default function CallbackPage() {
 
   useEffect(() => {
     async function completeLogin() {
+      console.log("Before redirect handling:", window.location.href);
       await handleIncomingRedirect();
+      console.log("After redirect handling:", window.location.href);
       const session = getDefaultSession();
       if (session.info.isLoggedIn) {
         setWebId(session.info.webId);

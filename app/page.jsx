@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { login, getDefaultSession } from "@inrupt/solid-client-authn-browser";
 
 export default function Home() {
-  const [solidServer] = useState("https://gardenmap.jacobdaniel.co.uk/");
+  const [solidServer] = useState("https://solidcommunity.net");
 
   const [webId, setWebId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,9 +19,11 @@ export default function Home() {
   }, []);
 
   const handleLogin = async () => {
+    const callbackUrl = new URL("/callback", window.location.origin).toString();
+    console.log(callbackUrl);
     await login({
       oidcIssuer: "https://gardenmap.jacobdaniel.co.uk",
-      redirectUrl: "https://solidpod.jacobdaniel.co.uk/callback",
+      redirectUrl: "http://localhost:3002/callback",
       clientName: "My Solid App",
     });
   };
