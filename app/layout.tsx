@@ -5,6 +5,7 @@ import { siteMetadata } from "@/lib/utils";
 import "./globals.css";
 import { Karla } from "next/font/google";
 import Logo from "@/app/components/Logo";
+import ThemeToggle from "@/app/components/ThemeToggle";
 import Nav from "@/app/components/Nav";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
@@ -58,15 +59,16 @@ export default async function RootLayout({
     "/site-config?populate[social_media][populate]=*",
   );
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
         className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans dark:bg-zinc-800 text-black dark:text-white`}
       >
         <SessionProvider basePath={process.env.BASE_AUTH_PATH}>
           <ClientBasketProvider>
             <Header>
-              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-gray-300">
+              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-gray-300 relative">
                 <Logo tagline={data.tagline} />
+                <ThemeToggle type="desktop" />
                 <NavigationProvider>
                   <Nav type="main" />
                 </NavigationProvider>

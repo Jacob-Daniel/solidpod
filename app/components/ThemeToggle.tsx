@@ -1,21 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StaticIcon from "@/app/components/StaticIcon";
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ type }: { type: string }) {
   const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-    const initialTheme = stored === "dark" || (!stored && systemPrefersDark);
-
-    setIsDark(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme);
-  }, []);
 
   const toggleTheme = () => {
     const newTheme = !isDark;
@@ -27,13 +16,13 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="rounded-full p-0 cursor-pointer transition-colors"
+      className={`hidden md:block absolute end-0 top-2 p-0 cursor-pointer transition-colors z-50`}
       aria-label="Toggle Dark Mode"
     >
       {isDark ? (
-        <StaticIcon iconName="FaMoon" className="text-gray-400" />
+        <StaticIcon iconName="FaMoon" className="text-gray-400 md:h-3 md:w-3" />
       ) : (
-        <StaticIcon iconName="FaSun" className="text-gray-400" />
+        <StaticIcon iconName="FaSun" className="text-gray-400 md:h-3 md:w-3" />
       )}
     </button>
   );
