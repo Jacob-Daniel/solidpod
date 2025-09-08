@@ -19,7 +19,7 @@ export default async function Footer(): Promise<JSX.Element> {
 		<footer
 			className={`relative z-30 grid grid-cols-12 col-span-12 w-full m-0 mt-16 max-w-[1500px] align-middle mx-auto dark:text-white`}
 		>
-			<div className="lg:col-start-2 col-span-12 lg:col-span-10 w-full pt-5 pb-16 px-5 lg:px-0 max-w-[1850px] 2xl:mx-auto text-sm border-top border-t-gray-300 border-t-1">
+			<div className="lg:col-start-2 col-span-12 lg:col-span-10 w-full pt-5 pb-16 px-5 lg:px-0 max-w-[1850px] 2xl:mx-auto text-sm border-top border-t-gray-300 border-t-1 dark:border-zinc-800">
 				<div className="flex flex-wrap justify-start gap-y-10 z-50 !text-sm">
 					{Object.entries(footer).map(([key, value]) => {
 						if (Array.isArray(value) && value.length > 0) {

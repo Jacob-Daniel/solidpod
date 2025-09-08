@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { getAPI } from "@/lib/functions";
-import FeaturedPetitions from "@/app/components/FeaturedPetitions";
+import FeaturedSwiper from "@/app/components/FeaturedSwiper";
 import BannerTop from "@/app/components/BannerTop";
 
 import {
@@ -9,16 +9,16 @@ import {
   FeaturedSection,
   PlacesSection,
   SharedSEO,
-  Petition,
+  Category,
 } from "@/lib/types";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 import H2 from "@/app/components/H2";
 
 export default async function Petitions() {
   const [featured, [data]] = await Promise.all([
-    getAPI<Petition[]>("/featured-petitions"),
+    getAPI<Category[]>("/categories?populate=*"),
     getAPI<Page[]>(
-      "/pages?filters[slug][$eq]=petitions&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*",
+      "/pages?filters[slug][$eq]=archive&populate[banner][populate][image_versions][populate]=image",
     ),
   ]);
 
@@ -61,11 +61,11 @@ export default async function Petitions() {
                     className="relative col-span-12 grid grid-cols-12 pb-20"
                   >
                     <Frame section={section}>
-                      <FeaturedPetitions
+                      <FeaturedSwiper
                         featured={featured}
                         section={section}
-                        view={3}
-                        gap={30}
+                        view={-0}
+                        gap={0}
                       />
                     </Frame>
                   </div>

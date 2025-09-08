@@ -52,11 +52,11 @@ export default async function DynamicPage({
   if (!data) notFound();
   return (
     <main className="grid grid-cols-12 gap-y-10">
-      {data.banner && data.banner.image_versions[0].image.url && (
+      {/*      {data.banner && data.banner.image_versions[0].image.url && (
         <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-          <BannerTop banner={data.banner} />
+          <BannerTop banner={data.banner} blurDataUrl={} />
         </div>
-      )}
+      )}*/}
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">
         {data &&
           data.sections instanceof Array &&

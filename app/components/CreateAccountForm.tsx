@@ -140,14 +140,14 @@ const AccountForm = () => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex flex-col gap-y-3 p-5 rounded w-full border border-gray-300 dark:border-zinc-500"
+			className="flex flex-col gap-y-3 p-5 rounded w-full border border-gray-300 dark:border-zinc-800"
 		>
 			<div className="text-left">
 				<label htmlFor="username" className="font-bold">
 					Name:
 				</label>
 				<input
-					className="border border-gray-300 dark:border-zinc-500 px-1 w-full"
+					className="border border-gray-300 dark:border-zinc-800 px-1 w-full"
 					type="text"
 					name="username"
 					minLength={3}
@@ -163,7 +163,7 @@ const AccountForm = () => {
 					Last Name:
 				</label>
 				<input
-					className="border border-gray-300 dark:border-zinc-500 px-1 w-full"
+					className="border border-gray-300 dark:border-zinc-800 px-1 w-full"
 					type="text"
 					name="last_name"
 					minLength={3}
@@ -179,7 +179,7 @@ const AccountForm = () => {
 					Postcode:
 				</label>
 				<input
-					className="border border-gray-300 dark:border-zinc-500 px-1 w-full"
+					className="border border-gray-300 dark:border-zinc-800 px-1 w-full"
 					type="text"
 					name="postcode"
 					minLength={6}
@@ -195,7 +195,7 @@ const AccountForm = () => {
 					Mobile:
 				</label>
 				<input
-					className="border border-gray-300 dark:border-zinc-500 px-1 w-full"
+					className="border border-gray-300 dark:border-zinc-800 px-1 w-full"
 					type="text"
 					name="mobile"
 					required
@@ -209,7 +209,7 @@ const AccountForm = () => {
 					Password:
 				</label>
 				<input
-					className="border border-gray-300 dark:border-zinc-500 px-1 w-full"
+					className="border border-gray-300 dark:border-zinc-800 px-1 w-full"
 					type="password"
 					name="password"
 					autoComplete="off"
@@ -223,7 +223,7 @@ const AccountForm = () => {
 					Email:
 				</label>
 				<input
-					className="border border-gray-300 dark:border-zinc-500 px-1 w-full"
+					className="border border-gray-300 dark:border-zinc-800 px-1 w-full"
 					type="email"
 					name="email"
 					required
@@ -236,14 +236,14 @@ const AccountForm = () => {
 				<button
 					type="submit"
 					disabled={processing}
-					className={`p-1 px-2 font-bold border border-green-300 rounded cursor-pointer ${processing ? "bg-gray-400" : ""}`}
+					className={`p-1 px-2 font-bold border border-gray-300 rounded cursor-pointer ${processing ? "bg-gray-400" : ""}`}
 				>
 					{processing ? "processing ..." : "Submit"}
 				</button>
 			</div>
 			<div>
 				<p
-					className={`p-2 ${account.errorMessage === "" ? "d-hidden" : "d-block border-red-200 border text-red-400"} ${account.successMessage === "" ? "d-hidden" : "d-block border-green3200 border text-green-400"}`}
+					className={`p-2 ${account.errorMessage === "" ? "d-hidden" : "d-block border-red-200 border text-red-400"} ${account.successMessage === "" ? "d-hidden" : "d-block border-green-200 border text-green-400"}`}
 				>
 					{account.errorMessage || account.successMessage}
 				</p>

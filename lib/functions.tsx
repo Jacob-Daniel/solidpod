@@ -26,6 +26,7 @@ export async function getFiles(name: string): Promise<Files> {
 }
 
 export async function getAPI<T>(query: string): Promise<T> {
+	// console.log(process.env.NEXT_PUBLIC_STRAPI_API + query);
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_STRAPI_API}${query}`,
 		{

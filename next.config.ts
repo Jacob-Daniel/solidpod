@@ -21,8 +21,8 @@ const nextConfig: NextConfig = {
   env: {
     STRAPI_BASE_URL: "http://localhost:1335",
     STRAPI_API_URL: "http://localhost:1335/api",
-    BASE_URL: "http://localhost:3000",
-    COMPANY_NAME: "Petition",
+    BASE_URL: "http://localhost:3019",
+    COMPANY_NAME: "Community Archive",
   },
   images: {
     domains: ["localhost"], // or your Strapi domain

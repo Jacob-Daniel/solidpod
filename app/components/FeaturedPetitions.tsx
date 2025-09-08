@@ -28,7 +28,7 @@ export default function FeaturedSwiper({
 					return (
 						<div
 							key={index}
-							className="col-span-12 md:col-span-4 overflow-hidden border rounded border-gray-300 dark:border-zinc-500 hover:shadow"
+							className="col-span-12 md:col-span-4 overflow-hidden border rounded border-gray-300 dark:border-zinc-800 hover:shadow"
 						>
 							<Link
 								href={`${process.env.BASE_URL}/petitions/${petition.slug}`}
