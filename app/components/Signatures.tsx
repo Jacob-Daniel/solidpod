@@ -71,7 +71,7 @@ const Signatures = ({ signatures, totalCount, pageSize, slug }: Props) => {
           {items.map((sig) => (
             <li
               key={sig.id}
-              className="p-4 border rounded-md border-gray-300 dark:border-zinc-500 animate-fade-in"
+              className="p-4 border rounded-md border-gray-300 dark:border-zinc-800 animate-fade-in"
             >
               <p className="text-sm text-gray-500">
                 Signed on:{" "}

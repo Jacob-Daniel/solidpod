@@ -1,18 +1,24 @@
-// app/logout/page.tsx
 "use client";
 
 import { useEffect } from "react";
-import { signOut } from "next-auth/react";
+import { useSolidSession } from "@/lib/sessionContext"; // your Solid session hook
+import { useRouter } from "next/navigation";
 
 export default function LogoutPage() {
+  const { logout } = useSolidSession();
+  const router = useRouter();
+
   useEffect(() => {
-    // Trigger logout on load, then redirect
-    signOut({ callbackUrl: "/" });
-  }, []);
+    async function handleLogout() {
+      await logout();
+      router.push("/");
+    }
+    handleLogout();
+  }, [logout, router]);
 
   return (
     <div className="pb-20 px-5">
-      <div className="lg:min-h-[600px] z-50 col-span-12 grid grid-cols-12 col-span-12 lg:px-0 lg:col-start-2 lg:col-span-10">
+      <div className="lg:min-h-[600px] z-50 col-span-12 grid grid-cols-12 lg:px-0 lg:col-start-2 lg:col-span-10">
         <section className="z-50 min-h-[100%] col-span-12 md:col-start-5 md:col-span-4 justify-center py-10 pt-20 md:pt-32">
           <h2 className="text-3xl z-50 font-sans">
             Logging Out and Redirecting ...

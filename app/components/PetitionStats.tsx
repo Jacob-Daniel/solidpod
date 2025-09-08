@@ -33,7 +33,7 @@ const PetitionStats = ({
   return (
     <div>
       {(sCount && (
-        <div className="bg-gray-50 dark:bg-inherit border border-gray-200 dark:border-zinc-500 dark:border-zinc-500 px-3 py-1 rounded-xl shadow-sm">
+        <div className="bg-gray-50 dark:bg-inherit border border-gray-200 dark:border-zinc-800 dark:border-zinc-800 px-3 py-1 rounded-xl shadow-sm">
           <h2 className="text-xl font-semibold mb-2 font-sans text-gray-800 dark:text-white">
             Petition Stats
           </h2>

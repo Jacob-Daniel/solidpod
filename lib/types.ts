@@ -6,6 +6,7 @@ import {
 
 import { CreateBasketResponse } from "@/lib/userTypes";
 import { Metadata } from "next";
+import { Icon } from "next/dist/lib/metadata/types/metadata-types";
 
 export * from "./dynamicTypes";
 
@@ -267,6 +268,7 @@ export type InfoCard = {
 	heading: string;
 	text: string;
 	icon: string;
+	slug: MenuItem;
 };
 
 export type InfoCardSection = {
@@ -558,6 +560,16 @@ export interface Petition extends BaseDoc, PetitionMeta {
 	signatures: Signature[];
 	status: string;
 	last_signature: string;
+}
+
+export interface Category extends BaseDoc {
+	name: string;
+	slug: string;
+	description: string;
+	banner: Banner;
+	tags: Tags;
+	parent: Category;
+	icon: Icon;
 }
 
 export interface API {

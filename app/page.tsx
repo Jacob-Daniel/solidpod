@@ -1,35 +1,14 @@
 import { ReactNode } from "react";
 import { getAPI } from "@/lib/functions";
-import FeaturedPetitions from "@/app/components/FeaturedPetitions";
+import FeaturedSwiper from "@/app/components/FeaturedSwiper";
 import IntroCards from "@/app/components/IntroCards";
 import BannerTop from "@/app/components/BannerTop";
 import TagList from "@/app/components/TagList";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
-import { InfoCard, Page, Petition, Tags } from "@/lib/types";
-
-// import BannerTop from "@/app/components/BannerTop";
-// import VolunteerIntro from "@/app/components/VolunteerIntro";
-// import PlaceSwiper from "@/app/components/PlaceSwiperWrapper";
-// const VolunteerIntro = dynamic(
-//   () => import("@/app/components/VolunteerIntro"),
-//   {
-//     loading: () => (
-//       <section className="grid grid-cols-12 col-span-12 md:gap-x-0 bg-white mb-16 bg-gray-400">
-//         Loading VolunteerIntro...
-//       </section>
-//     ),
-//   },
-// );
-// const PlaceSwiper = dynamic(() => import("@/app/components/PlaceSwiper"), {
-//   loading: () => (
-//     <section className="w-full gap-y-0 relative bg-gray-400">
-//       Loading Places...
-//     </section>
-//   ),
-// });
+import { InfoCard, Page, Category, Tags } from "@/lib/types";
 
 async function fetchFeaturedPeitions() {
-  return getAPI<Petition[]>("/featured-petitions");
+  return getAPI<Category[]>("/categories?populate=*");
 }
 
 async function fetchTags() {
@@ -38,7 +17,7 @@ async function fetchTags() {
 
 async function fetchHomePage() {
   return getAPI<Page[]>(
-    "/pages?filters[slug][$eq]=home&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.heading][populate]=*&populate[sections][on][layout.info-card-section][populate]=*",
+    "/pages?filters[slug][$eq]=home&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.heading][populate]=*&populate[sections][on][layout.info-card-section][populate][info_card][populate]=*",
   );
 }
 
@@ -108,10 +87,10 @@ export default async function Home() {
               case "layout.featured":
                 return (
                   <Frame key={index}>
-                    <FeaturedPetitions
+                    <FeaturedSwiper
                       featured={featured}
                       section={section}
-                      view={1}
+                      view={-0}
                       gap={0}
                     />
                   </Frame>
@@ -129,14 +108,5 @@ export default async function Home() {
   );
 }
 function Frame({ children }: { children: ReactNode }) {
-  return (
-    <section className="col-span-12  mb-5 gap-y-5 lg:px-0 mb-16">
-      {/*      <h2 className="font-sans font-bold mb-3 text-md md:text-lg lg:text-2xl">
-        Petitions
-      </h2>*/}
-      <div className="relative col-span-12 grid grid-cols-12 gap-y-5 md:gap-x-5">
-        {children}
-      </div>
-    </section>
-  );
+  return <div className="relative col-span-12 mb-20">{children}</div>;
 }

@@ -5,7 +5,7 @@ export default function Header({ children }: { children: ReactNode }) {
 	return (
 		<header
 			id="top"
-			className="grid grid-cols-12 w-full h-[70px] max-w-[1500px] align-middle mx-auto"
+			className="grid grid-cols-12 w-full h-[70px] max-w-[1500px] align-middle mx-auto mb-5"
 		>
 			{children}
 		</header>

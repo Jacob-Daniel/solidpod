@@ -34,6 +34,7 @@ export default function RichContentRenderer({
 	return (
 		<>
 			{blocks.map((block, index) => {
+				console.log(block.type, "type");
 				switch (block.type) {
 					case "paragraph": {
 						return (

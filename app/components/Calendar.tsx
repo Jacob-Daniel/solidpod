@@ -90,7 +90,7 @@ export default function Calendar({ events }: { events: Event[] }) {
 			/>
 			{!isLoading && (
 				<button
-					className="border border-gray-300 dark:border-zinc-500 px-1 cursor-pointer w-full mt-2"
+					className="border border-gray-300 dark:border-zinc-800 px-1 cursor-pointer w-full mt-2"
 					onClick={() => reset()}
 				>
 					Reset

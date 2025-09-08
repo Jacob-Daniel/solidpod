@@ -2,25 +2,15 @@ import Link from "next/link";
 import type { Tags } from "@/lib/types";
 
 export default function TagList({ tags }: { tags: Tags[] }) {
-  const bgColors = [
-    "bg-red-100 text-red-800",
-    "bg-blue-100 text-blue-800",
-    "bg-green-100 text-green-800",
-    "bg-yellow-100 text-yellow-800",
-    "bg-purple-100 text-purple-800",
-    "bg-pink-100 text-pink-800",
-    "bg-teal-100 text-teal-800",
-    "bg-orange-100 text-orange-800",
-  ];
   return (
-    <div className="col-span-12 flex flex-wrap gap-2">
+    <div className="col-span-6 flex flex-wrap gap-2 justify-center">
       {tags.map((tag, index) => {
-        const colorClass = bgColors[index % bgColors.length];
+        const colorClass = "";
         return (
           <Link
             key={tag.id}
-            href={`${process.env.NEXT_PUBLIC_BASE_URL}/petitions/tag/${tag.slug}`}
-            className={`px-3 py-1 border border-gray-300 dark:border-zinc-500 rounded text-base hover:shadow transition ${colorClass}`}
+            href={`${process.env.NEXT_PUBLIC_BASE_URL}/archive/tag/${tag.slug}`}
+            className={`px-3 py-1 border border-gray-300 dark:border-zinc-800 rounded text-base hover:shadow transition ${colorClass} hover:border-gray-400`}
           >
             {tag.name}
           </Link>

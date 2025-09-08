@@ -1,81 +1,66 @@
 "use client";
 import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useWindowListener } from "@/lib/clientFunctions";
 import ListItem from "@/app/components/ListItem";
-import { MenuItem, INavigationItems, Session } from "@/lib/types";
+import { INavigationItems } from "@/lib/types";
 import { useNavigationContext } from "@/lib/NavigationContext";
-import { useSession } from "next-auth/react";
+import { useSolidSession } from "@/lib/sessionContext";
+import { formatMenuItems } from "@/lib/formatMenuItems";
 
-const List = ({ nav, type }: { nav: INavigationItems; type: string }) => {
-	const { data: session } = useSession();
-	const isLoggedIn = session && session.user;
+const List = ({
+	nav,
+	user,
+}: {
+	nav: INavigationItems;
+	user: INavigationItems;
+}) => {
+	let items;
+	const pathname = usePathname();
+	const { isLoggedIn, fullName } = useSolidSession();
 	const { setActiveSubmenuId, closeSubmenu, activeSubmenuId } =
 		useNavigationContext();
+
 	useWindowListener("click", closeSubmenu);
 	useEffect(() => {}, [activeSubmenuId]);
-	const handleMenuItemClick = (id: number) => {
-		setActiveSubmenuId(id);
-	};
-	const formatMenuItems = (items: MenuItem[]) => {
-		return (
-			items &&
-			items instanceof Array &&
-			items
-				.filter((item) => !item.parent)
-				.map((item) => {
-					const isLoginItem = item.label.toLowerCase() === "login";
-					const isMyPetitions = item.slug.toLowerCase() === "my-petitions";
-					const isNewPetition = item.slug.toLowerCase() === "new-petition";
-					const userDisplayName = session?.user?.name || "My Petitions";
 
-					const modifiedItem = {
-						...item,
-						server_slug: item.slug,
-						slug:
-							isLoginItem && isLoggedIn
-								? "/logout"
-								: isNewPetition && !isLoggedIn
-									? "login"
-									: item.slug,
-						label:
-							isLoginItem && isLoggedIn
-								? "Logout"
-								: isMyPetitions && isLoggedIn
-									? userDisplayName
-									: item.label,
-					};
-					if (isMyPetitions && !isLoggedIn) return null;
-					return (
-						<li
-							key={modifiedItem.id}
-							data-id={modifiedItem.id}
-							className={`md:z-30 justify-center align-baseline text-center capitalize transition-opacity mb-3 md:mb-0 ${
-								modifiedItem.is_parent
-									? "flex-col flex md:flex md:flex-row"
-									: ""
-							}`}
-							onClick={(e) => {
-								e.stopPropagation();
-								handleMenuItemClick(modifiedItem.id);
-							}}
-						>
-							<ListItem
-								type={type}
-								link={modifiedItem}
-								data={modifiedItem.children || []}
-							/>
-						</li>
-					);
-				})
-		);
-	};
-
+	const isDashboard = pathname.startsWith("/dashboard");
+	if (isDashboard && user) {
+		items = formatMenuItems(user.navigation_items, {
+			isLoggedIn,
+			fullName,
+		});
+	} else {
+		items = formatMenuItems(nav.navigation_items, {
+			isLoggedIn,
+			fullName,
+		});
+	}
 	return (
 		<ul
-			className={`relative text-slate-800 z-30 col-span-12 align-middle justify-center md:justify-end md:flex items-center gap-x-3 ${type === "desktop" ? "hidden md:gap-x-5 xl:gap-x-7 " : "md:block"} ${type === "user" && "hidden md:block"}`}
+			className={`relative text-slate-800 z-30 col-span-12 align-middle justify-center md:justify-end md:flex items-center gap-x-3
+        ${isDashboard ? "hidden md:block" : "hidden md:gap-x-5 xl:gap-x-7"}
+      `}
 		>
-			{formatMenuItems(nav.navigation_items)}
-			{/*<SearchModal id="navbarSearchModal" display="hidden md:flex" />*/}
+			{items.map((item) => (
+				<li
+					key={item.id}
+					data-id={item.id}
+					className={`md:z-30 justify-center align-baseline text-center capitalize transition-opacity mb-3 md:mb-0 ${
+						item.is_parent ? "flex-col flex md:flex md:flex-row" : ""
+					}`}
+					onClick={(e) => {
+						e.stopPropagation();
+						setActiveSubmenuId(item.id);
+					}}
+				>
+					<ListItem
+						type={isDashboard ? "user" : "desktop"}
+						link={item}
+						data={item.children || []}
+					/>
+				</li>
+			))}
 		</ul>
 	);
 };

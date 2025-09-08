@@ -11,19 +11,15 @@ import img from "@/public/images/logo.webp";
 export default function Logo({ tagline }: { tagline: string }) {
 	return (
 		<Container>
-			<h1 className="inline-block w-[40px]">
+			<h1 className="inline-block">
 				<Link
 					title="home page link"
 					className="relative"
 					href={process.env.BASE_URL as string}
 				>
-					<Image src={img} width={40} height={40} alt="home page link" />
-				</Link>
-				<span className=" -indent-[9999px] absolute">
 					{process.env.COMPANY_NAME as string}
-				</span>
+				</Link>
 			</h1>
-			{/*<span className="text-sm hidden md:inline">{tagline}</span>*/}
 		</Container>
 	);
 }

@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  FaHeart,
-  FaBullhorn,
-  FaUserFriends,
-  FaPenFancy,
+  FaInfoCircle,
+  FaPlayCircle,
+  FaArchive,
+  FaGlobe,
   FaPen,
   FaFire,
   FaMoon,
@@ -13,10 +13,10 @@ import {
 import type { IconType } from "react-icons";
 
 const iconMap: Record<string, IconType> = {
-  FaHeart,
-  FaBullhorn,
-  FaUserFriends,
-  FaPenFancy,
+  FaInfoCircle,
+  FaPlayCircle,
+  FaArchive,
+  FaGlobe,
   FaPen,
   FaFire,
   FaMoon,
