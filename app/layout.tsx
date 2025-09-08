@@ -69,7 +69,7 @@ export default async function RootLayout({
             <ClientBasketProvider>
               <Header>
                 <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-gray-300 dark:border-zinc-800 relative">
-                  <Logo tagline={data.tagline} />
+                  <Logo tagline={data.title} />
                   <ThemeToggle type="desktop" />
                   <NavigationProvider>
                     <Nav type="main" />

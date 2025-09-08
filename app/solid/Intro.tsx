@@ -41,7 +41,7 @@ export default async function Intro() {
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 md:pb-[250px]">
         <div className="col-span-12">
           <TabComponent
-            intro={Intro}
+            welcome={Intro}
             profile={Profile}
             archive={Archive}
             newarchive={NewArchive}

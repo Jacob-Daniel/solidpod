@@ -49,8 +49,7 @@ const Profile: FC = () => {
 
   return (
     <div className="col-span-12">
-      <p>{fullName ? `Hello, ${fullName}` : "Not logged in"}</p>
-      <p>Email: {email || "no email"}</p>
+      <p>{fullName ? `${fullName}` : "Not logged in"}</p>
       <div className="flex flex-col gap-3 items-start">
         <input
           className="border border-gray-300 dark:border-zinc-800 w-full"

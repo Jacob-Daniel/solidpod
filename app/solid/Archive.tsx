@@ -6,13 +6,17 @@ import {
   getContainedResourceUrlAll,
   deleteSolidDataset,
 } from "@inrupt/solid-client";
-import EditFileForm from "./EditFileForm";
+import ArchiveList from "@/app/solid/ArchiveList";
+
+interface ArchiveCategory {
+  name: string;
+  resources: string[];
+}
+
 const Archive: FC = () => {
   const { isLoggedIn, session, webId } = useSolidSession();
-  const [resources, setResources] = useState<string[]>([]);
+  const [categories, setCategories] = useState<ArchiveCategory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<string | null>(null);
-  const [data, setData] = useState<any>(null);
 
   const ARCHIVE_FOLDER = webId
     ? webId.replace("profile/card#me", "") + "archive/"
@@ -23,12 +27,34 @@ const Archive: FC = () => {
 
     const loadResources = async () => {
       try {
+        // Get the main archive folder
         const dataset = await getSolidDataset(ARCHIVE_FOLDER, {
           fetch: session.fetch,
         });
-        setData(dataset);
-        const urls = getContainedResourceUrlAll(dataset);
-        setResources(urls);
+
+        // Find category subfolders
+        const contained = getContainedResourceUrlAll(dataset);
+        const categoryUrls = contained.filter((url) => url.endsWith("/"));
+
+        const results: ArchiveCategory[] = [];
+
+        for (const catUrl of categoryUrls) {
+          try {
+            const catDataset = await getSolidDataset(catUrl, {
+              fetch: session.fetch,
+            });
+            const catResources = getContainedResourceUrlAll(catDataset);
+
+            results.push({
+              name: catUrl.replace(ARCHIVE_FOLDER, "").replace(/\/$/, ""), // e.g. "media"
+              resources: catResources,
+            });
+          } catch (err) {
+            console.warn("Could not load category:", catUrl, err);
+          }
+        }
+
+        setCategories(results);
       } catch (err) {
         console.error(err);
       } finally {
@@ -39,58 +65,39 @@ const Archive: FC = () => {
     loadResources();
   }, [isLoggedIn, webId, ARCHIVE_FOLDER, session.fetch]);
 
-  const handleDelete = async (resourceUrl: string) => {
+  const handleDelete = async (resourceUrl: string, categoryName: string) => {
     if (!session) return;
     await deleteSolidDataset(resourceUrl, { fetch: session.fetch });
-    setResources((prev) => prev.filter((r) => r !== resourceUrl));
+
+    setCategories((prev) =>
+      prev.map((cat) =>
+        cat.name === categoryName
+          ? {
+              ...cat,
+              resources: cat.resources.filter((r) => r !== resourceUrl),
+            }
+          : cat,
+      ),
+    );
   };
 
-  console.log("archive");
   if (!isLoggedIn) return <p>Loading...</p>;
+
   return (
     <div>
-      <h2>My Archive</h2>
+      <h2 className="mb-2">Archive</h2>
       {loading ? <p>Loading...</p> : null}
-      <ul className="flex flex-col gap-2">
-        {resources.map((res) => (
-          <li
-            key={res}
-            className="flex flex-col border p-2 rounded-md bg-gray-50"
-          >
-            <div className="flex justify-between items-center">
-              <span>{decodeURIComponent(res.split("/").pop() || "")}</span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setEditing(editing === res ? null : res)}
-                  className="px-2 py-1 bg-blue-500 text-white rounded cursor-pointer"
-                >
-                  {editing === res ? "Close" : "Edit"}
-                </button>
-                <button
-                  onClick={() => handleDelete(res)}
-                  className="px-2 py-1 bg-red-500 text-white rounded cursor-pointer"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
 
-            {/* Show the editor if this resource is being edited */}
-            {editing === res && session && (
-              <div className="mt-2">
-                <EditFileForm
-                  resourceUrl={res}
-                  fetch={session.fetch}
-                  dataset={data}
-                  onSave={() => {
-                    setEditing(null);
-                  }}
-                />
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+      {categories.map((cat) => (
+        <div key={cat.name} className="mb-6">
+          <h3 className="font-semibold capitalize">{cat.name}</h3>
+          <ArchiveList
+            resources={cat.resources}
+            fetch={session.fetch}
+            onDelete={(url) => handleDelete(url, cat.name)}
+          />
+        </div>
+      ))}
     </div>
   );
 };
