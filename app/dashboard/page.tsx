@@ -6,32 +6,43 @@ import Profile from "@/app/solid/Profile";
 import Archive from "@/app/solid/Archive";
 import NewArchive from "@/app/solid/CreateResourceForm";
 import TabComponent from "@/app/solid/TabComponent";
-import { Page } from "@/lib/types";
-import { redirect } from "next/navigation";
+import { Page, Category } from "@/lib/types";
+import { useRouter } from "next/navigation";
 import { useSolidSession } from "@/lib/sessionContext";
+
 async function fetchPage() {
   return getAPI<Page[]>(
     `/pages?filters[slug][$eq]=dashboard&populate[sections][on][content.content][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][layout.navigation][populate][navigation_menu][populate]=*`,
   );
 }
 
+async function fetchCategory() {
+  return getAPI<Category[]>(`/categories`);
+}
+
 export default function Dashboard() {
   const { isLoggedIn } = useSolidSession();
   const [data, setData] = useState<Page>();
-  if (!isLoggedIn) {
-    redirect("/");
-  }
+  const [cats, setCats] = useState<Category[]>();
+  const router = useRouter();
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const [data] = await fetchPage();
+    if (!isLoggedIn) {
+      router.replace("/");
+    }
+  }, [isLoggedIn, router]);
+
+  useEffect(() => {
+    if (!data) {
+      const getData = async () => {
+        const [[data], cats] = await Promise.all([
+          fetchPage(),
+          fetchCategory(),
+        ]);
+        setCats(cats);
         setData(data);
-      } catch (err) {
-        console.log("fetch error:", err);
-      } finally {
-      }
-    };
-    getData();
+      };
+      getData();
+    }
   });
 
   const Intro =
@@ -56,6 +67,8 @@ export default function Dashboard() {
       }
     });
 
+  console.log(cats, "cat");
+
   return (
     <main className="grid grid-cols-12 gap-y-5 md:gap-y-10 min-h-[600px]">
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7">
@@ -64,6 +77,7 @@ export default function Dashboard() {
           profile={Profile}
           archive={Archive}
           newarchive={NewArchive}
+          categories={cats}
         />
       </div>
     </main>

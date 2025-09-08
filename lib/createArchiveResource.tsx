@@ -8,14 +8,17 @@ import {
 import { Session } from "@inrupt/solid-client-authn-browser";
 import namespace from "@rdfjs/namespace";
 import { ensureContainerWithACL } from "@/lib/EnsureContainerWithACL";
+import { sanitizeStringTurtle } from "@/lib/sanitizeStringTurtle";
+
 const DC = namespace("http://purl.org/dc/terms/");
 
 interface ArchiveResource {
   title: string;
   description: string;
-  date: string; // ISO string
-  creator: string; // WebID
-  visibility?: "private" | "public"; // optional
+  date: string;
+  creator: string;
+  visibility?: "private" | "public";
+  category: string;
 }
 
 export async function createArchiveResource(
@@ -23,22 +26,26 @@ export async function createArchiveResource(
   resource: ArchiveResource,
 ) {
   if (!session.info.webId) throw new Error("User not logged in");
-
+  // console.log(resource.category, "cat");
+  // Base WebID folder
   const url = new URL(session.info.webId);
   url.hash = "";
   const webId = url.href.replace(/profile\/card$/, "");
-
-  const archiveFolder = new URL("archive/", webId).toString();
+  const archiveFolder = new URL(
+    `archive/${resource.category}/`,
+    webId,
+  ).toString();
 
   await ensureContainerWithACL(session, archiveFolder);
 
-  console.log("Archive folder URL:", archiveFolder);
+  // Sanitize title for Turtle
+  const sanitizedTitle = sanitizeStringTurtle(resource.title);
+  const timestamp = Date.now();
+  const fragment = `${sanitizedTitle}-${timestamp}`; // fragment matches filename
 
-  // Create new dataset for the resource
+  // Create dataset and Thing
   let dataset = createSolidDataset();
-
-  // Create a thing representing this resource
-  const resourceThing = buildThing(createThing({ name: resource.title }))
+  const resourceThing = buildThing(createThing({ name: fragment }))
     .addStringNoLocale(DC("title"), resource.title)
     .addStringNoLocale(DC("description"), resource.description)
     .addStringNoLocale(DC("date"), resource.date)
@@ -47,21 +54,13 @@ export async function createArchiveResource(
 
   dataset = setThing(dataset, resourceThing);
 
-  // Generate a unique filename (timestamp-based)
-  const timestamp = Date.now();
-  const filename =
-    encodeURIComponent(resource.title + "-" + timestamp) + ".ttl";
-  const resourceUrl = archiveFolder + filename;
+  // File URL
+  const filename = `${fragment}.ttl`;
+  const resourceUrl = archiveFolder + encodeURIComponent(filename);
 
-  try {
-    // Save the resource dataset
-    await saveSolidDatasetAt(resourceUrl, dataset, { fetch: session.fetch });
-    console.log("Resource Saved:", resourceUrl);
-  } catch (err) {
-    console.error("Error saving:", err);
-  }
+  await saveSolidDatasetAt(resourceUrl, dataset, { fetch: session.fetch });
 
-  // Generate ACL content per resource
+  // ACL (optional)
   let aclContent = `@prefix acl: <http://www.w3.org/ns/auth/acl#>.
 
 <#owner>
@@ -82,19 +81,11 @@ export async function createArchiveResource(
   }
 
   const aclUrl = resourceUrl + ".acl";
-  try {
-    // Save the ACL file
-    const res = await session.fetch(aclUrl, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "text/turtle",
-      },
-      body: aclContent,
-    });
-    console.log("ACL PUT Res:", res.status, res.statusText);
-  } catch (err) {
-    console.error("Error Saving ACL:", err);
-  }
+  await session.fetch(aclUrl, {
+    method: "PUT",
+    headers: { "Content-Type": "text/turtle" },
+    body: aclContent,
+  });
 
-  return resourceUrl;
+  return { resourceUrl, fragment };
 }

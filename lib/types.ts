@@ -722,6 +722,7 @@ export interface INavigationItems extends BaseDoc {
 
 export interface MenuItem {
 	id: number;
+	url: string;
 	label: string;
 	slug: string;
 	server_slug: string;
@@ -816,12 +817,8 @@ export interface GradientStop {
 	opacity: number;
 }
 
-export type Footer = {
+export interface Footer extends BaseDoc {
 	id: number;
-	documentId: string;
-	createdAt: string;
-	updatedAt: string;
-	publishedAt: string;
 	bg_colour: string;
 	column_one: FooterComponent[];
 	column_two: FooterComponent[];
@@ -829,7 +826,7 @@ export type Footer = {
 	column_four: FooterComponent[];
 	map: Geo;
 	meta: Record<string, unknown>;
-};
+}
 
 export type FooterComponent =
 	| HeadingComponent

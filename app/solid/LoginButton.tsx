@@ -9,7 +9,7 @@ const LoginButton: FC = () => {
   const login = async () => {
     await session.login({
       redirectUrl: "http://localhost:3019/dashboard",
-      oidcIssuer: "http://localhost:3000", // can be changed to any Solid IdP
+      oidcIssuer: "http://localhost:3000",
       clientName: "NKSJA App",
     });
   };
@@ -21,10 +21,10 @@ const LoginButton: FC = () => {
 
   return (
     <button
-      className="cursor-pointer text-base font-bold dark:text-white"
+      className="cursor-pointer text-base font-bold dark:text-white border border-gray-300 rounded px-2"
       onClick={isLoggedIn ? logout : login}
     >
-      {isLoggedIn ? "Logout" : "Login"}
+      {isLoggedIn ? "Logout" : "Login / Create Account"}
     </button>
   );
 };

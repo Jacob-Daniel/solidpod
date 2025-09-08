@@ -72,7 +72,7 @@ export default function RichContentRenderer({
 					case "heading": {
 						return (
 							<h2
-								className="text-md font-sans font-bold md:text-lg first-letter:capitalize md:leading-8 xl:mb-3"
+								className="text-md font-sans font-bold md:text-lg first-letter:capitalize md:leading-8"
 								key={block.key || index}
 							>
 								{block.children.map((child: TextNode, childIndex: number) =>

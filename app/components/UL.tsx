@@ -27,7 +27,7 @@ const UL = ({
 							href={
 								item.target === "_self"
 									? `${process.env.NEXT_PUBLIC_BASE_URL}/${item.slug === "home" ? "" : item.slug}`
-									: item.slug
+									: item.url
 							}
 							className={`hover:border-b hover:border-gray-400 first-letter:uppercase inline ${type === "main" ? "text-base" : "text-sm"}`}
 							target={item.target}

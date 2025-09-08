@@ -5,19 +5,17 @@ type Props = {
 };
 
 import Link from "next/link";
-import Image from "next/image";
-import img from "@/public/images/logo.webp";
 
 export default function Logo({ tagline }: { tagline: string }) {
 	return (
 		<Container>
-			<h1 className="inline-block">
+			<h1 className="inline-block border border-gray-400 px-1 font-bold">
 				<Link
 					title="home page link"
 					className="relative"
 					href={process.env.BASE_URL as string}
 				>
-					{process.env.COMPANY_NAME as string}
+					{tagline as string}
 				</Link>
 			</h1>
 		</Container>

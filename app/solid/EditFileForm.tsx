@@ -13,6 +13,7 @@ import {
 interface EditFileFormProps {
   dataset: SolidDataset; // Pass the dataset from parent
   resourceUrl: string; // Needed for saving
+  thingUrl: string; // NEW
   fetch: typeof fetch;
   onSave?: () => void;
 }
@@ -25,26 +26,28 @@ interface Field {
 const EditFileForm: FC<EditFileFormProps> = ({
   dataset,
   resourceUrl,
+  thingUrl,
   fetch,
   onSave,
 }) => {
   const [fields, setFields] = useState<Field[]>([]);
   const [saving, setSaving] = useState(false);
 
-  // Load Thing and extract string fields
   useEffect(() => {
-    const thing =
-      getThing(dataset, resourceUrl) ?? createThing({ url: resourceUrl });
+    if (!dataset) return;
 
-    const stringFields: Field[] = Object.keys(thing.predicates).map(
-      (predicate) => ({
+    const thing = getThing(dataset, thingUrl);
+    if (!thing) return;
+
+    const stringFields: Field[] = Object.keys(thing.predicates)
+      .filter((p) => thing.predicates[p].literals)
+      .map((predicate) => ({
         predicate,
         value: getStringNoLocale(thing, predicate) || "",
-      }),
-    );
+      }));
 
     setFields(stringFields);
-  }, [dataset, resourceUrl]);
+  }, [dataset, thingUrl]);
 
   const handleChange = (predicate: string, value: string) => {
     setFields((prev) =>
@@ -76,16 +79,19 @@ const EditFileForm: FC<EditFileFormProps> = ({
   return (
     <div className="flex flex-col gap-2">
       {fields.length === 0 && <p>No string fields found in this resource.</p>}
-      {fields.map((f) => (
-        <div key={f.predicate} className="flex flex-col">
-          <label className="font-medium">{f.predicate}</label>
-          <input
-            className="border p-2 rounded w-full"
-            value={f.value}
-            onChange={(e) => handleChange(f.predicate, e.target.value)}
-          />
-        </div>
-      ))}
+      {fields.map((f) => {
+        const fieldName = f.predicate.split("/").pop()?.split("#").pop();
+        return (
+          <div key={f.predicate} className="flex flex-col">
+            <label className="font-medium capitalize">{fieldName}:</label>
+            <input
+              className="border px-1 rounded w-full border-gray-300 dark:boarder-zinc-800"
+              value={f.value}
+              onChange={(e) => handleChange(f.predicate, e.target.value)}
+            />
+          </div>
+        );
+      })}
       <button
         onClick={handleSave}
         disabled={saving}
