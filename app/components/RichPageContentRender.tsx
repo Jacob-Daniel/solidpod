@@ -30,11 +30,9 @@ export default function RichContentRenderer({
 	function isLinkNode(node: InlineNode): node is LinkNode {
 		return node.type === "link";
 	}
-	// const b = blocks[0]
 	return (
 		<>
 			{blocks.map((block, index) => {
-				console.log(block.type, "type");
 				switch (block.type) {
 					case "paragraph": {
 						return (

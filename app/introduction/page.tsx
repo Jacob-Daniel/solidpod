@@ -89,7 +89,7 @@ export default async function Introduction() {
                   return (
                     <div key={index} className="sticky absolute top-3 text-sm">
                       {block && block.heading && (
-                        <p className="mb-2">{block.heading}</p>
+                        <p className="mb-2 font-bold">{block.heading}</p>
                       )}
                       <UlPageContentAnchors
                         list={tags}

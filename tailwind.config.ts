@@ -32,7 +32,7 @@ export default {
 					"100%": { transform: "translateY(0)", opacity: "1" },
 				},
 				"slide-in-bt": {
-					"0%": { transform: "translateY(100%)", opacity: "0" },
+					"0%": { transform: "translateY(100%)", opacity: "0", delay: "0.5s" },
 					"100%": { transform: "translateY(0)", opacity: "1" },
 				},
 			},
@@ -43,6 +43,12 @@ export default {
 				"slide-in-tb": "slide-in-tb 0.5s ease-out forwards",
 				"slide-in-bt": "slide-in-bt 0.5s ease-out forwards",
 				"pulse-hot": "pulsehot 1s infinite",
+			},
+			transitionDelay: {
+				200: "0.2s",
+				400: "0.4s",
+				600: "0.6s",
+				800: "0.8s",
 			},
 			screens: {
 				retina: "425px",

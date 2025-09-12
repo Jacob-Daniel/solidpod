@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: "standalone",
+  // output: "standalone",
   distDir: "build",
   // experimental: {
   //   useCache: true,
@@ -28,6 +28,12 @@ const nextConfig: NextConfig = {
     domains: ["localhost"], // or your Strapi domain
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+        pathname: "/profile/**",
+      },
       {
         protocol: "http",
         hostname: "localhost",

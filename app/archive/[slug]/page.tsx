@@ -1,25 +1,10 @@
 import { Suspense } from "react";
-import { auth } from "@/app/auth";
 import { notFound } from "next/navigation";
 import { getAPI, getPagAPI } from "@/lib/functions";
-import {
-	Category,
-	Page,
-	Signature,
-	PetitionMeta,
-	ButtonSection,
-	API,
-	Meta,
-} from "@/lib/types";
+import { Category, Page, ButtonSection, API, Meta } from "@/lib/types";
 
-import BlurServerImage from "@/app/components/BlurDataImage";
-import RichPageContentRender from "@/app/components/RichPageContentRender";
 import BannerTop from "@/app/components/BannerTop";
 
-import Signatures from "@/app/components/Signatures";
-import PetitionStates from "@/app/components/PetitionStats";
-import PetitionForm from "@/app/components/PetitionForm";
-import SignNowCard from "@/app/components/SignNowCard";
 import { Metadata } from "next";
 
 interface Params {
@@ -55,9 +40,6 @@ export async function generateStaticParams(): Promise<IParams[]> {
 export default async function PetitionPage({ params }: { params: Params }) {
 	const { slug } = await params;
 	if (!slug) return notFound();
-	console.log(slug, "slg");
-	const session = await auth();
-	const userDocId = (session && session.user.documentId) ?? "";
 
 	const [pageData, archiveData] = await Promise.all([
 		fetchPageData(),
@@ -95,8 +77,6 @@ export default async function PetitionPage({ params }: { params: Params }) {
 			)}
 			<div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 px-5 lg:px-0 md:gap-x-5">
 				<PageContent category={category} button={buttonSection} slug={slug} />
-
-				<Sidebar page={page} userDocId={userDocId} category={category} />
 			</div>
 		</main>
 	);

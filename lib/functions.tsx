@@ -26,7 +26,6 @@ export async function getFiles(name: string): Promise<Files> {
 }
 
 export async function getAPI<T>(query: string): Promise<T> {
-	// console.log(process.env.NEXT_PUBLIC_STRAPI_API + query);
 	const response = await fetch(
 		`${process.env.NEXT_PUBLIC_STRAPI_API}${query}`,
 		{
@@ -63,47 +62,66 @@ export async function getPagAPI<T>(
 	return await response.json();
 }
 
-export async function createAPI<T>({
-	data,
-	route,
-}: {
-	data: CreateMembership | CreateSignature | CreatePetition | UploadPetition;
-	route: string;
-}): Promise<T> {
-	try {
-		const response = await fetch(`${process.env.STRAPI_API}/${route}`, {
-			method: "POST",
+export async function getPAPI<T>(
+	query: string,
+): Promise<{ data: T; meta: Meta }> {
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_STRAPI_API}${query}`,
+		{
+			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${process.env.STRAPI_USER_API_TOKEN}`,
 			},
-			body: JSON.stringify({
-				data: data,
-			}),
-		});
-		console.log(response, "res server");
-		if (!response.ok) {
-			const errorBody = await response.json();
-			throw new Error(errorBody.error?.message || "An unknown error occurred");
-		}
-		let json: StrapiResponse<T>;
-		try {
-			json = await response.json();
-			console.log(json, "json res server");
-		} catch (jsonError) {
-			throw new Error(`Error parsing JSON response: ${jsonError}`);
-		}
-		if ("data" in json) {
-			return json.data;
-		} else {
-			return json;
-		}
-	} catch (error: any) {
-		console.error(
-			"Error occurred while creating membership or signature:",
-			error.message,
+		},
+	);
+	if (!response.ok) {
+		console.log("error getAPI");
+		throw new Error("Failed to Get API End Point");
+	}
+	return await response.json();
+}
+
+export async function createAPI<T>({
+	data,
+	route,
+}: {
+	data:
+		| CreateMembership
+		| CreateSignature
+		| CreatePetition
+		| UploadPetition
+		| { webId: string };
+	route: string;
+}): Promise<T | null> {
+	try {
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_STRAPI_API}/${route}`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${process.env.STRAPI_USER_API_TOKEN}`,
+				},
+				body: JSON.stringify({ data }),
+			},
 		);
-		throw new Error(`Error parsing JSON response: ${error}`);
+
+		const json = await response.json();
+
+		if (!response.ok) {
+			// Fail silently if unique constraint
+			if (json.error?.message?.includes("must be unique")) {
+				console.warn("Resource already exists, returning null:", data);
+				return null;
+			}
+			throw new Error(json.error?.message || "An unknown error occurred");
+		}
+
+		return "data" in json ? json.data : json;
+	} catch (error: any) {
+		console.error("Error occurred while creating resource:", error.message);
+		throw error; // only throw if it’s not the unique constraint
 	}
 }
 

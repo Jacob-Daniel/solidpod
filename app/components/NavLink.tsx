@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useNavigationContext } from "@/lib/NavigationContext";
+import { useNavigationContext } from "@/lib/navigationContext";
 import { useVisibility } from "@/lib/VisibilityContext";
 import LogoutButton from "@/app/solid/LogoutButton";
 import LoginButton from "@/app/solid/LoginButton";

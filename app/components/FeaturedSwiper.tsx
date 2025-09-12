@@ -56,7 +56,7 @@ export default function FeaturedSwiper({
 								className="relative mb-0 mb-md-0 overflow-clip border border-gray-300 dark:border-zinc-800 rounded-t min-h-[200px]"
 							>
 								<Link
-									href={`${process.env.BASE_URL}/archive/${category.slug}`}
+									href={`${process.env.BASE_URL}/archive?cat=${category.slug}`}
 									className="category relative"
 								>
 									<Image
@@ -73,7 +73,7 @@ export default function FeaturedSwiper({
 									id={category.id}
 									summary={category.description}
 									path={category.slug}
-									route={`${process.env.BASE_URL}/archive/${category.slug}`}
+									route={`${process.env.BASE_URL}/archive?cat=${category.slug}`}
 									name={category.name}
 								/>
 							</SwiperSlide>

@@ -1,27 +1,22 @@
 import { ReactNode } from "react";
-import { getAPI } from "@/lib/functions";
+import { getAPI, getPAPI } from "@/lib/functions";
+import { buildCategoryResources } from "@/lib/getCategoryResources";
 import FeaturedSwiper from "@/app/components/FeaturedSwiper";
 import BannerTop from "@/app/components/BannerTop";
+import ArchiveCategoryTabs from "@/app/solid/ArchiveCategoryTabs";
 
-import {
-  Page,
-  Event,
-  FeaturedSection,
-  PlacesSection,
-  SharedSEO,
-  Category,
-} from "@/lib/types";
+import { Page, FeaturedSection, PlacesSection, Category } from "@/lib/types";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
-import H2 from "@/app/components/H2";
 
-export default async function Petitions() {
-  const [featured, [data]] = await Promise.all([
+export default async function Archive() {
+  const [featured, [data], archives] = await Promise.all([
     getAPI<Category[]>("/categories?populate=*"),
     getAPI<Page[]>(
       "/pages?filters[slug][$eq]=archive&populate[banner][populate][image_versions][populate]=image",
     ),
+    getPAPI<{ webId: string }[]>("/archives?populate=*"),
   ]);
-
+  // const categoryResources: Record<string, string[]> = {};
   if (!data) return <div>No content available</div>;
 
   const blurDataUrl = await fetch(
@@ -31,6 +26,11 @@ export default async function Petitions() {
     .then(
       (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
     );
+  let categories: string[];
+  categories = featured.map((f) => f.slug);
+  const webIds = archives.data.map((a) => a.webId);
+
+  const categoryResources = await buildCategoryResources(webIds, categories);
 
   return (
     <main className="grid grid-cols-12 gap-y-10">
@@ -76,6 +76,10 @@ export default async function Petitions() {
                 return null;
             }
           })}
+        <ArchiveCategoryTabs
+          categories={categories}
+          resources={categoryResources}
+        />
       </div>
     </main>
   );

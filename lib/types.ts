@@ -570,6 +570,8 @@ export interface Category extends BaseDoc {
 	tags: Tags;
 	parent: Category;
 	icon: Icon;
+	resources?: string[];
+	image: IImage;
 }
 
 export interface API {

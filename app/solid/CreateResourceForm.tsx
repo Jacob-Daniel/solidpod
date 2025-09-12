@@ -12,7 +12,7 @@ import Image from "@tiptap/extension-image";
 import { saveFileInContainer } from "@inrupt/solid-client";
 
 export default function CreateResourceForm({ cats }: { cats: Category[] }) {
-  const { session } = useSolidSession();
+  const { session, webId } = useSolidSession();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
@@ -29,6 +29,11 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         class: "outline-none p-2 min-h-[150px]",
       },
     },
+    onUpdate: ({ editor }) => {
+      setDescription(editor.getHTML());
+      // Or save JSON if you prefer
+      // setDescription(JSON.stringify(editor.getJSON()));
+    },
     immediatelyRender: false,
   });
 
@@ -36,37 +41,41 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
     e.preventDefault();
     setLoading(true);
     setStatus("Saving...");
-    const turtleTitle = sanitizeStringTurtle(title);
-    try {
-      const { resourceUrl, fragment } = await createArchiveResource(session, {
-        title: turtleTitle,
-        description,
-        date,
-        creator: session.info.webId!,
-        category,
-      });
-      if (image) {
-        const baseUrl = resourceUrl.split("/").slice(0, -1).join("/") + "/";
-        const uploadUrl = baseUrl + "media/";
 
-        await saveFileInContainer(uploadUrl, image, {
+    const turtleTitle = sanitizeStringTurtle(title);
+    let imageUrl: string | undefined;
+
+    try {
+      if (image) {
+        const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
+        const uploadUrl = new URL("archive/uploads/", podRoot).toString();
+
+        const savedFile = await saveFileInContainer(uploadUrl, image, {
           slug: image.name,
           contentType: image.type,
           fetch: session.fetch,
         });
 
-        setStatus(`Resource saved with image ${image.name}`);
-      } else {
-        const resource = resourceUrl.split("/").pop()?.split("#").pop();
-        setStatus(`Resource saved ${resource}`);
+        imageUrl = savedFile.internal_resourceInfo.sourceIri;
       }
-      setLoading(false);
+
+      await createArchiveResource(session, {
+        title: turtleTitle,
+        description,
+        date,
+        creator: session.info.webId!,
+        visibility: "public",
+        category,
+        image: imageUrl || "", // optional
+      });
+
+      setStatus(`Resource saved${image ? ` with image ${image.name}` : ""}`);
     } catch (err: any) {
       setStatus(err.message);
+    } finally {
       setLoading(false);
     }
   };
-
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-1 items-start">
       <h2 className="capitalize">new</h2>
@@ -100,14 +109,17 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         onChange={(e) => setDate(e.target.value)}
         required
       />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          if (!e.target.files) return;
-          setImage(e.target.files[0]);
-        }}
-      />
+      <label className="cursor-pointer bg-blue-500 dark:bg-zinc-800 text-white px-3 py-1 rounded">
+        Choose Image for Upload
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            if (!e.target.files) return;
+            setImage(e.target.files[0]);
+          }}
+        />
+      </label>
       <button
         className="border text-white cursor-pointer bg-blue-500 flex-shrink px-2 py-1 rounded"
         type="submit"

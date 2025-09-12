@@ -237,12 +237,9 @@ export interface Customer {
 }
 
 export interface CreateAccount {
-	username: string;
-	email: string;
-	mobile: string;
+	webId: string;
 	password: string;
-	postcode: string;
-	last_name: string;
+	email: string;
 }
 
 export interface SubmitButtonProps {

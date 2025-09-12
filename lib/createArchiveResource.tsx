@@ -19,6 +19,7 @@ interface ArchiveResource {
   creator: string;
   visibility?: "private" | "public";
   category: string;
+  image: string;
 }
 
 export async function createArchiveResource(
@@ -26,22 +27,27 @@ export async function createArchiveResource(
   resource: ArchiveResource,
 ) {
   if (!session.info.webId) throw new Error("User not logged in");
-  // console.log(resource.category, "cat");
+
   // Base WebID folder
   const url = new URL(session.info.webId);
   url.hash = "";
-  const webId = url.href.replace(/profile\/card$/, "");
+  const webIdBase = url.href.replace(/profile\/card$/, "");
+
+  // Archive container and uploads container
   const archiveFolder = new URL(
     `archive/${resource.category}/`,
-    webId,
+    webIdBase,
   ).toString();
+  const uploadsFolder = new URL("archive/uploads/", webIdBase).toString();
 
-  await ensureContainerWithACL(session, archiveFolder);
+  // Ensure containers exist and have correct ACLs
+  await ensureContainerWithACL(session, archiveFolder, resource.visibility);
+  await ensureContainerWithACL(session, uploadsFolder, resource.visibility);
 
-  // Sanitize title for Turtle
+  // Sanitize title and build fragment
   const sanitizedTitle = sanitizeStringTurtle(resource.title);
   const timestamp = Date.now();
-  const fragment = `${sanitizedTitle}-${timestamp}`; // fragment matches filename
+  const fragment = `${sanitizedTitle}-${timestamp}`;
 
   // Create dataset and Thing
   let dataset = createSolidDataset();
@@ -49,6 +55,7 @@ export async function createArchiveResource(
     .addStringNoLocale(DC("title"), resource.title)
     .addStringNoLocale(DC("description"), resource.description)
     .addStringNoLocale(DC("date"), resource.date)
+    .addStringNoLocale(DC("img"), resource.image)
     .addUrl(DC("creator"), resource.creator)
     .build();
 
@@ -58,23 +65,25 @@ export async function createArchiveResource(
   const filename = `${fragment}.ttl`;
   const resourceUrl = archiveFolder + encodeURIComponent(filename);
 
+  // Save dataset
   await saveSolidDatasetAt(resourceUrl, dataset, { fetch: session.fetch });
 
-  // ACL (optional)
-  let aclContent = `@prefix acl: <http://www.w3.org/ns/auth/acl#>.
+  // Resource ACL
+  let resourceACL = `@prefix acl: <http://www.w3.org/ns/auth/acl#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 
 <#owner>
     a acl:Authorization;
     acl:agent <${session.info.webId}>;
     acl:accessTo <./${filename}>;
-    acl:mode acl:Read, acl:Write, acl:Control.
+    acl:mode acl:Read, acl:Write, acl:Append, acl:Control.
 `;
 
   if (resource.visibility === "public") {
-    aclContent += `
+    resourceACL += `
 <#public>
     a acl:Authorization;
-    acl:agentClass acl:AuthenticatedAgent;
+    acl:agentClass foaf:Agent;
     acl:accessTo <./${filename}>;
     acl:mode acl:Read.
 `;
@@ -84,7 +93,7 @@ export async function createArchiveResource(
   await session.fetch(aclUrl, {
     method: "PUT",
     headers: { "Content-Type": "text/turtle" },
-    body: aclContent,
+    body: resourceACL,
   });
 
   return { resourceUrl, fragment };
