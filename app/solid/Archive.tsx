@@ -1,6 +1,7 @@
 "use client";
 import { FC, useEffect, useState } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
+import { loadResources } from "@/app/solid/loadResources";
 import {
   getSolidDataset,
   getContainedResourceUrlAll,
@@ -25,35 +26,10 @@ const Archive: FC = () => {
   useEffect(() => {
     if (!isLoggedIn || !webId || !ARCHIVE_FOLDER) return;
 
-    const loadResources = async () => {
+    const load = async () => {
+      setLoading(true);
       try {
-        // Get the main archive folder
-        const dataset = await getSolidDataset(ARCHIVE_FOLDER, {
-          fetch: session.fetch,
-        });
-
-        // Find category subfolders
-        const contained = getContainedResourceUrlAll(dataset);
-        const categoryUrls = contained.filter((url) => url.endsWith("/"));
-
-        const results: ArchiveCategory[] = [];
-
-        for (const catUrl of categoryUrls) {
-          try {
-            const catDataset = await getSolidDataset(catUrl, {
-              fetch: session.fetch,
-            });
-            const catResources = getContainedResourceUrlAll(catDataset);
-
-            results.push({
-              name: catUrl.replace(ARCHIVE_FOLDER, "").replace(/\/$/, ""), // e.g. "media"
-              resources: catResources,
-            });
-          } catch (err) {
-            console.warn("Could not load category:", catUrl, err);
-          }
-        }
-
+        const results = await loadResources(ARCHIVE_FOLDER, session.fetch);
         setCategories(results);
       } catch (err) {
         console.error(err);
@@ -62,7 +38,7 @@ const Archive: FC = () => {
       }
     };
 
-    loadResources();
+    load();
   }, [isLoggedIn, webId, ARCHIVE_FOLDER, session.fetch]);
 
   const handleDelete = async (resourceUrl: string, categoryName: string) => {
@@ -87,6 +63,7 @@ const Archive: FC = () => {
     <div>
       <h2 className="mb-2">Archive</h2>
       {loading ? <p>Loading...</p> : null}
+      {categories! instanceof Array && <p>Currently no resources found ...</p>}
 
       {categories.map((cat) => (
         <div key={cat.name} className="mb-6">

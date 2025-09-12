@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useWindowListener } from "@/lib/clientFunctions";
 import ListItem from "@/app/components/ListItem";
 import { INavigationItems } from "@/lib/types";
-import { useNavigationContext } from "@/lib/NavigationContext";
+import { useNavigationContext } from "@/lib/navigationContext";
 import { useSolidSession } from "@/lib/sessionContext";
 import { formatMenuItems } from "@/lib/formatMenuItems";
 

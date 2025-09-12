@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import SubLink from "@/app/components/SubLink";
 import { MenuItem } from "@/lib/types";
-import { useNavigationContext } from "@/lib/NavigationContext";
+import { useNavigationContext } from "@/lib/navigationContext";
 
 interface ILinks {
 	id: number;

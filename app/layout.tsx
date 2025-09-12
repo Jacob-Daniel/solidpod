@@ -1,4 +1,3 @@
-import { SessionProvider } from "next-auth/react";
 import { ClientBasketProvider } from "@/app/components/ClientBasketProvider";
 import { SolidSessionProvider } from "@/lib/sessionContext";
 import type { Metadata } from "next";
@@ -10,7 +9,7 @@ import ThemeToggle from "@/app/components/ThemeToggle";
 import Nav from "@/app/components/Nav";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { NavigationProvider } from "@/lib/NavigationContext";
+import { NavigationProvider } from "@/lib/navigationContext";
 import { getAPI } from "@/lib/functions";
 import type { SiteConfig, General } from "@/lib/types";
 
@@ -64,26 +63,24 @@ export default async function RootLayout({
       <body
         className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans dark:bg-zinc-900 text-black dark:text-white`}
       >
-        <SessionProvider basePath={process.env.BASE_AUTH_PATH}>
-          <SolidSessionProvider>
-            <ClientBasketProvider>
-              <Header>
-                <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-gray-300 dark:border-zinc-800 relative">
-                  <Logo tagline={data.title} />
-                  <ThemeToggle type="desktop" />
-                  <NavigationProvider>
-                    <Nav type="main" />
-                  </NavigationProvider>
-                </div>
-              </Header>
-              <div className="w-full max-w-[1500px] align-middle mx-auto">
-                {children}
+        <SolidSessionProvider>
+          <ClientBasketProvider>
+            <Header>
+              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-gray-300 dark:border-zinc-800 relative">
+                <Logo tagline={data.title} />
+                <ThemeToggle type="desktop" />
+                <NavigationProvider>
+                  <Nav type="main" />
+                </NavigationProvider>
               </div>
+            </Header>
+            <div className="w-full max-w-[1500px] align-middle mx-auto">
+              {children}
+            </div>
 
-              <Footer />
-            </ClientBasketProvider>
-          </SolidSessionProvider>
-        </SessionProvider>
+            <Footer />
+          </ClientBasketProvider>
+        </SolidSessionProvider>
       </body>
     </html>
   );

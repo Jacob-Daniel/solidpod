@@ -41,10 +41,12 @@ export default function BannerTop({
 							height={80} // adjust size
 							className="animate-fade-in"
 						/>
-						<h2 className="font-quicksand mb-0 !text-white font-heading font-extrabold text-md lg:text-lg leading-none animate-slide-in-lr">
-							{banner.heading}
-						</h2>
-						<span className="text-md lg:text-lg text-white font-extralight lowercase animate-slide-in animate-slide-in-tb">
+						<blockquote className="relative pl-6 italic text-gray-700 before:content-['“'] before:absolute before:left-0 before:-top-5 before:-start-5 before:text-6xl before:text-gray-400/20">
+							<h2 className="animate-slide-in-lr font-quicksand mb-0 !text-white font-heading font-extrabold text-md lg:text-lg leading-none ">
+								{banner.heading}
+							</h2>
+						</blockquote>
+						<span className="text-md lg:text-lg text-white font-extralight lowercase animate-slide-in-bt ">
 							{banner.sub_heading}
 						</span>
 					</div>

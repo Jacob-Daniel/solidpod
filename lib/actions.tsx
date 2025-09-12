@@ -9,44 +9,19 @@ import {
 } from "@/lib/types";
 import { createAPI } from "@/lib/functions";
 
-export async function createMembershipAction(
-	customerData: CreateMembership,
-): Promise<CreateMembershipResponseAction> {
-	const data = await createAPI<CreateMembershipResponseAction>({
-		data: customerData,
-		route: "memberships",
+export async function createArchiveAction(webId: {
+	webId: string;
+}): Promise<CreateResponseAction | null> {
+	const data = await createAPI<CreateResponseAction>({
+		data: webId,
+		route: "archives",
 	});
 	if (data && "error" in data) {
-		return data;
-	}
-	return data;
-}
-
-export async function createSignatureAction(
-	customerData: CreateSignature,
-): Promise<CreateResponseAction> {
-	const data = await createAPI<CreateResponseAction>({
-		data: customerData,
-		route: "signatures",
-	});
-	console.log(data, "action data");
-	if (data && "error" in data) {
-		return data;
-	}
-	return data;
-}
-
-export async function createPetitionAction(
-	customerData: UploadPetition,
-): Promise<CreateResponseAction> {
-	const data = await createAPI<CreateResponseAction>({
-		data: customerData,
-		route: "petitions",
-	});
-	if ("error" in data) {
 		if (data.error) {
 			return data;
 		}
+		return data;
+	} else {
+		return null;
 	}
-	return data;
 }

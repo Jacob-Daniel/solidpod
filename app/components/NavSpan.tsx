@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import { useNavigationContext } from "@/lib/NavigationContext"; // Import the context
+import { useNavigationContext } from "@/lib/navigationContext"; // Import the context
 
 interface ILinks {
 	type: string;

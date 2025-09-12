@@ -21,6 +21,8 @@ interface SessionContextType {
   fullName?: string;
   email?: string;
   webId?: string;
+  user?: any; // optional, store Strapi user info
+  setUser?: (user: any) => void;
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
@@ -32,6 +34,7 @@ export const SolidSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   const [fullName, setFullName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [webId, setWebId] = useState<string | undefined>(undefined);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     (async () => {
@@ -75,7 +78,16 @@ export const SolidSessionProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <SessionContext.Provider
-      value={{ session, isLoggedIn, login, logout: doLogout, fullName, webId }}
+      value={{
+        session,
+        isLoggedIn,
+        login,
+        logout: doLogout,
+        fullName,
+        webId,
+        user,
+        setUser,
+      }}
     >
       {children}
     </SessionContext.Provider>

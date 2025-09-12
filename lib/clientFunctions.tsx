@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useVisibility } from "@/lib/VisibilityContext";
-import { useNavigationContext } from "@/lib/NavigationContext"; // Adjust the path as needed
+import { useNavigationContext } from "@/lib/navigationContext"; // Adjust the path as needed
 import {
 	RichTextContent,
 	ContentBlock,

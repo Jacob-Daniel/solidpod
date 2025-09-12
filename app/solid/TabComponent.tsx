@@ -37,7 +37,7 @@ export default function TabComponent({
       <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-gray-200 dark:border-zinc-800 bg-gray-100 shadow relative dark:bg-inherit dark:text-white">
         <ul className="text-sm">
           {["welcome", "profile", "archive", "newarchive"].map((tab, i) => (
-            <li key={i} className="flex items-baseline relative">
+            <li key={i} className="flex items-baseline relative mb-1">
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
