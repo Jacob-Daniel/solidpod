@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
 import { createArchiveResource } from "@/lib/createArchiveResource";
 import { sanitizeStringTurtle } from "@/lib/sanitizeStringTurtle";
 import { Category } from "@/lib/types";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -20,6 +20,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   const [category, setCat] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [visibility, setVisibility] = useState(false);
 
   const editor = useEditor({
     extensions: [StarterKit, Link, Image],
@@ -64,7 +65,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         description,
         date,
         creator: session.info.webId!,
-        visibility: "public",
+        visibility: visibility,
         category,
         image: imageUrl || "", // optional
       });
@@ -76,6 +77,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
       setLoading(false);
     }
   };
+  console.log(visibility, "vis");
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-1 items-start">
       <h2 className="capitalize">new</h2>
@@ -101,15 +103,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
       <div className="border w-full p-1 rounded">
         <EditorContent editor={editor} />
       </div>
-
-      <input
-        className="border border-gray-300 dark:boarder-zinc-800 px-1 w-full"
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        required
-      />
-      <label className="cursor-pointer bg-blue-500 dark:bg-zinc-800 text-white px-3 py-1 rounded">
+      <label className="cursor-pointer bg-gray-400 dark:bg-zinc-800 text-white px-3 py-1 rounded">
         Choose Image for Upload
         <input
           type="file"
@@ -118,6 +112,18 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
             if (!e.target.files) return;
             setImage(e.target.files[0]);
           }}
+        />
+      </label>
+      <label className="flex w-full gap-x-1 items-baseline">
+        Visibility: {visibility ? "Public" : "Private"}
+        <input
+          className="dark:boarder-zinc-800 px-1 text-black inline"
+          type="checkbox"
+          value={visibility ? 1 : 0}
+          onChange={() => {
+            setVisibility((prev) => !prev);
+          }}
+          required
         />
       </label>
       <button

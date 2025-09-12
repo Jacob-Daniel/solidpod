@@ -7,6 +7,7 @@ import ArchiveCategoryTabs from "@/app/solid/ArchiveCategoryTabs";
 
 import { Page, FeaturedSection, PlacesSection, Category } from "@/lib/types";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
+import { IImage } from "@/lib/dynamicTypes";
 
 export default async function Archive() {
   const [featured, [data], archives] = await Promise.all([
@@ -26,11 +27,16 @@ export default async function Archive() {
     .then(
       (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
     );
-  let categories: string[];
-  categories = featured.map((f) => f.slug);
+  const categories = {
+    slugs: featured.map((f) => f.slug),
+    images: featured.map((f) => f.image),
+  };
   const webIds = archives.data.map((a) => a.webId);
 
-  const categoryResources = await buildCategoryResources(webIds, categories);
+  const categoryResources = await buildCategoryResources(
+    webIds,
+    categories.slugs,
+  );
 
   return (
     <main className="grid grid-cols-12 gap-y-10">
@@ -77,7 +83,7 @@ export default async function Archive() {
             }
           })}
         <ArchiveCategoryTabs
-          categories={categories}
+          categories={featured}
           resources={categoryResources}
         />
       </div>

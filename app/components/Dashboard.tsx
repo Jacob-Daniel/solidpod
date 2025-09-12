@@ -18,7 +18,6 @@ type Props = {
 export default function Dashboard({ page, cats }: Props) {
   const { isLoggedIn, session } = useSolidSession();
   const router = useRouter();
-  console.log(router, "router");
   useEffect(() => {
     handleIncomingSolidLogin(session.info);
   }, [session]);
