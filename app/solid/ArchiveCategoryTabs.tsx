@@ -3,9 +3,10 @@
 import { useState } from "react";
 import PublicArchiveList from "@/app/solid/PublicArchiveList";
 import { useSearchParams } from "next/navigation";
-
+import { IImage, Category } from "@/lib/types";
+import Image from "next/image";
 interface ArchiveCategoryTabsProps {
-  categories: string[];
+  categories: Category[];
   resources: Record<string, string[]>; // category → list of pod URLs
 }
 
@@ -15,24 +16,52 @@ export default function ArchiveCategoryTabs({
 }: ArchiveCategoryTabsProps) {
   const searchParams = useSearchParams();
   const activeCat = searchParams.get("cat");
-  const [activeCategory, setActiveCategory] = useState<string>(
-    categories.length > 0 ? activeCat || categories[0] : "",
+
+  const initialCategory =
+    categories.find((c) => c.name === activeCat || c.slug === activeCat) ||
+    categories[0];
+  const [activeCategory, setActiveCategory] = useState<{
+    slug: string;
+    name: string;
+  }>({
+    slug: initialCategory?.slug || "",
+    name: initialCategory?.name || "",
+  });
+
+  const [activeImage, setActiveImage] = useState<string>(
+    initialCategory?.image?.url || "",
   );
 
-  if (!categories || categories.length === 0) {
-    return <p>No categories available.</p>;
-  }
-  console.log(activeCat);
-  const activeResources = resources[activeCategory] || [];
+  const activeResources = resources[activeCategory.slug] || [];
+  const catCount = activeResources.length;
 
   return (
     <div className="grid grid-cols-12 gap-x-7 col-span-12">
       <div className="md:border md:border-gray-200 dark:border-zinc-800 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9">
         {activeCategory ? (
-          <div>
-            <h2 className="mb-4 font-semibold capitalize">{activeCategory}</h2>
-            <PublicArchiveList resources={activeResources} />
-          </div>
+          <>
+            <div className="mb-3 flex justify-between items-end gap-x-5 border-b border-gray-300 pb-2">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${activeImage}`}
+                height={50}
+                width={50}
+                alt={activeCat || "archive category"}
+                className="rounded-full"
+              />
+              <div className="flex gap-x-2 items-end">
+                <h2 className="capitalize border border-gray-300 px-1">
+                  <span>Category: </span>
+                  {activeCategory.name}
+                </h2>
+                <span className="border border-gray-300 px-1">
+                  Items: {catCount}
+                </span>
+              </div>
+            </div>
+            <div>
+              <PublicArchiveList resources={activeResources} />
+            </div>
+          </>
         ) : (
           <p>Select a category</p>
         )}
@@ -41,15 +70,18 @@ export default function ArchiveCategoryTabs({
       <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-gray-200 dark:border-zinc-800 bg-gray-100 shadow relative dark:bg-inherit dark:text-white">
         <ul className="text-sm">
           {categories.map((cat) => (
-            <li key={cat} className="flex items-baseline relative mb-1">
+            <li key={cat.slug} className="flex items-baseline relative mb-1">
               <button
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => (
+                  setActiveCategory({ slug: cat.slug, name: cat.name }),
+                  setActiveImage(cat.image.url)
+                )}
                 className={`cursor-pointer mb-0 ${
-                  activeCategory === cat &&
+                  activeCategory.slug === cat.slug &&
                   "before:content-['•'] before:absolute before:top-[-6px] before:left-0 before:text-red-500 before:text-lg text-gray-600 ps-2"
                 }`}
               >
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {cat.slug.charAt(0).toUpperCase() + cat.slug.slice(1)}
               </button>
             </li>
           ))}

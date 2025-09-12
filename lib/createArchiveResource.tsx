@@ -17,7 +17,7 @@ interface ArchiveResource {
   description: string;
   date: string;
   creator: string;
-  visibility?: "private" | "public";
+  visibility: boolean;
   category: string;
   image: string;
 }
@@ -32,7 +32,7 @@ export async function createArchiveResource(
   const url = new URL(session.info.webId);
   url.hash = "";
   const webIdBase = url.href.replace(/profile\/card$/, "");
-
+  const resourceVisibility = !resource.visibility ? "private" : "public";
   // Archive container and uploads container
   const archiveFolder = new URL(
     `archive/${resource.category}/`,
@@ -41,8 +41,8 @@ export async function createArchiveResource(
   const uploadsFolder = new URL("archive/uploads/", webIdBase).toString();
 
   // Ensure containers exist and have correct ACLs
-  await ensureContainerWithACL(session, archiveFolder, resource.visibility);
-  await ensureContainerWithACL(session, uploadsFolder, resource.visibility);
+  await ensureContainerWithACL(session, archiveFolder, resourceVisibility);
+  await ensureContainerWithACL(session, uploadsFolder, resourceVisibility);
 
   // Sanitize title and build fragment
   const sanitizedTitle = sanitizeStringTurtle(resource.title);
