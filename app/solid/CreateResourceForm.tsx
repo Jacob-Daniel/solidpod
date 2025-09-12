@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
 import { createArchiveResource } from "@/lib/createArchiveResource";
+import { ensureContainerWithACL } from "@/lib/EnsureContainerWithACL";
 import { sanitizeStringTurtle } from "@/lib/sanitizeStringTurtle";
 import { Category } from "@/lib/types";
 // import dynamic from "next/dynamic";
@@ -51,6 +52,13 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
         const uploadUrl = new URL("archive/uploads/", podRoot).toString();
 
+        // Ensure container exists first
+        await ensureContainerWithACL(
+          session,
+          uploadUrl,
+          visibility ? "private" : "public",
+        );
+
         const savedFile = await saveFileInContainer(uploadUrl, image, {
           slug: image.name,
           contentType: image.type,
@@ -77,7 +85,6 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
       setLoading(false);
     }
   };
-  console.log(visibility, "vis");
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-1 items-start">
       <h2 className="capitalize">new</h2>
@@ -115,7 +122,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         />
       </label>
       <label className="flex w-full gap-x-1 items-baseline">
-        Visibility: {visibility ? "Public" : "Private"}
+        Permission: {visibility ? "Public" : "Private"}
         <input
           className="dark:boarder-zinc-800 px-1 text-black inline"
           type="checkbox"

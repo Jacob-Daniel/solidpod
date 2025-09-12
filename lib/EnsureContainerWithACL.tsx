@@ -1,7 +1,7 @@
 import {
   getSolidDataset,
-  createSolidDataset,
-  saveSolidDatasetAt,
+  // createSolidDataset,
+  // saveSolidDatasetAt,
 } from "@inrupt/solid-client";
 import { Session } from "@inrupt/solid-client-authn-browser";
 
@@ -15,13 +15,24 @@ export async function ensureContainerWithACL(
     // Try to fetch the container
     await getSolidDataset(containerUrl, { fetch: session.fetch });
     console.log("Container exists:", containerUrl);
-  } catch (err) {
+  } catch (err: any) {
     console.log("Container missing, creating:", containerUrl);
 
-    // Create empty container
-    await saveSolidDatasetAt(containerUrl, createSolidDataset(), {
-      fetch: session.fetch,
+    // Create the container explicitly
+    const response = await session.fetch(containerUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "text/turtle",
+        Link: '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+      },
+      body: "",
     });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to create container: ${response.status} ${response.statusText}`,
+      );
+    }
 
     // Build ACL content
     let aclContent = `@prefix acl: <http://www.w3.org/ns/auth/acl#>.
@@ -35,7 +46,6 @@ export async function ensureContainerWithACL(
     acl:mode acl:Read, acl:Write, acl:Append, acl:Control.
 `;
 
-    // Add public read if visibility is public
     if (visibility === "public") {
       aclContent += `
 <#public>
@@ -47,20 +57,17 @@ export async function ensureContainerWithACL(
 `;
     }
 
-    // Determine ACL URL
-    const aclUrl = containerUrl.endsWith("/")
-      ? containerUrl + ".acl"
-      : containerUrl + "/.acl";
+    const aclUrl = containerUrl + ".acl";
 
-    const response = await session.fetch(aclUrl, {
+    const aclResponse = await session.fetch(aclUrl, {
       method: "PUT",
       headers: { "Content-Type": "text/turtle" },
       body: aclContent,
     });
 
-    if (!response.ok) {
+    if (!aclResponse.ok) {
       throw new Error(
-        `Failed to create ACL for container: ${response.status} ${response.statusText}`,
+        `Failed to create ACL for container: ${aclResponse.status} ${aclResponse.statusText}`,
       );
     }
 
