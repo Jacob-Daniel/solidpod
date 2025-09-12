@@ -32,7 +32,7 @@ export async function createArchiveResource(
   const url = new URL(session.info.webId);
   url.hash = "";
   const webIdBase = url.href.replace(/profile\/card$/, "");
-  const resourceVisibility = !resource.visibility ? "private" : "public";
+  const resourceVisibility = resource.visibility ? "private" : "public";
   // Archive container and uploads container
   const archiveFolder = new URL(
     `archive/${resource.category}/`,
