@@ -35,9 +35,8 @@ const ArchiveItem: FC<ArchiveItemProps> = ({ resourceUrl }) => {
   const thingUrl = `${resourceUrl}#${filename}`;
   const thing = getThing(dataset, thingUrl);
   const fileName = filename.split("-")[0];
-  console.log(dataset, "res");
   return (
-    <li className="flex flex-col">
+    <li className="flex flex-col border-gray-300 border-b">
       <PublicViewMode
         dataset={dataset}
         resourceUrl={resourceUrl}

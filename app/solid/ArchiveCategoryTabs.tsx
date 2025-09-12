@@ -40,13 +40,13 @@ export default function ArchiveCategoryTabs({
       <div className="md:border md:border-gray-200 dark:border-zinc-800 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9">
         {activeCategory ? (
           <>
-            <div className="mb-3 flex justify-between items-end gap-x-5 border-b border-gray-300 pb-2">
+            <div className="mb-3 flex items-end gap-x-5 border-b border-gray-300 pb-5">
               <Image
                 src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${activeImage}`}
                 height={50}
                 width={50}
                 alt={activeCat || "archive category"}
-                className="rounded-full"
+                className=""
               />
               <div className="flex gap-x-2 items-end">
                 <h2 className="capitalize border border-gray-300 px-1">
