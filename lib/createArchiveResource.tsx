@@ -32,15 +32,19 @@ export async function createArchiveResource(
   const url = new URL(session.info.webId);
   url.hash = "";
   const webIdBase = url.href.replace(/profile\/card$/, "");
-  const resourceVisibility = resource.visibility ? "private" : "public";
-  // Archive container and uploads container
+  const resourceVisibility = resource.visibility ? "public" : "private";
+
+  // Top-level archive container
+  const topArchiveFolder = new URL("archive/", webIdBase).toString();
+  await ensureContainerWithACL(session, topArchiveFolder, "public"); // top-level archive is public
+
+  // Category and uploads containers
   const archiveFolder = new URL(
     `archive/${resource.category}/`,
     webIdBase,
   ).toString();
   const uploadsFolder = new URL("archive/uploads/", webIdBase).toString();
 
-  // Ensure containers exist and have correct ACLs
   await ensureContainerWithACL(session, archiveFolder, resourceVisibility);
   await ensureContainerWithACL(session, uploadsFolder, resourceVisibility);
 
@@ -79,7 +83,7 @@ export async function createArchiveResource(
     acl:mode acl:Read, acl:Write, acl:Append, acl:Control.
 `;
 
-  if (resource.visibility === "public") {
+  if (resource.visibility === true) {
     resourceACL += `
 <#public>
     a acl:Authorization;
