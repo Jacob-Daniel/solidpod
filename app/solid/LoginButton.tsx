@@ -1,3 +1,4 @@
+"use client";
 import type { FC } from "react";
 import { useState } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
@@ -8,8 +9,8 @@ const LoginButton: FC = () => {
 
   const login = async () => {
     await session.login({
-      redirectUrl: "http://localhost:3019/dashboard",
-      oidcIssuer: "http://localhost:3000",
+      redirectUrl: process.env.NEXT_PUBLIC_STRAPI_BASE_URL,
+      oidcIssuer: process.env.CSS_URL,
       clientName: "NKSJA App",
     });
   };

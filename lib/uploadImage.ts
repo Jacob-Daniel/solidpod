@@ -4,7 +4,7 @@ import { ensureContainerWithACL } from "./EnsureContainerWithACL";
 
 export async function uploadImage(
   file: File,
-  podRoot: string, // e.g., http://localhost:3000/tobynklarchive/
+  podRoot: string,
   session: Session,
   permissions: { private: boolean; public: boolean },
 ): Promise<string> {
