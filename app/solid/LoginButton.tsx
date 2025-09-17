@@ -10,7 +10,7 @@ const LoginButton: FC = () => {
   const login = async () => {
     await session.login({
       redirectUrl: process.env.NEXT_PUBLIC_STRAPI_BASE_URL,
-      oidcIssuer: process.env.CSS_URL,
+      oidcIssuer: process.env.NEXT_PUBLIC_CSS_URL,
       clientName: "NKSJA App",
     });
   };
