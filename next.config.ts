@@ -25,7 +25,6 @@ const nextConfig: NextConfig = {
     COMPANY_NAME: "Community Archive",
   },
   images: {
-    domains: ["localhost"], // or your Strapi domain
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
