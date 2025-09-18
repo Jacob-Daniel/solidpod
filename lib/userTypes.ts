@@ -303,7 +303,7 @@ export interface BasketData {
 export interface UpdateBasketData {
 	data: {
 		sessionId: string | null;
-		user: string | null;
+		user?: string | null;
 		details: {
 			numberOfNights: number;
 			numberOfAdults: number;
