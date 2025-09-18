@@ -1,13 +1,12 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { getAPI, getPAPI } from "@/lib/functions";
 import { buildCategoryResources } from "@/lib/getCategoryResources";
 import FeaturedSwiper from "@/app/components/FeaturedSwiper";
 import BannerTop from "@/app/components/BannerTop";
-import ArchiveCategoryTabs from "@/app/solid/ArchiveCategoryTabs";
+import ArchiveCategoryTabs from "@/app/solid/ArchiveCatTabs";
 
 import { Page, FeaturedSection, PlacesSection, Category } from "@/lib/types";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
-import { IImage } from "@/lib/dynamicTypes";
 
 export default async function Archive() {
   const [featured, [data], archives] = await Promise.all([
@@ -82,10 +81,14 @@ export default async function Archive() {
                 return null;
             }
           })}
-        <ArchiveCategoryTabs
-          categories={featured}
-          resources={categoryResources}
-        />
+        <Suspense
+          fallback={<div className="col-span-12">Loading categories...</div>}
+        >
+          <ArchiveCategoryTabs
+            categories={featured}
+            resources={categoryResources}
+          />
+        </Suspense>
       </div>
     </main>
   );
