@@ -1,13 +1,13 @@
 "use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PublicArchiveList from "@/app/solid/PublicArchiveList";
 import { useSearchParams } from "next/navigation";
-import { IImage, Category } from "@/lib/types";
+import { Category } from "@/lib/types";
 import Image from "next/image";
+
 interface ArchiveCategoryTabsProps {
   categories: Category[];
-  resources: Record<string, string[]>; // category → list of pod URLs
+  resources: Record<string, string[]>;
 }
 
 export default function ArchiveCategoryTabs({
@@ -15,22 +15,34 @@ export default function ArchiveCategoryTabs({
   resources,
 }: ArchiveCategoryTabsProps) {
   const searchParams = useSearchParams();
-  const activeCat = searchParams.get("cat");
-
-  const initialCategory =
-    categories.find((c) => c.name === activeCat || c.slug === activeCat) ||
-    categories[0];
   const [activeCategory, setActiveCategory] = useState<{
     slug: string;
     name: string;
   }>({
-    slug: initialCategory?.slug || "",
-    name: initialCategory?.name || "",
+    slug: categories[0]?.slug || "",
+    name: categories[0]?.name || "",
   });
 
   const [activeImage, setActiveImage] = useState<string>(
-    initialCategory?.image?.url || "",
+    categories[0]?.image?.url || "",
   );
+
+  // Use useEffect to handle searchParams on client side only
+  useEffect(() => {
+    const activeCat = searchParams.get("cat");
+    if (activeCat) {
+      const foundCategory = categories.find(
+        (c) => c.name === activeCat || c.slug === activeCat,
+      );
+      if (foundCategory) {
+        setActiveCategory({
+          slug: foundCategory.slug,
+          name: foundCategory.name,
+        });
+        setActiveImage(foundCategory.image?.url || "");
+      }
+    }
+  }, [searchParams, categories]);
 
   const activeResources = resources[activeCategory.slug] || [];
   const catCount = activeResources.length;
@@ -45,7 +57,7 @@ export default function ArchiveCategoryTabs({
                 src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${activeImage}`}
                 height={50}
                 width={50}
-                alt={activeCat || "archive category"}
+                alt={activeCategory.name || "archive category"}
                 className=""
               />
               <div className="flex gap-x-2 items-end">
@@ -72,10 +84,10 @@ export default function ArchiveCategoryTabs({
           {categories.map((cat) => (
             <li key={cat.slug} className="flex items-baseline relative mb-1">
               <button
-                onClick={() => (
-                  setActiveCategory({ slug: cat.slug, name: cat.name }),
-                  setActiveImage(cat.image.url)
-                )}
+                onClick={() => {
+                  setActiveCategory({ slug: cat.slug, name: cat.name });
+                  setActiveImage(cat.image?.url || "");
+                }}
                 className={`cursor-pointer mb-0 ${
                   activeCategory.slug === cat.slug &&
                   "before:content-['•'] before:absolute before:top-[-6px] before:left-0 before:text-red-500 before:text-lg text-gray-600 ps-2"

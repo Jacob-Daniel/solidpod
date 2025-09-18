@@ -9,10 +9,10 @@ async function getCategoryResources(base: string, category: string) {
     const dataset = await getSolidDataset(containerUrl);
     return getContainedResourceUrlAll(dataset);
   } catch (err: any) {
-    console.warn(
-      `Container missing or unauthorized: ${containerUrl}`,
-      err.message,
-    );
+    // console.warn(
+    //   `Container missing or unauthorized: ${containerUrl}`,
+    //   err.message,
+    // );
     return [];
   }
 }
