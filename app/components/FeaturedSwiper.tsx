@@ -61,11 +61,10 @@ export default function FeaturedSwiper({
 								>
 									<Image
 										alt={category.name}
-										width={200}
-										height={200}
-										className="z-50 mb-0"
+										width={250}
+										height={250}
+										className="z-50 mb-0 object-cover"
 										src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${category.image.url}`}
-										objectFit="cover"
 										priority={false}
 									/>
 								</Link>
