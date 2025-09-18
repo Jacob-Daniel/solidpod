@@ -43,7 +43,6 @@ export async function createBasketAction(
 	const basketData: UpdateBasketData = {
 		data: {
 			sessionId: sessionId,
-			user: null,
 			details: {
 				numberOfNights: 0,
 				numberOfAdults: 0,
