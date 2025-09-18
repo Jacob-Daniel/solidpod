@@ -36,22 +36,26 @@ export async function transformBookingToBasket(
 	ipAddress: string,
 	active: "active",
 ): Promise<UpdateBasketData> {
-	return {
-		data: {
-			sessionId,
-			user: userId,
-			details: {
-				numberOfNights: bookingData.number_of_nights,
-				numberOfAdults: bookingData.number_of_adults,
-				numberOfChildren: bookingData.number_of_children,
-				numberOfVehicles: bookingData.number_of_vehicles,
-				arrivalDate: bookingData.start_date,
-				departureDate: bookingData.end_date,
-				price: parseFloat(bookingData.booking_price).toFixed(2),
-				ipAddress: ipAddress,
-			},
-			// documentId: bookingData.documentId || '',
-			basketState: active,
+	const basketData: any = {
+		sessionId,
+		details: {
+			numberOfNights: bookingData.number_of_nights,
+			numberOfAdults: bookingData.number_of_adults,
+			numberOfChildren: bookingData.number_of_children,
+			numberOfVehicles: bookingData.number_of_vehicles,
+			arrivalDate: bookingData.start_date,
+			departureDate: bookingData.end_date,
+			price: parseFloat(bookingData.booking_price).toFixed(2),
+			ipAddress: ipAddress,
 		},
+		basketState: active,
+	};
+
+	if (userId) {
+		basketData.user = userId;
+	}
+
+	return {
+		data: basketData,
 	};
 }

@@ -24,7 +24,9 @@ const nextConfig: NextConfig = {
     BASE_URL: "http://localhost:3019",
     COMPANY_NAME: "Community Archive",
   },
+  allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
   images: {
+    domains: ["localhost"],
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
