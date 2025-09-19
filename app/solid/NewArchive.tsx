@@ -22,6 +22,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  const [document, setDocument] = useState<File | null>(null);
 
   const editor = useEditor({
     extensions: [StarterKit, Link, Image],
@@ -43,9 +44,30 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
     e.preventDefault();
     setLoading(true);
     setStatus("Saving...");
+    let documentUrl: string | undefined;
 
     const turtleTitle = sanitizeStringTurtle(title);
     let imageUrl: string | undefined;
+
+    if (document) {
+      const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
+      const uploadUrl = new URL("archive/uploads/", podRoot).toString();
+
+      // Ensure container exists
+      await ensureContainerWithACL(
+        session,
+        uploadUrl,
+        visibility ? "private" : "public",
+      );
+
+      const savedFile = await saveFileInContainer(uploadUrl, document, {
+        slug: document.name,
+        contentType: document.type,
+        fetch: session.fetch,
+      });
+
+      documentUrl = savedFile.internal_resourceInfo.sourceIri;
+    }
 
     try {
       if (image) {
@@ -76,6 +98,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         visibility: visibility,
         category,
         image: imageUrl || "", // optional
+        documentUrl: documentUrl || "",
       });
 
       setStatus(`Resource saved${image ? ` with image ${image.name}` : ""}`);
@@ -87,8 +110,12 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   };
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-1 items-start">
-      <h2 className="capitalize">new</h2>
-      <select name="category" onChange={(e) => setCat(e.target.value)} required>
+      <select
+        className="mb-3 border border-gray-300"
+        name="category"
+        onChange={(e) => setCat(e.target.value)}
+        required
+      >
         <option value="" defaultChecked>
           Select Category
         </option>
@@ -100,18 +127,31 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
           );
         })}
       </select>
+      <label htmlFor="title">Title:</label>
+
       <input
-        className="border border-gray-300 dark:boarder-zinc-800 px-1 w-full"
+        className="border border-gray-300 dark:boarder-zinc-800 px-1 w-full mb-3"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
         required
       />
-      <div className="border w-full p-1 rounded">
+      <label htmlFor="editor">Description:</label>
+      <div className="border border-gray-300 mb-3 w-full p-1 rounded">
         <EditorContent editor={editor} />
       </div>
-      <label className="cursor-pointer bg-gray-400 dark:bg-zinc-800 text-white px-3 py-1 rounded">
-        Choose Image for Upload
+      <label className="cursor-pointer bg-gray-400 dark:bg-zinc-800 text-white px-3 py-1 rounded mb-2">
+        Choose .pdf,.doc,.docx or .txt for Upload.{" "}
+        <input
+          type="file"
+          accept=".pdf,.doc,.docx,.txt"
+          onChange={(e) => {
+            if (!e.target.files) return;
+            setDocument(e.target.files[0]);
+          }}
+        />
+      </label>
+      <label className="cursor-pointer bg-gray-400 dark:bg-zinc-800 text-white px-3 py-1 rounded mb-3">
+        Choose Image for Upload.{" "}
         <input
           type="file"
           accept="image/*"
@@ -122,7 +162,13 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         />
       </label>
       <label className="flex w-full gap-x-1 items-baseline">
-        Permission: {visibility ? "Public" : "Private"}
+        Permission Currently:{" "}
+        {visibility ? (
+          <span className="text-green-500">Public</span>
+        ) : (
+          <span className="text-red-500">Private</span>
+        )}{" "}
+        {!visibility && "Check box to set to Public:"}
         <input
           className="dark:boarder-zinc-800 px-1 text-black inline"
           type="checkbox"
