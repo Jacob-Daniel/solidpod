@@ -10,7 +10,7 @@ export async function handleIncomingRedirect(
 
 export async function login(
   oidcIssuer: string,
-  redirectUrl: string = window.location.href,
+  redirectUrl: string = `${window.location.origin}/dashboard`,
 ) {
   await session.login({
     oidcIssuer,
