@@ -61,7 +61,6 @@ const Archive: FC = () => {
 
   return (
     <div>
-      <h2 className="mb-2">Archive</h2>
       {loading ? <p>Loading...</p> : null}
       {categories! instanceof Array && <p>Currently no resources found ...</p>}
 

@@ -20,6 +20,7 @@ interface ArchiveResource {
   visibility: boolean;
   category: string;
   image: string;
+  documentUrl: string;
 }
 
 export async function createArchiveResource(
@@ -58,6 +59,8 @@ export async function createArchiveResource(
   const resourceThing = buildThing(createThing({ name: fragment }))
     .addStringNoLocale(DC("title"), resource.title)
     .addStringNoLocale(DC("description"), resource.description)
+    .addStringNoLocale(DC("file"), resource.documentUrl || "")
+
     .addStringNoLocale(DC("date"), resource.date)
     .addStringNoLocale(DC("img"), resource.image)
     .addUrl(DC("creator"), resource.creator)

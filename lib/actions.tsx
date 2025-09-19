@@ -1,12 +1,5 @@
 "use server";
-import {
-	CreateMembershipResponseAction,
-	CreateMembership,
-	CreateSignature,
-	CreateResponseAction,
-	CreatePetition,
-	UploadPetition,
-} from "@/lib/types";
+import { CreateResponseAction } from "@/lib/types";
 import { createAPI } from "@/lib/functions";
 
 export async function createArchiveAction(webId: {

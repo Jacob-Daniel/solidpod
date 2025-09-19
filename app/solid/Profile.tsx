@@ -27,7 +27,6 @@ const Profile: FC = () => {
     private: true,
     public: false,
   });
-  console.log(session, "session");
   const loadProfile = async () => {
     if (!webId) return;
     try {

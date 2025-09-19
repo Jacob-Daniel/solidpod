@@ -94,6 +94,45 @@ const PublicViewMode: FC<ViewModeProps> = ({
                     dangerouslySetInnerHTML={{ __html: f.value }}
                   />
                 );
+              case "file":
+                if (f.value.endsWith(".pdf")) {
+                  return (
+                    <iframe
+                      key={f.predicate}
+                      src={f.value}
+                      width="100%"
+                      height="600px"
+                      title="PDF Preview"
+                    ></iframe>
+                  );
+                } else if (
+                  f.value.endsWith(".doc") ||
+                  f.value.endsWith(".docx")
+                ) {
+                  return (
+                    <a
+                      key={f.predicate}
+                      href={f.value}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      Download:{f.value.split("/").slice(6).join("/")}
+                    </a>
+                  );
+                } else {
+                  return (
+                    <a
+                      key={f.predicate}
+                      href={f.value}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      Download File {f.value}
+                    </a>
+                  );
+                }
 
               case "creator":
                 return (

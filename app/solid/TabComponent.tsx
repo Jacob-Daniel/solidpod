@@ -19,9 +19,9 @@ export default function TabComponent({
   newarchive: NewArchive,
   categories,
 }: TabComponentProps) {
-  const { isLoggedIn } = useSolidSession();
+  const { isLoggedIn, webId, fullName } = useSolidSession();
   const [activeTab, setActiveTab] = useState<
-    "welcome" | "profile" | "archive" | "newarchive"
+    "welcome" | "profile" | "archive" | "new-archive"
   >("welcome");
   if (!isLoggedIn) {
     return <p className="w-100">Requires login...</p>;
@@ -32,18 +32,19 @@ export default function TabComponent({
         {activeTab === "welcome" && welcome}
         {activeTab === "profile" && <Profile />}
         {activeTab === "archive" && <Archive />}
-        {activeTab === "newarchive" && <NewArchive cats={categories} />}
+        {activeTab === "new-archive" && <NewArchive cats={categories} />}
       </div>
-      <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-gray-200 dark:border-zinc-800 bg-gray-100 shadow relative dark:bg-inherit dark:text-white">
+      <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 border p-3 rounded border-gray-200 dark:border-zinc-800 bg-gray-100 shadow relative dark:bg-inherit dark:text-white">
+        <h2 className="text-sm mb-2 font-bold">{fullName}'s Dashboard </h2>
         <ul className="text-sm">
-          {["welcome", "profile", "archive", "newarchive"].map((tab, i) => (
+          {["welcome", "profile", "archive", "new-archive"].map((tab, i) => (
             <li key={i} className="flex items-baseline relative mb-1">
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab as any)}
                 className={`cursor-pointer mb-0 ${activeTab === tab && "before:content-['•'] before:absolute before:absolute before:top-[-6px] before:left-0 before:text-red-500 before:text-lg text-gray-600 ps-2"}`}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {tab.charAt(0).toUpperCase() + tab.slice(1).replace("-", " ")}
               </button>
             </li>
           ))}
