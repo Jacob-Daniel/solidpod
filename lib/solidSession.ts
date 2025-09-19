@@ -15,7 +15,7 @@ export async function login(
   await session.login({
     oidcIssuer,
     redirectUrl,
-    clientName: "My Solid React App",
+    clientName: "North Kensington Social Justice Archive (Demo)",
   });
 }
 

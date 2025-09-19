@@ -22,11 +22,11 @@ export default function Dashboard({ page, cats }: Props) {
     handleIncomingSolidLogin(session.info);
   }, [session]);
 
-  useEffect(() => {
-    if (isLoggedIn === false) {
-      router.replace("/");
-    }
-  }, [isLoggedIn, router]);
+  // useEffect(() => {
+  //   if (isLoggedIn === false) {
+  //     router.replace("/");
+  //   }
+  // }, [isLoggedIn, router]);
 
   if (!isLoggedIn) {
     return (
