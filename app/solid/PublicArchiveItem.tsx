@@ -14,7 +14,7 @@ const ArchiveItem: FC<ArchiveItemProps> = ({ resourceUrl }) => {
     console.log("useeffect");
     const loadDataset = async () => {
       try {
-        const ds = await getSolidDataset(resourceUrl, { fetch });
+        const ds = await getSolidDataset(resourceUrl, { fetch: window.fetch });
         console.log(ds, "dataset");
         setDataset(ds);
       } catch (err) {
