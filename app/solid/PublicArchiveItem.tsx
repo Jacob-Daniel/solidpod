@@ -9,13 +9,16 @@ interface ArchiveItemProps {
 
 const ArchiveItem: FC<ArchiveItemProps> = ({ resourceUrl }) => {
   const [dataset, setDataset] = useState<any>(null);
-
+  console.log(resourceUrl, "resource");
   useEffect(() => {
+    console.log("useeffect");
     const loadDataset = async () => {
       try {
         const ds = await getSolidDataset(resourceUrl, { fetch });
+        console.log(ds, "dataset");
         setDataset(ds);
       } catch (err) {
+        console.log(err, "err");
         console.error("Error loading dataset:", err);
       }
     };
@@ -25,15 +28,9 @@ const ArchiveItem: FC<ArchiveItemProps> = ({ resourceUrl }) => {
   const baseFragment = decodeURIComponent(
     resourceUrl.split("/").pop() || "",
   ).replace(/\.ttl$/, "");
-  // const filename = decodeURIComponent(
-  //   resourceUrl.split("/").pop() || "",
-  // ).replace(/\.ttl$/, "");
 
   if (!dataset) return <p>Loading resource...</p>;
 
-  // const thingUrl = `${resourceUrl}#${filename}`;
-  // const thing = getThing(dataset, thingUrl);
-  // const fileName = filename.split("-")[0];
   return (
     <li className="flex flex-col border-gray-300 border-b">
       <PublicViewMode
