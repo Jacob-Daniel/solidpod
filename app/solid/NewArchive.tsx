@@ -10,7 +10,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
-import { saveFileInContainer } from "@inrupt/solid-client";
+import { saveFileInContainer, overwriteFile } from "@inrupt/solid-client";
 
 export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   const { session, webId } = useSolidSession();
@@ -40,6 +40,14 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
     immediatelyRender: false,
   });
 
+  const safeSlug = (filename: string) => {
+    return filename
+      .trim()
+      .replace(/\/+$/, "") // remove trailing slashes
+      .replace(/\s+/g, "_") // replace spaces with underscores
+      .replace(/[^a-zA-Z0-9._-]/g, ""); // remove bad chars
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -52,7 +60,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
     if (document) {
       const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
       const uploadUrl = new URL("archive/uploads/", podRoot).toString();
-
+      console.log(uploadUrl, "uploadUrl", podRoot, "root");
       // Ensure container exists
       await ensureContainerWithACL(
         session,
@@ -60,13 +68,15 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         visibility ? "public" : "private",
       );
 
-      const savedFile = await saveFileInContainer(uploadUrl, document, {
-        slug: document.name,
+      const slug = safeSlug(document.name); // removes spaces and trailing slashes
+      const finalUrl = uploadUrl + slug;
+
+      await overwriteFile(uploadUrl + slug, document, {
         contentType: document.type,
         fetch: session.fetch,
       });
 
-      documentUrl = savedFile.internal_resourceInfo.sourceIri;
+      documentUrl = finalUrl;
     }
 
     try {
@@ -81,13 +91,15 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
           visibility ? "public" : "private",
         );
 
-        const savedFile = await saveFileInContainer(uploadUrl, image, {
-          slug: image.name,
+        const slug = safeSlug(image.name);
+        const finalUrl = uploadUrl + slug;
+
+        await overwriteFile(finalUrl, image, {
           contentType: image.type,
           fetch: session.fetch,
         });
 
-        imageUrl = savedFile.internal_resourceInfo.sourceIri;
+        imageUrl = finalUrl;
       }
 
       await createArchiveResource(session, {
