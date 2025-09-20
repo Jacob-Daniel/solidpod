@@ -101,24 +101,24 @@ const PublicViewMode: FC<ViewModeProps> = ({
                       key={f.predicate}
                       src={f.value}
                       width="100%"
-                      height="600px"
+                      height="600"
                       title="PDF Preview"
-                    ></iframe>
+                    />
                   );
                 } else if (
                   f.value.endsWith(".doc") ||
                   f.value.endsWith(".docx")
                 ) {
                   return (
-                    <a
+                    <iframe
                       key={f.predicate}
-                      href={f.value}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 underline"
-                    >
-                      Download:{f.value.split("/").slice(6).join("/")}
-                    </a>
+                      src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
+                        f.value,
+                      )}`}
+                      width="100%"
+                      height="600"
+                      title="Word Preview"
+                    />
                   );
                 } else {
                   return (
@@ -127,9 +127,8 @@ const PublicViewMode: FC<ViewModeProps> = ({
                       href={f.value}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 underline"
                     >
-                      Download File {f.value}
+                      Download File
                     </a>
                   );
                 }
