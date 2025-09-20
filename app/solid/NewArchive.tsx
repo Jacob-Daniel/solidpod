@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
 import { createArchiveResource } from "@/lib/createArchiveResource";
-import { ensureContainerWithACL } from "@/lib/EnsureContainerWithACL";
+import { ensureContainerWithACL } from "@/lib/ensureContainerWithACL";
 import { sanitizeStringTurtle } from "@/lib/sanitizeStringTurtle";
 import { Category } from "@/lib/types";
 // import dynamic from "next/dynamic";
@@ -57,7 +57,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
       await ensureContainerWithACL(
         session,
         uploadUrl,
-        visibility ? "private" : "public",
+        visibility ? "public" : "private",
       );
 
       const savedFile = await saveFileInContainer(uploadUrl, document, {
@@ -78,7 +78,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         await ensureContainerWithACL(
           session,
           uploadUrl,
-          visibility ? "private" : "public",
+          visibility ? "public" : "private",
         );
 
         const savedFile = await saveFileInContainer(uploadUrl, image, {

@@ -7,7 +7,7 @@ import {
 } from "@inrupt/solid-client";
 import { Session } from "@inrupt/solid-client-authn-browser";
 import namespace from "@rdfjs/namespace";
-import { ensureContainerWithACL } from "@/lib/EnsureContainerWithACL";
+import { ensureContainerWithACL } from "@/lib/ensureContainerWithACL";
 import { sanitizeStringTurtle } from "@/lib/sanitizeStringTurtle";
 
 const DC = namespace("http://purl.org/dc/terms/");
