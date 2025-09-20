@@ -32,7 +32,7 @@ export default function Dashboard({ page, cats }: Props) {
     return (
       <main className="grid grid-cols-12 gap-y-5 md:gap-y-10 min-h-[600px]">
         {" "}
-        <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7">
+        <div className="col-span-12 lg:col-start-2 lg:col-span-10 px-5 lg:px-0">
           <p>
             <LoginButton />
           </p>
