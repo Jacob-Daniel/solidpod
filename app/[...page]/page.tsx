@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { getAPI } from "@/lib/functions";
 import UlPageContentAnchors from "@/app/components/UlPageContentAnchors";
 import BannerTop from "@/app/components/BannerTop";
@@ -10,21 +9,22 @@ type Tags = {
 };
 
 import { Page } from "@/lib/types";
+import { notFound } from "next/navigation";
 
-async function fetchPage() {
-  return getAPI<Page[]>(
-    `/pages?filters[slug][$eq]=introduction&populate[banner][populate][image_versions][populate]=image&populate[sections][on][content.content][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sidebar][on][layout.navigation][populate][navigation_menu][populate]=*`,
-  );
-}
-
-export default async function Introduction() {
-  const [data] = await fetchPage();
-  if (!data)
-    return (
-      <div>
-        <p className="text-black">No content available</p>
-      </div>
-    );
+export default async function DynamicPage({
+  params,
+}: {
+  params: { page?: string[] };
+}) {
+  let { page } = params;
+  let blurDataUrl;
+  const [[data]] = await Promise.all([
+    getAPI<Page[]>(
+      `/pages?filters[slug][$eq]=${page}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
+    ),
+  ]);
+  console.log(data, "data");
+  if (!data) notFound();
   const tags: Tags[] =
     data?.sections
       ?.filter((section) => section.__component === "content.content")
@@ -33,22 +33,24 @@ export default async function Introduction() {
         label: section?.anchor as string,
         target: "_self",
       })) ?? [];
+  if (data.banner) {
+    const img =
+      data?.banner?.image_versions.find((v) => v.version === "desktop")
+        ?.image ?? data?.banner?.image_versions[0]?.image;
 
-  const img =
-    data?.banner?.image_versions.find((v) => v.version === "desktop")?.image ??
-    data?.banner?.image_versions[0]?.image;
-
-  const blurDataUrl = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
-  )
-    .then((res) => res.arrayBuffer())
-    .then(
-      (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-    );
+    blurDataUrl = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
+    )
+      .then((res) => res.arrayBuffer())
+      .then(
+        (buf) =>
+          `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
+      );
+  }
 
   return (
     <main className="grid grid-cols-12 md:gap-y-10">
-      {data.banner && data.banner.image_versions[0].image && (
+      {data.banner && blurDataUrl && data.banner.image_versions[0].image && (
         <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
           <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
         </div>
