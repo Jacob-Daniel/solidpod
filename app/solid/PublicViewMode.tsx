@@ -58,13 +58,13 @@ const PublicViewMode: FC<ViewModeProps> = ({
             const fieldName = f.predicate.split("/").pop()?.split("#").pop();
             const name = f.value === "name" ? f.value : "resource";
             if (fieldName === "img") {
-              console.log(f.value, "img source");
+              console.log("typeof f.value", typeof f.value, f.value);
               return (
                 <Image
                   key={f.predicate}
                   width={300}
                   height={300}
-                  src={f.value}
+                  src={String(f.value)}
                   alt={name}
                 />
               );
