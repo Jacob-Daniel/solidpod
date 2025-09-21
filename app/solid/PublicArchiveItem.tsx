@@ -9,16 +9,12 @@ interface ArchiveItemProps {
 
 const ArchiveItem: FC<ArchiveItemProps> = ({ resourceUrl }) => {
   const [dataset, setDataset] = useState<any>(null);
-  console.log(resourceUrl, "resource");
   useEffect(() => {
-    console.log("useeffect");
     const loadDataset = async () => {
       try {
         const ds = await getSolidDataset(resourceUrl, { fetch: window.fetch });
-        console.log(ds, "dataset");
         setDataset(ds);
       } catch (err) {
-        console.log(err, "err");
         console.error("Error loading dataset:", err);
       }
     };
