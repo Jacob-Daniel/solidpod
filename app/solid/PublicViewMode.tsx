@@ -57,8 +57,8 @@ const PublicViewMode: FC<ViewModeProps> = ({
           {stringFields.map((f) => {
             const fieldName = f.predicate.split("/").pop()?.split("#").pop();
             const name = f.value === "name" ? f.value : "resource";
-
             if (fieldName === "img") {
+              console.log(f.value, "img source");
               return (
                 <Image
                   key={f.predicate}
