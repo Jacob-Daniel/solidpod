@@ -9,6 +9,8 @@ import {
   FaFire,
   FaMoon,
   FaSun,
+  FaBullhorn,
+  FaShareAlt,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
@@ -21,6 +23,8 @@ const iconMap: Record<string, IconType> = {
   FaFire,
   FaMoon,
   FaSun,
+  FaBullhorn,
+  FaShareAlt,
 };
 
 export default function StaticIcon({
