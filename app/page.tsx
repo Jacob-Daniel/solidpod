@@ -95,9 +95,6 @@ export default async function Home() {
                     />
                   </Frame>
                 );
-              case "content.heading":
-                return <TagList key={index} tags={tags} />;
-
               default:
                 console.warn("Unknown section type:", section.__component);
                 return null;
