@@ -10,8 +10,12 @@ export default function BannerTop({
 	banner: Banner;
 	blurDataUrl: string;
 }) {
+	const bg = banner.bg_colour;
 	return (
-		<div className="col-span-12 relative mt-[0px] bg-gray-200 dark:border dark:border-zinc-800 overflow-hidden">
+		<div
+			style={{ backgroundColor: bg }}
+			className={`col-span-12 relative mt-[0px] dark:border dark:border-zinc-800 overflow-hidden`}
+		>
 			<div className="col-span-12 ">
 				<div className="w-full relative flex items-end justify-end md:h-[295px] xl:h-[345px] overflow-hidden">
 					<SVG
@@ -23,7 +27,7 @@ export default function BannerTop({
 						gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 					/>
 					<ResponsiveImage
-						className="object-cover object-center w-full max-h-[500px]"
+						className="object-cover object-center w-full"
 						banner={banner.image_versions}
 						alt={banner.heading}
 						priority={true}
