@@ -23,7 +23,7 @@ export default function BannerTop({
 						gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 					/>
 					<ResponsiveImage
-						className="object-cover object-center w-full max-h-[430px]"
+						className="object-cover object-center w-full max-h-[500px]"
 						banner={banner.image_versions}
 						alt={banner.heading}
 						priority={true}
