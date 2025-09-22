@@ -52,7 +52,7 @@ export default async function Home() {
                 return (
                   <section
                     key="info_card"
-                    className="col-span-12 md:grid md:grid-cols-12 mb-16 flex gap-y-5 gap-x-5 overflow-x-auto whitespace-nowrap max-w-full"
+                    className="col-span-12 grid grid-cols-12 mb-16 flex gap-y-5 gap-x-5"
                   >
                     {section &&
                       section.info_card instanceof Array &&
