@@ -16,7 +16,6 @@ export default async function Archive() {
     ),
     getPAPI<{ webId: string }[]>("/archives?populate=*"),
   ]);
-  // const categoryResources: Record<string, string[]> = {};
   if (!data) return <div>No content available</div>;
 
   const blurDataUrl = await fetch(
@@ -103,12 +102,6 @@ function Frame({
 }) {
   return (
     <div className="relative col-span-12 grid grid-cols-12">
-      {/*      <header className="col-span-12 flex flex-col">
-        <H2
-          child={section.heading}
-          className="text-lg md:text-lg lg:text-2xl leading-none font-bold font-sans mb-2"
-        />
-      </header>*/}
       <div className="col-span-12 grid grid-cols-12 md:flex-row gap-y-5 lg:px-0 md:gap-x-5">
         {children}
       </div>

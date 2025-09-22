@@ -28,7 +28,7 @@ const Modal: React.FC<{ id: string; children: React.ReactNode }> = ({
 			setVisible(false);
 		}
 	};
-
+	console.log(visible, "vis");
 	return (
 		<dialog
 			data-id={id}
@@ -78,20 +78,20 @@ const ModalCloseFormDialog: React.FC = () => {
 };
 
 type SetVisibleType = React.Dispatch<React.SetStateAction<boolean>>;
-
 // Define the NavModal component
 const NavModal: React.FC<{
 	nav: INavigationItems;
 	id: string;
 	display: string;
-}> = ({ nav, id, display }) => {
+	user: INavigationItems;
+}> = ({ nav, id, display, user }) => {
 	return (
 		<VisibilityProvider>
 			<Container id={id} display={display}>
 				<BarsIcon id={id} />
 				<Modal id={id}>
 					<ModalCloseFormDialog />
-					<List nav={nav} type="mobile" />
+					<List nav={nav} user={user} type="mobile" />
 				</Modal>
 			</Container>
 		</VisibilityProvider>

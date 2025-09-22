@@ -25,10 +25,11 @@ export default async function Nav({ type }: { type: string }) {
 
 	return (
 		<nav className="col-span-12 z-40 md:col-span-8 md:flex md:gap-x-7 md:h-[70px] justify-end md:px-0 text-slate-800">
-			<List nav={nav} user={user} />
+			<List nav={nav} user={user} type={type} />
 			<NavModal
 				id="navModal"
 				nav={combinded}
+				user={user}
 				display="flex md:hidden absolute top-5 end-5"
 			/>
 		</nav>
