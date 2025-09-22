@@ -11,9 +11,11 @@ import { formatMenuItems } from "@/lib/formatMenuItems";
 const List = ({
 	nav,
 	user,
+	type,
 }: {
 	nav: INavigationItems;
 	user: INavigationItems;
+	type: string;
 }) => {
 	let items;
 	const pathname = usePathname();
@@ -23,7 +25,6 @@ const List = ({
 
 	useWindowListener("click", closeSubmenu);
 	useEffect(() => {}, [activeSubmenuId]);
-
 	const isDashboard = pathname.startsWith("/dashboard");
 	if (isDashboard && user) {
 		items = formatMenuItems(user.navigation_items, {
@@ -36,11 +37,22 @@ const List = ({
 			fullName,
 		});
 	}
+	console.log(type, "type");
 	return (
 		<ul
-			className={`relative text-slate-800 z-30 col-span-12 align-middle justify-center md:justify-end md:flex items-center gap-x-3
-        ${isDashboard ? "hidden md:block" : "hidden md:gap-x-5 xl:gap-x-7"}
-      `}
+			className={`
+  relative z-30 col-span-12 
+  text-slate-800 align-middle justify-center 
+  items-center gap-x-3
+  md:flex md:justify-end
+  ${
+		isDashboard && type === "main"
+			? "hidden md:block"
+			: type === "main"
+				? "hidden md:gap-x-5 xl:gap-x-7"
+				: ""
+	}
+`}
 		>
 			{items.map((item) => (
 				<li

@@ -32,7 +32,7 @@ export default function BannerTop({
 						/>
 					</div>
 				</div>
-				<div className="absolute z-30 inset-x-0 bottom-0 top-5 w-full flex items-center justify-start px-10 overflow-hidden">
+				<div className="absolute z-30 inset-x-0 bottom-0 top-0 md:top-5 w-full flex items-center justify-start px-10 overflow-hidden bg-black/50 md:bg-transparent">
 					<div className="relative flex flex-col gap-2 items-center text-center max-w-lg px-4">
 						<Image
 							src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/uploads/14262490_0a196e3b2b.webp`}
