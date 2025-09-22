@@ -149,34 +149,6 @@ export async function getAPIAuth<T>(query: string, jwt: string): Promise<T> {
 	}
 }
 
-// export async function generatePageMetadata(id: number): Promise<Metadata> {
-// 	const data = getAPI<Page>();
-
-// 	const page = data[0];
-
-// 	const facebookImagepath = `${process.env.BASE_IMG_FB_URL}/${page.imagepath}`;
-// 	const twitterImagepath = `${process.env.BASE_IMG_TW_URL}/${page.imagepath}`;
-
-// 	return {
-// 		title: page.title,
-// 		description: page.summary,
-// 		keywords: [page.metak],
-// 		openGraph: {
-// 			title: page.title,
-// 			type: "article",
-// 			url: process.env.BASE_URL,
-// 			images: facebookImagepath,
-// 		},
-// 		twitter: {
-// 			card: "summary_large_image",
-// 			title: page.title,
-// 			description: page.summary,
-// 			images: twitterImagepath,
-// 		},
-// 	};
-// }
-
-// lib/uploadToStrapi.ts
 export async function uploadImage<T>(
 	imageFile: File,
 	jwt: string,
@@ -220,4 +192,48 @@ export function rgbDataURL(r: number, g: number, b: number) {
 	return `data:image/gif;base64,R0lGODlhAQABAPAA${
 		triplet(0, r, g) + triplet(b, 255, 255)
 	}/yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==`;
+}
+
+export async function createMembership({
+	data,
+}: {
+	data: CreateMembership;
+}): Promise<CreateMembershipResponseAction> {
+	try {
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_STRAPI_API}/comments`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${process.env.STRAPI_USER_API_TOKEN}`,
+				},
+				body: JSON.stringify({
+					data: data,
+				}),
+			},
+		);
+		if (!response.ok) {
+			const errorBody = await response.json();
+			throw new Error(errorBody.error?.message || "An unknown error occurred");
+		}
+		let json;
+		try {
+			json = await response.json();
+		} catch (jsonError) {
+			throw new Error(`Error parsing JSON response: ${jsonError}`);
+		}
+		// console.log(json, "create memb");
+		return json; // If everything went fine, return the parsed JSON
+	} catch (error: any) {
+		console.error("Error occurred while creating membership:", error.message);
+		return {
+			error: {
+				status: 400,
+				name: "ApplicationError",
+				message: "Membership Email already exists",
+				details: { field: "email", code: "duplicate" },
+			},
+		};
+	}
 }
