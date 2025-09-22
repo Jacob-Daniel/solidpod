@@ -17,7 +17,7 @@ export const validateInput = (
 		| "mailing_list"
 		| "last_name"
 		| "email"
-		| "first_name"
+		| "name"
 		| "postcode"
 		| "display_name"
 		| "comment",
@@ -31,7 +31,7 @@ export const validateInput = (
 			return postcodeRegex.test(value) || value === ""
 				? null
 				: "Only UK postcode permitted";
-		case "first_name":
+		case "name":
 		case "last_name":
 			if (!value.length) {
 				return "Field must not be empty";
@@ -167,65 +167,6 @@ export function strReverse(str: string) {
 function renderTextNode(node: TextNode): string {
 	return node.text; // Directly return the text from the node
 }
-
-// Update the renderContent function
-// export function renderContent(content: ContentBlock): string {
-// 	if (Array.isArray(content)) {
-// 		return content
-// 			.map((block) => {
-// 				switch (block.type) {
-// 					case "paragraph":
-// 						return `<p class="mb-3 text-lg">${block.children
-// 							.map(renderTextNode)
-// 							.join("")}</p>`;
-// 					case "heading":
-// 						return `<h${(block as HeadingBlock).level}>${(
-// 							block as HeadingBlock
-// 						).children
-// 							.map(renderTextNode)
-// 							.join("")}</h${(block as HeadingBlock).level}>`;
-// 					case "list":
-// 						return `<ul>${(block as ListBlock).children
-// 							.map(renderListItem)
-// 							.join("")}</ul>`;
-// 					case "list-item":
-// 						return `<li>${(block as ListItemNode).children
-// 							.map(renderTextNode)
-// 							.join("")}</li>`;
-// 					default:
-// 						return "";
-// 				}
-// 			})
-// 			.join("");
-// 	} else {
-// 		console.warn("Content is not an array or is undefined:", content);
-// 		return "";
-// 	}
-// }
-
-// Utility function to render list items
-// function renderListItem(item: ListItemNode): string {
-// 	return `<li>${item.children.map(renderTextNode).join("")}</li>`;
-// }
-
-// Function to render a content block
-// export function renderBlock(block: ContentBlock): string {
-// 	switch (block.type) {
-// 		case "paragraph":
-// 			return `<p>${block.children.map(renderInline).join("")}</p>`;
-// 		case "heading":
-// 			return `<h${block.level}>${block.children
-// 				.map(renderInline)
-// 				.join("")}</h${block.level}>`;
-// 		case "list":
-// 			const listType = block.ordered ? "ol" : "ul";
-// 			return `<${listType}>${block.children
-// 				.map(renderListItem)
-// 				.join("")}</${listType}>`;
-// 		default:
-// 			return "";
-// 	}
-// }
 
 // Function to render inline content (text nodes)
 export function renderInline(node: TextNode): string {

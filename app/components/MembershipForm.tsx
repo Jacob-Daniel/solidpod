@@ -3,6 +3,8 @@
 import { useState, useRef, ReactNode } from "react";
 import { createMembershipAction } from "@/lib/actions";
 import { validateInput, humanValidator } from "@/lib/clientFunctions";
+import { useSolidSession } from "@/lib/sessionContext";
+
 import {
   FormSection,
   Member,
@@ -17,11 +19,8 @@ type Props = {
 };
 let r = (Math.random() + 1).toString(36).substring(7);
 type FormValues = {
-  first_name: string;
-  last_name: string;
-  postcode: string;
-  email: string;
-  mailing_list: boolean;
+  name: string;
+  message: string;
 };
 
 export default function ContactForm({
@@ -31,6 +30,7 @@ export default function ContactForm({
   section: FormSection;
   className: string;
 }) {
+  const { webId } = useSolidSession();
   const { form_field } = section;
   const formRef = useRef<HTMLFormElement>(null);
   const [count, setCount] = useState(0);
@@ -46,8 +46,8 @@ export default function ContactForm({
   );
 
   // const [formValues, setFormValues] = useState<FormValues>({
-  //   first_name: "",
-  //   last_name: "",
+  //   name: "",
+  //   message: "",
   //   postcode: "",
   //   email: "",
   //   mailing_list: false,
@@ -64,11 +64,8 @@ export default function ContactForm({
   const [errors, setErrors] = useState<{
     [key in keyof FormValues]: boolean | string | "";
   }>({
-    first_name: "",
-    last_name: "",
-    postcode: "",
-    email: "",
-    mailing_list: false,
+    name: "",
+    message: "",
   });
 
   const triggerCreateCustomer = async ({
@@ -77,11 +74,8 @@ export default function ContactForm({
     data: CreateMembership;
   }) => {
     setErrors({
-      first_name: "",
-      last_name: "",
-      postcode: "",
-      email: "",
-      mailing_list: false,
+      name: "",
+      message: "",
     });
     try {
       const res = await createMembershipAction(data);
@@ -95,8 +89,7 @@ export default function ContactForm({
         setMessageSend((prev) => ({
           ...prev,
           errorMessage: "",
-          successMessage:
-            `Success: email ${res.email} added to mailing list!` as string,
+          successMessage: `Success: Feedback submitted!` as string,
         }));
       }
     } catch (error) {
@@ -135,34 +128,18 @@ export default function ContactForm({
       const newErrors: {
         [key in keyof CreateMembership]: string | boolean | "";
       } = {
-        first_name: "",
-        last_name: "",
-        postcode: "",
-        email: "",
-        mailing_list: false,
+        name: "",
+        message: "",
+        webId: "",
       };
 
       const formData = new FormData(formRef.current);
-      const mailingListValue = formData.get("mailing_list");
-      const mailing_list = mailingListValue === "true";
 
       const data: CreateMembership = {
-        first_name: formData.get("first_name") as string,
-        last_name: formData.get("last_name") as string,
-        email: formData.get("email") as string,
-        postcode: formData.get("postcode") as string,
-        mailing_list,
+        name: formData.get("name") as string,
+        message: formData.get("message") as string,
+        webId: webId || "",
       };
-      for (const [field, value] of Object.entries(data)) {
-        const fieldName = field as keyof CreateMembership;
-        const errorMessage = validateInput(fieldName, value);
-
-        if (errorMessage === null) {
-          newErrors[fieldName] = "";
-        } else {
-          newErrors[fieldName] = errorMessage;
-        }
-      }
 
       const hasErrors = Object.values(newErrors).some((error) => error !== "");
 

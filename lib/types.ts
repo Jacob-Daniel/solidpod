@@ -892,11 +892,9 @@ export interface Intro {
 /*Membership*/
 
 export interface CreateMembership {
-	first_name: string;
-	last_name: string;
-	email: string;
-	postcode: string;
-	mailing_list: boolean;
+	name: string;
+	message: string;
+	webId: string;
 }
 
 export type CreateMembershipResponseAction =
