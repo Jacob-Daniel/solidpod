@@ -91,7 +91,7 @@ export default async function Home() {
                       featured={featured}
                       section={section}
                       view={-0}
-                      gap={0}
+                      gap={30}
                     />
                   </Frame>
                 );
@@ -105,5 +105,7 @@ export default async function Home() {
   );
 }
 function Frame({ children }: { children: ReactNode }) {
-  return <div className="relative col-span-12 mb-20">{children}</div>;
+  return (
+    <section className="relative col-span-12 mb-20 md:px-0">{children}</section>
+  );
 }
