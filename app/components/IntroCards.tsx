@@ -19,7 +19,7 @@ export default function Intros({
 	return (
 		<div
 			id={id}
-			className="inline-block md:inline md:col-span-6 lg:col-span-3 border border-gray-300 dark:border-zinc-800 hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-700 rounded dark:shadow-zinc-800"
+			className="col-span-6 md:col-span-3 inline-block md:inline lg:col-span-3 border border-gray-300 dark:border-zinc-800 hover:shadow-md hover:border-zinc-400 dark:hover:border-zinc-700 rounded dark:shadow-zinc-800 text-center"
 		>
 			<Link
 				href={`${process.env.NEXT_PUBLIC_BASE_URL}/${json.slug.slug}`}
