@@ -23,14 +23,14 @@ export default function Intros({
 		>
 			<Link
 				href={`${process.env.NEXT_PUBLIC_BASE_URL}/${json.slug.slug}`}
-				className="whitespace-normal grid justify-items-center items-center xl:mb-0 m-auto flex flex-col dark:bg-inherit p-5"
+				className="whitespace-normal grid justify-items-center items-center xl:mb-0 m-auto flex flex-col dark:bg-inherit p-2 py-3 md:p-5"
 			>
 				<StaticIcon
 					iconName={json.icon}
 					color={icon_colour}
 					className="text-xl mb-1 text-black/90 dark:text-white block"
 				/>
-				<h2 className="font-sans font-bold mb-1">{json.heading}</h2>
+				<h2 className="text-base font-sans font-bold mb-1">{json.heading}</h2>
 
 				<p
 					className="leading-snug self-start text-center !p-0 text-base"

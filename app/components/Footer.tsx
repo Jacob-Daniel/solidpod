@@ -20,7 +20,7 @@ export default async function Footer(): Promise<JSX.Element> {
 			className={`relative z-30 grid grid-cols-12 col-span-12 w-full m-0 mt-16 max-w-[1500px] align-middle mx-auto dark:text-white`}
 		>
 			<div className="lg:col-start-2 col-span-12 lg:col-span-10 w-full pt-5 pb-16 px-5 lg:px-0 max-w-[1850px] 2xl:mx-auto text-sm border-top border-t-gray-300 border-t-1 dark:border-zinc-800">
-				<div className="grid grid-cols-12 gap-y-10 z-50 !text-sm">
+				<div className="grid grid-cols-12 gap-y-5 md:gap-y-10 z-50 !text-sm">
 					{Object.entries(footer).map(([key, value]) => {
 						if (Array.isArray(value) && value.length > 0) {
 							const heading = value.find(
@@ -29,7 +29,7 @@ export default async function Footer(): Promise<JSX.Element> {
 									item.__component === "layout.navigation",
 							)?.heading;
 							return (
-								<div key={key} className="flex-1 md:col-span-3">
+								<div key={key} className="flex-1 col-span-12 md:col-span-3">
 									{heading && (
 										<h3 className="text-md capitalize tracking-widest mb-2">
 											{heading}
