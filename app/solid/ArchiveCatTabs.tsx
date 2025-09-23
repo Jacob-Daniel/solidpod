@@ -91,9 +91,9 @@ export default function ArchiveCategoryTabs({
                   setActiveCategory({ slug: cat.slug, name: cat.name });
                   setActiveImage(cat.image?.url || "");
                 }}
-                className={`text-base cursor-pointer mb-0 border border-gray-300 rounded md:border-0 ${
+                className={`px-1 text-base md:text-sm cursor-pointer mb-0 border border-gray-300 rounded md:border-0 ${
                   activeCategory.slug === cat.slug &&
-                  "bg-zinc-800 text-white md:bg-inherit md:text-body md:before:content-['•'] md:before:absolute md:before:top-[-6px] md:before:left-0 md:before:text-red-500 md:before:text-lg md:text-gray-600 md:ps-2 md:ml-2"
+                  "bg-zinc-800 text-white md:bg-inherit md:text-body md:before:content-['•'] md:before:absolute md:before:top-[-6px] md:before:left-0 md:before:text-red-500 md:before:text-lg md:text-gray-600 md:px-0 md:ps-2 md:ml-2"
                 }`}
               >
                 {cat.slug.charAt(0).toUpperCase() + cat.slug.slice(1)}
