@@ -22,6 +22,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [visibility, setVisibility] = useState(false);
+  const [allowAnnotations, setAllowAnnotations] = useState(false);
   const [document, setDocument] = useState<File | null>(null);
 
   const editor = useEditor({
@@ -111,6 +112,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         category,
         image: imageUrl || "", // optional
         documentUrl: documentUrl || "",
+        allowAnnotations,
       });
 
       setStatus(`Resource saved${image ? ` with image ${image.name}` : ""}`);
@@ -171,6 +173,14 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
             if (!e.target.files) return;
             setImage(e.target.files[0]);
           }}
+        />
+      </label>
+      <label className="flex w-full gap-x-1 items-baseline">
+        Allow annotations by other users:
+        <input
+          type="checkbox"
+          checked={allowAnnotations}
+          onChange={() => setAllowAnnotations((prev) => !prev)}
         />
       </label>
       <label className="flex w-full gap-x-1 items-baseline">
