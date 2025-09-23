@@ -46,7 +46,7 @@ export default async function UserGuide() {
         target: "_self",
       })) ?? [];
   return (
-    <main className="grid grid-cols-12 gap-y-5 md:gap-y-10">
+    <main className="grid grid-cols-12 gap-y-5 gap-y-10">
       {data.banner && data.banner.image_versions[0].image.url && (
         <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
           <BannerTop banner={data.banner} blurDataUrl={blurDataUrl} />
