@@ -28,7 +28,7 @@ export default function FeaturedSwiper({
 					return (
 						<div
 							key={index}
-							className="col-span-4 md:col-span-2 relative mb-0 mb-md-0 overflow-clip border border-gray-300 dark:border-zinc-800 rounded-t md:min-h-[200px]"
+							className="col-span-4 md:col-span-2 relative mb-0 mb-md-0 overflow-clip border border-gray-300 dark:border-zinc-800 rounded-t]"
 						>
 							<Link
 								href={`${process.env.BASE_URL}/archive?cat=${category.slug}`}
