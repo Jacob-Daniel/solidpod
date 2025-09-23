@@ -12,7 +12,7 @@ import {
 export default async function Footer(): Promise<JSX.Element> {
 	const [footer] = await Promise.all([
 		getAPI<IFooter>(
-			"/footer?populate[column_one][on][content.heading][populate][populate]=*&populate[column_two][on][content.heading][populate][populate]=*&populate[column_three][on][content.heading][populate]=*&populate[column_one][on][layout.navigation][populate][navigation_menu][populate]=navigation_items&populate[column_four][on][layout.social-platforms][populate][organisation][populate]=social_media.social&populate[column_two][on][layout.navigation][populate][navigation_menu][populate]=navigation_items",
+			"/footer?populate[column_one][on][content.heading][populate][populate]=*&populate[column_two][on][content.heading][populate][populate]=*&populate[column_three][on][content.heading][populate]=*&populate[column_one][on][layout.navigation][populate][navigation_menu][populate]=navigation_items&populate[column_two][on][layout.navigation][populate][navigation_menu][populate]=navigation_items",
 		),
 	]);
 	return (

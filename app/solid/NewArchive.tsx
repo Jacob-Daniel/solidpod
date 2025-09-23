@@ -122,6 +122,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
       setLoading(false);
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-1 items-start">
       <select
