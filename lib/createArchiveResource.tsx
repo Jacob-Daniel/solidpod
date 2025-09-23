@@ -104,7 +104,9 @@ export async function createArchiveResource(
     body: resourceACL,
   });
 
-  fetch("/api/revalidate-archive", { method: "POST" }).catch(console.error);
+  fetch(`${process.env.BASE_URL}/api/revalidate-archive`, {
+    method: "POST",
+  }).catch(console.error);
 
   return { resourceUrl, fragment };
 }

@@ -55,7 +55,9 @@ const Archive: FC = () => {
           : cat,
       ),
     );
-    fetch("/api/revalidate-archive", { method: "POST" }).catch(console.error);
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-archive`, {
+      method: "POST",
+    }).catch(console.error);
   };
 
   if (!isLoggedIn) return <p>Loading...</p>;
