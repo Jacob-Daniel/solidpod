@@ -21,6 +21,7 @@ interface ArchiveResource {
   category: string;
   image: string;
   documentUrl: string;
+  allowAnnotations: boolean;
 }
 
 export async function createArchiveResource(
@@ -60,7 +61,7 @@ export async function createArchiveResource(
     .addStringNoLocale(DC("title"), resource.title)
     .addStringNoLocale(DC("description"), resource.description)
     .addStringNoLocale(DC("file"), resource.documentUrl || "")
-
+    .addBoolean(DC("allowAnnotations"), resource.allowAnnotations)
     .addStringNoLocale(DC("date"), resource.date)
     .addStringNoLocale(DC("img"), resource.image)
     .addUrl(DC("creator"), resource.creator)
@@ -102,6 +103,8 @@ export async function createArchiveResource(
     headers: { "Content-Type": "text/turtle" },
     body: resourceACL,
   });
+
+  fetch("/api/revalidate-archive", { method: "POST" }).catch(console.error);
 
   return { resourceUrl, fragment };
 }
