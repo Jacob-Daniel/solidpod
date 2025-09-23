@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { getAPI } from "@/lib/functions";
 import UlPageContentAnchors from "@/app/components/UlPageContentAnchors";
 import BannerTop from "@/app/components/BannerTop";
@@ -47,7 +46,7 @@ export default async function Introduction() {
     );
 
   return (
-    <main className="grid grid-cols-12 md:gap-y-10">
+    <main className="grid grid-cols-12 gap-y-10">
       {data.banner && data.banner.image_versions[0].image && (
         <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
           <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
