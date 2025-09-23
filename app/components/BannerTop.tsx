@@ -12,12 +12,12 @@ export default function BannerTop({
 }) {
 	const bg = banner.bg_colour;
 	return (
-		<div className="col-span-12 md:px-5 xl:px-0">
+		<div className="col-span-12 px-5 xl:px-0">
 			<div
 				style={{ backgroundColor: bg }}
 				className={`col-span-12 relative dark:border dark:border-zinc-800 overflow-hidden`}
 			>
-				<div className="col-span-12 ">
+				<div className="col-span-12">
 					<div className="w-full relative flex items-end justify-end md:h-[295px] xl:h-[345px] overflow-hidden">
 						<SVG
 							className="hidden md:block absolute h-full inset-x-0 bottom-0 z-30"
@@ -36,7 +36,7 @@ export default function BannerTop({
 						/>
 					</div>
 					<div className="absolute z-30 inset-x-0 bottom-0 top-0 w-full flex items-center justify-start px-10 overflow-hidden bg-black/50 md:bg-transparent">
-						<div className="relative flex flex-col gap-2 items-center text-center max-w-lg px-4">
+						<div className="relative flex flex-col gap-2 items-center text-center max-w-lg md:px-4">
 							<Image
 								src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/uploads/14262490_0a196e3b2b.webp`}
 								alt="Solid Logo"
