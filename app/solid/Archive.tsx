@@ -18,6 +18,10 @@ const Archive: FC = () => {
   const { isLoggedIn, session, webId } = useSolidSession();
   const [categories, setCategories] = useState<ArchiveCategory[]>([]);
   const [loading, setLoading] = useState(true);
+  console.log(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-archive`,
+    "ologi",
+  );
 
   const ARCHIVE_FOLDER = webId
     ? webId.replace("profile/card#me", "") + "archive/"
@@ -44,6 +48,7 @@ const Archive: FC = () => {
   const handleDelete = async (resourceUrl: string, categoryName: string) => {
     if (!session) return;
     await deleteSolidDataset(resourceUrl, { fetch: session.fetch });
+    console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-archive`);
 
     setCategories((prev) =>
       prev.map((cat) =>
@@ -59,7 +64,6 @@ const Archive: FC = () => {
       method: "POST",
     }).catch(console.error);
   };
-
   if (!isLoggedIn) return <p>Loading...</p>;
 
   return (
