@@ -168,11 +168,11 @@ export default function ContactForm({
       className="col-span-12"
       style={{ backgroundColor: section.bg_colour }}
     >
-      {section.heading && (
+      {/*      {section.heading && (
         <h2 className="text-2xl mb-3 font-bold font-sans capitalize">
           {section.heading}
         </h2>
-      )}
+      )}*/}
       <form
         ref={formRef}
         onSubmit={handleSubmit}

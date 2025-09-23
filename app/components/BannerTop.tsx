@@ -12,7 +12,7 @@ export default function BannerTop({
 }) {
 	const bg = banner.bg_colour;
 	return (
-		<div className="col-span-12 px-5 xl:px-0">
+		<div className="col-span-12 md:px-5 xl:px-0">
 			<div
 				style={{ backgroundColor: bg }}
 				className={`col-span-12 relative dark:border dark:border-zinc-800 overflow-hidden`}
@@ -44,7 +44,7 @@ export default function BannerTop({
 								height={80} // adjust size
 								className="animate-fade-in"
 							/>
-							<blockquote className="relative pl-6 italic text-gray-700 before:content-['“'] before:absolute before:left-0 before:-top-5 before:-start-5 before:text-6xl before:text-gray-400/20">
+							<blockquote className="relative pl-0 md:pl-6 italic text-gray-700 before:content-['“'] before:absolute before:left-0 before:-top-5 before:-start-5 before:text-6xl before:text-white md:before:text-gray-400/20">
 								<h2 className="animate-slide-in-lr font-quicksand mb-0 !text-white font-heading font-extrabold text-md lg:text-lg leading-none ">
 									{banner.heading}
 								</h2>

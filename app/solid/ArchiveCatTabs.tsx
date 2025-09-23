@@ -49,7 +49,7 @@ export default function ArchiveCategoryTabs({
 
   return (
     <div className="grid grid-cols-12 md:gap-x-7 col-span-12">
-      <div className="order-2 md:order-0col-span-12 md:border md:border-gray-200 dark:border-zinc-800 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9">
+      <div className="order-2 md:order-0 col-span-12 md:border md:border-gray-200 dark:border-zinc-800 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9">
         {activeCategory ? (
           <>
             <div className="mb-3 flex items-end gap-x-5 border-b border-gray-300 pb-5">
@@ -79,18 +79,21 @@ export default function ArchiveCategoryTabs({
         )}
       </div>
 
-      <aside className="mb-5 flex-1 md:flex md:flex-col col-span-12 md:col-span-3 gap-y-7 border p-3 rounded border-gray-200 dark:border-zinc-800 bg-gray-100 shadow relative dark:bg-inherit dark:text-white">
-        <ul className="text-sm">
+      <aside className="mb-5 flex-1 md:flex md:flex-col col-span-12 md:col-span-3 gap-y-7 border p-3 rounded border-gray-200 md:dark:border-zinc-800 md:bg-gray-100 shadow relative md:dark:bg-inherit md:dark:text-white">
+        <ul className="flex text-sm overflow-x-auto whitespace-nowrap max-w-full gap-x-2 md:whitespace-normal md:overflow-hidden md:block">
           {categories.map((cat) => (
-            <li key={cat.slug} className="flex items-baseline relative mb-1">
+            <li
+              key={cat.slug}
+              className="flex items-baseline relative md:mb-1 gap-x-2 md: md:gap-x-0"
+            >
               <button
                 onClick={() => {
                   setActiveCategory({ slug: cat.slug, name: cat.name });
                   setActiveImage(cat.image?.url || "");
                 }}
-                className={`cursor-pointer mb-0 ${
+                className={`text-base cursor-pointer mb-0 border border-gray-300 rounded md:border-0 ${
                   activeCategory.slug === cat.slug &&
-                  "before:content-['•'] before:absolute before:top-[-6px] before:left-0 before:text-red-500 before:text-lg text-gray-600 ps-2"
+                  "bg-zinc-800 text-white md:bg-inherit md:text-body md:before:content-['•'] md:before:absolute md:before:top-[-6px] md:before:left-0 md:before:text-red-500 md:before:text-lg md:text-gray-600 md:ps-2 md:ml-2"
                 }`}
               >
                 {cat.slug.charAt(0).toUpperCase() + cat.slug.slice(1)}
