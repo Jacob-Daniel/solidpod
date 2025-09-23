@@ -22,7 +22,7 @@ const LoginButton: FC = () => {
 
   return (
     <button
-      className="cursor-pointer text-base font-bold dark:text-white border border-gray-300 rounded px-2"
+      className="cursor-pointer text-base font-bold dark:text-white border border-gray-300 rounded px-2 bg-white"
       onClick={isLoggedIn ? logout : login}
     >
       {isLoggedIn ? "Logout" : "Login / Create Account"}

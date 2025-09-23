@@ -37,7 +37,6 @@ const List = ({
 			fullName,
 		});
 	}
-	console.log(type, "type");
 	return (
 		<ul
 			className={`
