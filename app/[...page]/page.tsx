@@ -49,7 +49,7 @@ export default async function DynamicPage({
 
   return (
     <main className="grid grid-cols-12 gap-y-10">
-      <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
+      <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 max-h-[330px] retina:max-h-[330px] md:max-h-[330px] xl:max-h-[350px]">
         <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
       </div>
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 mb-16">
