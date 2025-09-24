@@ -32,7 +32,7 @@ export default function ResponsiveImage({
 		: undefined;
 
 	return (
-		<picture>
+		<picture className="h-full">
 			{mobileUrl && <source media="(max-width: 600px)" srcSet={mobileUrl} />}
 			<Image
 				className={className}
