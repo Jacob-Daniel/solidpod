@@ -22,12 +22,6 @@ export default function Dashboard({ page, cats }: Props) {
     handleIncomingSolidLogin(session.info);
   }, [session]);
 
-  // useEffect(() => {
-  //   if (isLoggedIn === false) {
-  //     router.replace("/");
-  //   }
-  // }, [isLoggedIn, router]);
-
   if (!isLoggedIn) {
     return (
       <main className="grid grid-cols-12 gap-y-5 md:gap-y-10 min-h-[600px]">

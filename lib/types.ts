@@ -348,7 +348,7 @@ export interface EventPage extends BaseDoc {
 export interface Page extends BaseDoc, SEO {
 	title: string;
 	slug: string;
-	banner?: Banner;
+	banner: Banner;
 	sections: Section[];
 	sidebar: SidebarComponent[];
 	seo: SEO;
