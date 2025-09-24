@@ -36,7 +36,7 @@ export default function BannerTop({
 						/>
 					</div>
 					<div className="absolute z-30 inset-x-0 bottom-0 top-0 w-full flex items-center justify-start px-10 overflow-hidden bg-black/30 md:bg-transparent">
-						<div className="relative flex flex-col gap-2 items-center text-center max-w-lg md:px-4">
+						<div className="relative flex flex-col gap-2 items-center text-center max-w-lg md:px-1">
 							<Image
 								src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/uploads/14262490_0a196e3b2b.webp`}
 								alt="Solid Logo"
@@ -45,11 +45,11 @@ export default function BannerTop({
 								className="animate-fade-in"
 							/>
 							<blockquote className="relative pl-0 md:pl-6 italic text-gray-700 before:content-['“'] before:absolute before:-left-5 before:-top-5 before:-start-5 before:text-6xl before:text-white md:before:text-gray-400/20">
-								<h2 className="animate-slide-in-lr font-quicksand mb-0 !text-white font-heading font-extrabold text-md lg:text-lg leading-none">
+								<h2 className="animate-slide-in-lr font-quicksand mb-0 !text-white font-heading font-extrabold text-xl lg:text-lg leading-none">
 									{banner.heading}
 								</h2>
 							</blockquote>
-							<span className="text-md lg:text-lg text-white font-extralight lowercase animate-slide-in-bt ">
+							<span className="text-xl lg:text-lg text-white font-extralight animate-slide-in-bt ">
 								{banner.sub_heading}
 							</span>
 						</div>
