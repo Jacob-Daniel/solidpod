@@ -20,7 +20,7 @@ export default function BannerTop({
 				<div className="col-span-12">
 					<div className="w-full relative flex items-end justify-end overflow-hidden md:max-h-[330px] xl:max-h-[350px]">
 						<SVG
-							className="hidden md:block lg:hidden absolute h-full inset-x-0 bottom-0 z-50"
+							className="hidden md:block lg:hidden absolute h-full inset-x-0 bottom-0 z-20"
 							viewBox={paths.bannerSolidTablet.viewBox}
 							preserveAspectRatio="xMidYMid meet"
 							path={paths.bannerSolidTablet.path}
@@ -28,7 +28,7 @@ export default function BannerTop({
 							gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 						/>
 						<SVG
-							className="hidden lg:block absolute h-full inset-x-0 bottom-0 z-40"
+							className="hidden lg:block absolute h-full inset-x-0 bottom-0 z-20"
 							viewBox={paths.bannerSolid.viewBox}
 							preserveAspectRatio="xMidYMid meet"
 							path={paths.bannerSolid.path}
@@ -43,7 +43,7 @@ export default function BannerTop({
 							blurDataUrl={blurDataUrl}
 						/>
 					</div>
-					<div className="absolute z-50 inset-x-0 bottom-0 top-0 w-full flex items-center justify-start px-10 overflow-hidden bg-black/30 md:bg-transparent md:h-[300px]">
+					<div className="absolute z-30 inset-x-0 bottom-0 top-0 w-full flex items-center justify-start px-10 overflow-hidden bg-black/30 md:bg-transparent md:h-[300px]">
 						<div className="relative flex flex-col gap-2 items-center text-center max-w-lg pl-0 md:pl-0 md:pr-45 lg:pr-16">
 							<Image
 								src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/uploads/14262490_0a196e3b2b.webp`}
