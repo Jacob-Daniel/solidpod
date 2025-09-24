@@ -20,10 +20,9 @@ export default async function DynamicPage({
   let blurDataUrl;
   const [[data]] = await Promise.all([
     getAPI<Page[]>(
-      `/pages?filters[slug][$eq]=${page}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
+      `/pages?filters[slug][$eq]=${page}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
     ),
   ]);
-  console.log(data, "data");
   if (!data) notFound();
   const tags: Tags[] =
     data?.sections
@@ -55,7 +54,7 @@ export default async function DynamicPage({
           <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
         </div>
       )}
-      <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 md:pb-[250px]">
+      <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 mb-16">
         <div className="md:border md:border-gray-200 dark:border-zinc-800 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
           {data &&
             data.sections instanceof Array &&
