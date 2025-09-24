@@ -18,7 +18,7 @@ export default function BannerTop({
 				className={`col-span-12 relative dark:border dark:border-zinc-800 overflow-hidden`}
 			>
 				<div className="col-span-12">
-					<div className="w-full relative flex items-end justify-end overflow-hidden h-[300px]">
+					<div className="w-full relative flex items-end justify-end overflow-hidden md:max-h-[330px] xl:max-h-[350px]">
 						<SVG
 							className="hidden md:block lg:hidden absolute h-full inset-x-0 bottom-0 z-50"
 							viewBox={paths.bannerSolidTablet.viewBox}
