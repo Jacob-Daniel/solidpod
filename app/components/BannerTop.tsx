@@ -12,13 +12,13 @@ export default function BannerTop({
 }) {
 	const bg = banner.bg_colour;
 	return (
-		<div className="col-span-12 px-5 lg:px-0">
+		<div className="col-span-12 px-5 lg:px-0 mb-10">
 			<div
 				style={{ backgroundColor: bg }}
-				className={`col-span-12 relative dark:border dark:border-zinc-800 overflow-hidden`}
+				className={`col-span-12 relative dark:border dark:border-zinc-800 overflow-hidden max-h-[330px] xl:h-[350px]`}
 			>
 				<div className="col-span-12">
-					<div className="w-full relative flex items-start justify-end overflow-hidden max-h-[300px] md:max-h-[330px] xl:max-h-[350px]  min-h-[300px] md:min-h-[330px] xl:min-h-[350px] bg-gray-200">
+					<div className="relative flex items-end justify-end overflow-hidden md:max-h-[330px] xl:h-[350px]">
 						<SVG
 							className="hidden md:block lg:hidden absolute h-full inset-x-0 bottom-0 z-20"
 							viewBox={paths.bannerSolidTablet.viewBox}
@@ -36,14 +36,14 @@ export default function BannerTop({
 							gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 						/>
 						<ResponsiveImage
-							className="object-cover w-full h-full"
+							className="object-contain"
 							banner={banner.image_versions}
 							alt={banner.heading}
 							priority={true}
 							blurDataUrl={blurDataUrl}
 						/>
 					</div>
-					<div className="absolute z-30 inset-x-0 bottom-0 top-0 w-full flex items-center justify-start px-10 overflow-hidden bg-black/30 md:bg-transparent md:h-[300px]">
+					<div className="absolute z-30 inset-x-0 bottom-0 top-0 w-full flex items-center justify-start px-10 overflow-hidden bg-black/30 md:bg-transparent md:h-[330px] xl:h-[350px]">
 						<div className="relative flex flex-col gap-2 items-center text-center max-w-lg pl-0 md:pl-0 md:pr-45 lg:pr-16">
 							<Image
 								src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/uploads/14262490_0a196e3b2b.webp`}
