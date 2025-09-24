@@ -12,13 +12,13 @@ export default function BannerTop({
 }) {
 	const bg = banner.bg_colour;
 	return (
-		<div className="col-span-12 px-5 lg:px-0 max-h-[330px] retina:max-h-[330px] md:max-h-[330px] xl:max-h-[350px]">
+		<div className="col-span-12 px-5 lg:px-0 max-h-[330px] retina:max-h-[385px] md:max-h-[330px] xl:max-h-[350px]">
 			<div
 				style={{ backgroundColor: bg }}
-				className={`col-span-12 relative dark:border dark:border-zinc-800 overflow-hidden max-h-[330px] xl:h-[350px]`}
+				className={`col-span-12 relative dark:border dark:border-zinc-800 overflow-hidden max-h-[330px] retina:max-h-[385px] xl:h-[350px]`}
 			>
 				<div className="col-span-12">
-					<div className="relative flex items-end justify-end overflow-hidden max-h-[300px] retina:max-h-[330px] md:max-h-[330px] xl:h-[350px]">
+					<div className="relative flex items-end justify-end overflow-hidden max-h-[300px] retina:max-h-[385px] md:max-h-[330px] xl:h-[350px]">
 						<SVG
 							className="hidden md:block lg:hidden absolute h-full inset-x-0 bottom-0 z-20"
 							viewBox={paths.bannerSolidTablet.viewBox}
