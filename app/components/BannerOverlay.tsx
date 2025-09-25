@@ -11,10 +11,10 @@ export default function BannerOverlay({
   className: string;
   children: ReactNode;
 }) {
-  const [loaded, setLoaded] = useState(false);
+  const [state, setState] = useState("hidden");
 
   useEffect(() => {
-    setLoaded(true); // run only once on mount
+    setState("block");
   }, []);
 
   return (
@@ -22,7 +22,7 @@ export default function BannerOverlay({
       style={{
         backgroundColor: style,
       }}
-      className={className}
+      className={`${className} ${state}`}
     >
       {children}
     </div>
