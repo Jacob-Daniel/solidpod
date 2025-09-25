@@ -12,6 +12,7 @@ interface ILinks {
 
 export default function ListItem({ type, link, data }: ILinks) {
 	const { id, slug, label, is_parent, is_button, server_slug } = link;
+
 	return (
 		<>
 			<MenuItemType

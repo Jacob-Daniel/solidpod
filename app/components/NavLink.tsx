@@ -40,6 +40,7 @@ const NavLink = ({
 	};
 	if (
 		(slug === "logout" && type === "user") ||
+		(slug === "logout" && type === "desktop") ||
 		(slug === "login" && type === "desktop")
 	) {
 		return !isLoggedIn ? <LoginButton /> : <LogoutButton />;
@@ -47,7 +48,7 @@ const NavLink = ({
 		return (
 			<Link
 				data-link="link"
-				className={`text-lg md:text-base ${(type === "desktop" || type === "mobile") && "font-bold"} hover:text-black/75 font-sans ${active} ${is_button && "border border-gray-300 dark:border-zinc-700 dark:bg-zinc-800 rounded px-2 py-[5px]"} dark:text-white`}
+				className={`text-xl md:text-base ${(type === "desktop" || type === "mobile") && "font-bold"} hover:text-black/75 font-sans ${active} ${is_button && "border border-gray-300 dark:border-zinc-700 dark:bg-zinc-800 rounded px-2 py-[5px]"} dark:text-white`}
 				href={
 					type === "user"
 						? `${process.env.BASE_URL}/dashboard/${slug}`
