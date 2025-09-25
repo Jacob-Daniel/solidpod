@@ -12,18 +12,20 @@ interface ILinks {
 
 export default function SubUl({ id, links, parentSlug }: ILinks) {
 	const { activeSubmenuId, closeSubmenu } = useNavigationContext();
-	const [display, setDisplay] = useState<string>("hidden");
+	const [display, setDisplay] = useState<string>("block md:hidden");
 	useEffect(() => {
+		console.log(display, "display");
 		if (id === activeSubmenuId) {
-			setDisplay("block");
+			setDisplay("block md:block");
 		} else {
-			setDisplay("hidden");
+			console.log(activeSubmenuId, "hidden");
+			setDisplay("block md:hidden");
 		}
 	}, [activeSubmenuId, id]);
 
 	const handleSubLinkClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		setDisplay("hidden");
+		setDisplay("md:hidden");
 		closeSubmenu();
 	};
 
