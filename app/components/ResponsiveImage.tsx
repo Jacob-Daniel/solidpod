@@ -33,7 +33,7 @@ export default function ResponsiveImage({
 
 	return (
 		<picture className="h-full">
-			{mobileUrl && <source media="(max-width: 600px)" srcSet={mobileUrl} />}
+			{mobileUrl && <source media="(max-width: 767px)" srcSet={mobileUrl} />}
 			<Image
 				className={className}
 				alt={alt || altImage}
