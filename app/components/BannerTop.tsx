@@ -58,7 +58,7 @@ export default function BannerTop({
 						</div>{" "}
 					</div>
 					<div
-						className={`absolute z-30 inset-x-0 bottom-0 pb-7 md:top-0 w-full flex items-end md:items-center justify-start px-10 overflow-hidden bg-gradient-to-t from-black from-5% to-transparent to-80% md:bg-none h-full md:max-h-[350px] hd:max-h-[390px]`}
+						className={`absolute z-30 inset-x-0 bottom-0 pb-7 md:top-0 w-full flex items-end md:items-center justify-start px-5 md:px-10 overflow-hidden bg-gradient-to-t from-black from-5% to-transparent to-80% md:bg-none h-full md:max-h-[350px] hd:max-h-[390px]`}
 					>
 						<div className="relative flex flex-col gap-2 align-baseline items-center text-center max-w-lg pl-0 md:pl-0 md:pr-45 lg:pr-16">
 							<Image
