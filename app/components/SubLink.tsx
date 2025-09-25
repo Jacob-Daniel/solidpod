@@ -30,7 +30,7 @@ export default function SubLink({
 	// 	: `${process.env.BASE_URL}/${slug}`;
 	return (
 		<Link
-			className={`text-base font-bold align-bottom hover:text-black/75 ${active} mb-1 dark:text-white`}
+			className={`text-xl md:text-base font-bold align-bottom hover:text-black/75 ${active} mb-1 dark:text-white`}
 			href={url}
 			onClick={(e) => {
 				// e.preventDefault();

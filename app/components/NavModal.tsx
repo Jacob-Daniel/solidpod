@@ -7,10 +7,10 @@ import { MenuItem, INavigationItems } from "@/lib/types";
 import { useHandleDomClick, useWindowListener } from "@/lib/clientFunctions";
 
 // Define the Modal component with children prop
-const Modal: React.FC<{ id: string; children: React.ReactNode }> = ({
-	id,
-	children,
-}) => {
+const Modal: React.FC<{
+	id: string;
+	children: React.ReactNode;
+}> = ({ id, children }) => {
 	const { visible, ref, setRef, setVisible } = useVisibility();
 	const refDialog = useRef<HTMLDialogElement>(null);
 	useEffect(() => {
@@ -28,12 +28,11 @@ const Modal: React.FC<{ id: string; children: React.ReactNode }> = ({
 			setVisible(false);
 		}
 	};
-	console.log(visible, "vis");
 	return (
 		<dialog
 			data-id={id}
 			ref={refDialog}
-			className={`rounded z-50 bg-gray-100 backdrop:backdrop-sepia-[3] shadow-lg shadow-gray-500/20 w-[300px] md:w-[400px] h-[350px] p-5 mx-auto top-[10%]`}
+			className={`z-50 bg-gray-100 w-full h-full p-5 mx-auto top-[10%]`}
 			onClick={handleClick}
 		>
 			{children}

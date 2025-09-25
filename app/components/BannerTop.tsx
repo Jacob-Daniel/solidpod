@@ -35,7 +35,7 @@ export default function BannerTop({
 							gradientId="bannerSolid"
 							gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 						/>
-						<div className="aspect-[1/1] max-h-[500px] md:aspect-auto">
+						<div className="aspect-[1/1] md:aspect-auto">
 							<ResponsiveImage
 								className="object-contain"
 								banner={banner.image_versions}

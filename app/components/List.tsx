@@ -53,25 +53,29 @@ const List = ({
 	}
 `}
 		>
-			{items.map((item) => (
-				<li
-					key={item.id}
-					data-id={item.id}
-					className={`md:z-30 justify-center align-baseline text-center capitalize transition-opacity mb-3 md:mb-0 ${
-						item.is_parent ? "flex-col flex md:flex md:flex-row" : ""
-					}`}
-					onClick={(e) => {
-						e.stopPropagation();
-						setActiveSubmenuId(item.id);
-					}}
-				>
-					<ListItem
-						type={isDashboard ? "user" : "desktop"}
-						link={item}
-						data={item.children || []}
-					/>
-				</li>
-			))}
+			{items
+				.filter((i) =>
+					!isDashboard ? i.slug !== "logout" : i.slug === "logout",
+				)
+				.map((item) => (
+					<li
+						key={item.id}
+						data-id={item.id}
+						className={`md:z-30 justify-center align-baseline text-center capitalize transition-opacity mb-3 md:mb-0 ${
+							item.is_parent ? "flex-col flex md:flex md:flex-row" : ""
+						}`}
+						onClick={(e) => {
+							e.stopPropagation();
+							setActiveSubmenuId(item.id);
+						}}
+					>
+						<ListItem
+							type={isDashboard ? "user" : "desktop"}
+							link={item}
+							data={item.children || []}
+						/>
+					</li>
+				))}
 		</ul>
 	);
 };
