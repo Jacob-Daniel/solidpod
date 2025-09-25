@@ -38,7 +38,7 @@ export default function BannerTop({
 						{/*two divs to handle responsive bg*/}
 						<div
 							style={{ backgroundColor: bg }}
-							className="w-full items-center justify-end md:flex hidden aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]"
+							className="w-full h-full items-center justify-end md:flex hidden aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]"
 						>
 							<ResponsiveImage
 								className="object-contain"
@@ -50,7 +50,7 @@ export default function BannerTop({
 						</div>
 						<div className="w-full items-center justify-end md:hidden flex aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]">
 							<ResponsiveImage
-								className="object-contain"
+								className="object-contain h-[400px] retina:h-[500px]"
 								banner={banner.image_versions}
 								alt={banner.heading}
 								priority={true}

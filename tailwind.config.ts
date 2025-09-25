@@ -51,9 +51,9 @@ export default {
 				800: "0.8s",
 			},
 			screens: {
-				retina: "425px",
 				tabletsm: "500px",
 				tabletmd: "550px",
+				retina: "600px",
 				tablet: "700px",
 				hd: "1366px", // Define the min-width for the xxl breakpoint
 				qhd: "1440px", // Define the min-width for the xxl breakpoint
