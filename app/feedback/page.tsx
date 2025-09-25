@@ -1,5 +1,4 @@
 import { getAPI } from "@/lib/functions";
-import { Suspense } from "react";
 import UlPageContentAnchors from "@/app/components/UlPageContentAnchors";
 import BannerTop from "@/app/components/BannerTop";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
@@ -50,17 +49,9 @@ export default async function Introduction() {
 
   return (
     <main className="grid grid-cols-12 gap-y-10">
-      <Suspense
-        fallback={
-          <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 mb-5">
-            <div className="w-full h-[300px] bg-gray-200 animate-pulse" />
-          </div>
-        }
-      >
-        <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-          <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
-        </div>
-      </Suspense>
+      <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
+        <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
+      </div>
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24">
         <div className="md:border md:border-gray-200 dark:border-zinc-800 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
           {data &&
