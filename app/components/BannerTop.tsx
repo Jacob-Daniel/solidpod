@@ -3,6 +3,7 @@ import ResponsiveImage from "@/app/components/ResponsiveImage";
 import SVG from "@/app/components/SVG";
 import paths from "@/public/svg/paths.json";
 import Image from "next/image";
+import BannerOverlay from "./BannerOverlay";
 export default function BannerTop({
 	banner,
 	blurDataUrl,
@@ -34,10 +35,10 @@ export default function BannerTop({
 							gradientId="bannerSolid"
 							gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 						/>
-						{/*two divs to handle responsive bg*/}
-						<div
-							style={{ backgroundColor: bg }}
-							className="w-full items-center justify-end md:flex hidden aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]"
+
+						<BannerOverlay
+							style={bg}
+							className="w-full items-center justify-end flex aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]"
 						>
 							<ResponsiveImage
 								className="object-contain"
@@ -46,16 +47,7 @@ export default function BannerTop({
 								priority={true}
 								blurDataUrl={blurDataUrl}
 							/>
-						</div>
-						<div className="w-full items-center justify-end md:hidden flex aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]">
-							<ResponsiveImage
-								className="object-contain"
-								banner={banner.image_versions}
-								alt={banner.heading}
-								priority={true}
-								blurDataUrl={blurDataUrl}
-							/>
-						</div>{" "}
+						</BannerOverlay>
 					</div>
 					<div
 						className={`absolute z-30 inset-x-0 bottom-0 pb-7 md:top-0 w-full flex items-end md:items-center justify-start px-5 md:px-10 overflow-hidden bg-gradient-to-t from-black from-5% to-transparent to-80% md:bg-none h-full md:max-h-[350px] hd:max-h-[390px]`}
@@ -69,10 +61,10 @@ export default function BannerTop({
 								className="animate-fade-in md:h-[60px] md:w-[60px] lg:w-[80px] lg:h-[80px]"
 							/>
 							<blockquote className="relativeitalic text-gray-700 before:content-['“'] before:absolute before:left-0 before:top-15 before:start- before:text-6xl before:text-white md:before:text-gray-400/20">
-								<h2 className="animate-slide-in-lr font-quicksand mb-0 !text-white font-heading font-extrabold text-lg md:text-md lg:text-lg leading-none">
+								<h2 className="animate-slide-in-lr font-quicksand mb-2 !text-white font-heading font-extrabold text-[1.25rem] md:text-md lg:text-lg leading-none">
 									{banner.heading}
 								</h2>
-								<span className="leading-none font-bold text-lg md:text-md lg:text-lg text-white md:font-extralight animate-slide-in-bt ">
+								<span className="leading-none font-bold text-[1.125rem] md:text-md lg:text-lg text-white md:font-extralight animate-slide-in-bt ">
 									{banner.sub_heading}
 								</span>
 							</blockquote>
