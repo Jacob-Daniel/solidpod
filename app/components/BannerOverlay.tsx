@@ -3,11 +3,9 @@
 import { useState, useEffect, ReactNode } from "react";
 
 export default function BannerOverlay({
-  style,
   className,
   children,
 }: {
-  style: string | undefined;
   className: string;
   children: ReactNode;
 }) {
@@ -21,14 +19,5 @@ export default function BannerOverlay({
     return () => clearTimeout(timer); // cleanup if component unmounts
   }, []);
 
-  return (
-    <div
-      style={{
-        backgroundColor: style,
-      }}
-      className={`${className} ${state}`}
-    >
-      {children}
-    </div>
-  );
+  return <div className={`${className} ${state}`}>{children}</div>;
 }
