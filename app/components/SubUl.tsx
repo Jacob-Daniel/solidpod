@@ -14,11 +14,9 @@ export default function SubUl({ id, links, parentSlug }: ILinks) {
 	const { activeSubmenuId, closeSubmenu } = useNavigationContext();
 	const [display, setDisplay] = useState<string>("block md:hidden");
 	useEffect(() => {
-		console.log(display, "display");
 		if (id === activeSubmenuId) {
 			setDisplay("block md:block");
 		} else {
-			console.log(activeSubmenuId, "hidden");
 			setDisplay("block md:hidden");
 		}
 	}, [activeSubmenuId, id]);
