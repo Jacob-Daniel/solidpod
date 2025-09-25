@@ -57,7 +57,7 @@ export default async function Introduction() {
           </div>
         }
       >
-        <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 max-h-[300px] retina:max-h-[525px] md:max-h-[400px] mb-5">
+        <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
           <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
         </div>
       </Suspense>
