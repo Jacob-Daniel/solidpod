@@ -35,10 +35,20 @@ export default function BannerTop({
 							gradientId="bannerSolid"
 							gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 						/>
+						{/*two divs to handle responsive bg*/}
 						<div
 							style={{ backgroundColor: bg }}
-							className="w-full items-center justify-end flex aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]"
+							className="w-full items-center justify-end md:flex hidden aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]"
 						>
+							<ResponsiveImage
+								className="object-contain"
+								banner={banner.image_versions}
+								alt={banner.heading}
+								priority={true}
+								blurDataUrl={blurDataUrl}
+							/>
+						</div>
+						<div className="w-full items-center justify-end md:hidden flex aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]">
 							<ResponsiveImage
 								className="object-contain"
 								banner={banner.image_versions}
