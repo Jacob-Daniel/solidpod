@@ -14,7 +14,11 @@ export default function BannerOverlay({
   const [state, setState] = useState("hidden");
 
   useEffect(() => {
-    setState("block");
+    const timer = setTimeout(() => {
+      setState("");
+    }, 600);
+
+    return () => clearTimeout(timer); // cleanup if component unmounts
   }, []);
 
   return (

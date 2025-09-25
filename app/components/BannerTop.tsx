@@ -17,7 +17,7 @@ export default function BannerTop({
 			<div
 				className={`col-span-12 relative bg-[${bg}] dark:border dark:border-zinc-800 overflow-hidden md:max-h-[350px] hd:max-h-[390px]`}
 			>
-				<div className="col-span-12">
+				<div className="col-span-12 relative">
 					<div className="relative flex items-end justify-end overflow-hidden md:max-h-[350px] hd:max-h-[390px]">
 						<SVG
 							className="hidden md:block lg:hidden absolute h-full inset-x-0 bottom-0 z-20"
@@ -35,9 +35,8 @@ export default function BannerTop({
 							gradientId="bannerSolid"
 							gradientColors={[{ offset: "0%", color: "#202542", opacity: 1 }]}
 						/>
-
-						<BannerOverlay
-							style={bg}
+						<div
+							style={{ backgroundColor: bg }}
 							className="w-full items-center justify-end flex aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]"
 						>
 							<ResponsiveImage
@@ -47,11 +46,9 @@ export default function BannerTop({
 								priority={true}
 								blurDataUrl={blurDataUrl}
 							/>
-						</BannerOverlay>
+						</div>
 					</div>
-					<div
-						className={`absolute z-30 inset-x-0 bottom-0 pb-7 md:top-0 w-full flex items-end md:items-center justify-start px-5 md:px-10 overflow-hidden bg-gradient-to-t from-black from-5% to-transparent to-80% md:bg-none h-full md:max-h-[350px] hd:max-h-[390px]`}
-					>
+					<BannerOverlay className="absolute z-30 inset-x-0 bottom-0 pb-7 md:top-0 w-full flex items-end md:items-center justify-start px-5 md:px-10 overflow-hidden bg-gradient-to-t from-black from-5% to-transparent to-80% md:bg-none h-full md:max-h-[350px] hd:max-h-[390px]">
 						<div className="relative flex flex-col gap-2 align-baseline items-center text-center max-w-lg pl-0 md:pl-0 md:pr-45 lg:pr-16">
 							<Image
 								src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/uploads/14262490_0a196e3b2b.webp`}
@@ -61,7 +58,7 @@ export default function BannerTop({
 								className="animate-fade-in md:h-[60px] md:w-[60px] lg:w-[80px] lg:h-[80px]"
 							/>
 							<blockquote className="relativeitalic text-gray-700 before:content-['“'] before:absolute before:left-0 before:top-15 before:start- before:text-6xl before:text-white md:before:text-gray-400/20">
-								<h2 className="animate-slide-in-lr font-quicksand mb-2 !text-white font-heading font-extrabold text-[1.25rem] md:text-md lg:text-lg leading-none">
+								<h2 className="animate-slide-in-lr font-quicksand mb-2 !text-white font-heading font-extrabold text-[1.125rem] md:text-md lg:text-lg leading-none">
 									{banner.heading}
 								</h2>
 								<span className="leading-none font-bold text-[1.125rem] md:text-md lg:text-lg text-white md:font-extralight animate-slide-in-bt ">
@@ -69,7 +66,7 @@ export default function BannerTop({
 								</span>
 							</blockquote>
 						</div>
-					</div>
+					</BannerOverlay>
 				</div>
 			</div>
 		</div>
