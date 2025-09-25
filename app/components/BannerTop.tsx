@@ -58,7 +58,7 @@ export default function BannerTop({
 								className="animate-fade-in md:h-[60px] md:w-[60px] lg:w-[80px] lg:h-[80px]"
 							/>
 							<blockquote className="relativeitalic text-gray-700 before:content-['“'] before:absolute before:left-0 before:top-15 before:start- before:text-6xl before:text-white md:before:text-gray-400/20">
-								<h2 className="animate-slide-in-lr font-quicksand mb-2 !text-white font-heading font-extrabold text-[.125rem] md:text-md lg:text-lg leading-none">
+								<h2 className="animate-slide-in-lr font-quicksand mb-2 !text-white font-heading font-extrabold text-[1.125rem] md:text-md lg:text-lg leading-none">
 									{banner.heading}
 								</h2>
 								<span className="leading-none font-bold text-[1.125rem] md:text-md lg:text-lg text-white md:font-extralight animate-slide-in-bt ">
