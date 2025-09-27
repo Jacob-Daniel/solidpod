@@ -14,7 +14,7 @@ export default function BannerOverlay({
   useEffect(() => {
     const timer = setTimeout(() => {
       setState("");
-    }, 600);
+    }, 500);
 
     return () => clearTimeout(timer); // cleanup if component unmounts
   }, []);
