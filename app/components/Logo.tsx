@@ -9,10 +9,10 @@ import Link from "next/link";
 export default function Logo({ tagline }: { tagline: string }) {
 	return (
 		<Container>
-			<h1 className="inline-block border border-amber-200 px-1 bg-amber-100">
+			<h1 className="inline-block border border-indigo-200 px-1 bg-indigo-100">
 				<Link
 					title="home page link"
-					className="relative  text-amber-500"
+					className="relative  text-[#7e4dff]"
 					href={process.env.BASE_URL as string}
 				>
 					{tagline as string}
