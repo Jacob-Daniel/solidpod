@@ -41,8 +41,8 @@ const List = ({
 		<ul
 			className={`
   relative z-30 col-span-12 
-  text-slate-800 align-middle justify-center 
-  items-center gap-x-3
+  text-slate-800 align-middle md:justify-center 
+  md:items-center gap-x-3
   md:flex md:justify-end
   ${
 		isDashboard && type === "main"
@@ -61,7 +61,7 @@ const List = ({
 					<li
 						key={item.id}
 						data-id={item.id}
-						className={`md:z-30 justify-center align-baseline text-center capitalize transition-opacity mb-3 md:mb-0 ${
+						className={`md:z-30 md:justify-center align-baseline md:text-center capitalize transition-opacity mb-3 md:mb-0 ${
 							item.is_parent ? "flex-col flex md:flex md:flex-row" : ""
 						}`}
 						onClick={(e) => {

@@ -22,7 +22,6 @@ const Drawer: React.FC<{ id: string; children: React.ReactNode }> = ({
 
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`fixed inset-0 z-40 transition-opacity duration-300 ${
           visible ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -30,11 +29,10 @@ const Drawer: React.FC<{ id: string; children: React.ReactNode }> = ({
         onClick={() => setVisible(false)}
       />
 
-      {/* Drawer */}
       <div
         data-id={id}
         onClick={handleClick}
-        className={`fixed top-0 left-0 h-full w-3/4 max-w-xs bg-neutral-200 shadow-lg z-50 p-5 transform transition-transform duration-300 ease-in-out
+        className={`fixed top-0 left-0 h-full w-3/4 pt-10 max-w-xs bg-neutral-200 shadow-lg z-50 px-3 transform transition-transform duration-300 ease-in-out
           ${visible ? "translate-x-0" : "-translate-x-full"}
         `}
       >
