@@ -33,7 +33,7 @@ body.lock-scroll {
     --border: 210 16% 82%; /* gray-300 */
     --hover-text: 222 47% 45%; /* approx black/75% */
     --shadow: 220 14% 90%; /* light shadow */
-    --background-solidpod: 256.52 100% 65.1%;
+    --background-solidpod: 256.52 100% 65.1%; /* Solid Indigo */
   }
   .dark {
     --body: 220 14% 15%; /* zinc-900 */
@@ -43,7 +43,7 @@ body.lock-scroll {
     --border: 220 14% 30%; /* darker border */
     --hover-text: 0 0% 75%; /* lighter hover text in dark mode */
     --shadow: 220 14% 35%; /* darker shadow, replaces shadow-zinc-800 */
-    --background-solidpod: 256.52 100% 65.1%;
+    --background-solidpod: 256.52 100% 65.1%; /* Solid Indigo */
   }
 }
 
