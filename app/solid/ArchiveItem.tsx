@@ -44,8 +44,8 @@ const ArchiveItem: FC<ArchiveItemProps> = ({
   const fileName = filename.split("-")[0];
 
   return (
-    <li className="flex flex-col border border-gray-300 dark:border-zinc-800 p-2 rounded-md">
-      <div className="flex justify-between items-center">
+    <li className="flex flex-col border border-border p-2 rounded-md">
+      <div className={`flex justify-between items-center `}>
         <span>{fileName}</span>
         <div className="flex gap-2">
           <button
@@ -62,13 +62,6 @@ const ArchiveItem: FC<ArchiveItemProps> = ({
           </button>
         </div>
       </div>
-      {mode === "view" && dataset && (
-        <ViewMode
-          dataset={dataset}
-          resourceUrl={resourceUrl}
-          fragment={baseFragment}
-        />
-      )}
       {mode === "edit" && dataset && (
         <div className="mt-2">
           <EditFileForm
