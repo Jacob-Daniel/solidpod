@@ -89,6 +89,7 @@ export default {
 				border: "hsl(var(--border))",
 				shadow: "hsl(var(--shadow))",
 				hoverText: "hsl(var(--hover-text))",
+				"background-solidpod": "hsl(var(--background-solidpod))",
 				popover: {
 					DEFAULT: "hsl(var(--popover))",
 					foreground: "hsl(var(--popover-foreground))",
