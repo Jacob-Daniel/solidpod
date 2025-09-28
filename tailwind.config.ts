@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 const plugin = require("tailwindcss/plugin");
+const colors = require("tailwindcss/colors");
 
 export default {
 	darkMode: "class",
@@ -82,24 +83,22 @@ export default {
 				banner4xl: "7rem", // 112px
 			},
 			colors: {
+				body: "hsl(var(--body))",
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
-				card: {
-					DEFAULT: "hsl(var(--card))",
-					foreground: "hsl(var(--card-foreground))",
-				},
+				border: "hsl(var(--border))",
+				shadow: "hsl(var(--shadow))",
+				hoverText: "hsl(var(--hover-text))",
 				popover: {
 					DEFAULT: "hsl(var(--popover))",
 					foreground: "hsl(var(--popover-foreground))",
 				},
-				primary: {
-					DEFAULT: "hsl(var(--primary))",
-					foreground: "hsl(var(--primary-foreground))",
+				card: {
+					DEFAULT: "hsl(var(--card))",
+					foreground: "hsl(var(--card-foreground))",
 				},
-				secondary: {
-					DEFAULT: "hsl(var(--secondary))",
-					foreground: "hsl(var(--secondary-foreground))",
-				},
+				primary: "hsl(var(--primary))",
+				secondary: "hsl(var(--secondary))",
 				muted: {
 					DEFAULT: "hsl(var(--muted))",
 					foreground: "hsl(var(--muted-foreground))",
@@ -112,8 +111,6 @@ export default {
 					DEFAULT: "hsl(var(--destructive))",
 					foreground: "hsl(var(--destructive-foreground))",
 				},
-				body: "#292526",
-				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
 				chart: {

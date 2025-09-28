@@ -10,7 +10,7 @@ export default function TagList({ tags }: { tags: Tags[] }) {
           <Link
             key={tag.id}
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/archive/tag/${tag.slug}`}
-            className={`px-3 py-1 border border-gray-300 dark:border-zinc-800 rounded text-base hover:shadow transition ${colorClass} hover:border-gray-400`}
+            className={`px-3 py-1 border border-border rounded text-base hover:shadow transition ${colorClass} hover:border-gray-400`}
           >
             {tag.name}
           </Link>

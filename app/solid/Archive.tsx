@@ -65,11 +65,10 @@ const Archive: FC = () => {
     }).catch(console.error);
   };
   if (!isLoggedIn) return <p>Loading...</p>;
-
   return (
     <div>
       {loading ? <p>Loading...</p> : null}
-      {categories! instanceof Array && <p>Currently no resources found ...</p>}
+      {categories && !categories[0] && <p>Currently no resources found ...</p>}
 
       {categories.map((cat) => (
         <div key={cat.name} className="mb-6">

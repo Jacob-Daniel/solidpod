@@ -22,7 +22,7 @@ export default function NavSpan({ type, id, slug, label, is_button }: ILinks) {
 		<span
 			data-id={id}
 			className={`${(type === "desktop" || type === "mobile") && "font-bold"} hover:text-black/75 text-xl md:text-base font-sans align-baseline
-        ${active} cursor-pointer ${is_button && "border px-1"} dark:text-white`}
+        ${active} cursor-pointer ${is_button && "border px-1"} text-primary`}
 			onClick={handleClick}
 		>
 			{label}

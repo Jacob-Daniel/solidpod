@@ -86,7 +86,7 @@ const Article: React.FC<Article> = ({
 	const eventUrl = `${process.env.BASE_URL}/events/${path}`;
 	return (
 		<article
-			className={`border-gray-300 dark:border-zinc-800 border grid grid-cols-12 md:grid-cols-12 bg-white relative md:pb-0`}
+			className={`order  border grid grid-cols-12 md:grid-cols-12 bg-white relative md:pb-0`}
 		>
 			<div className="relative col-span-12 md:col-span-4 lg:col-span-4 relative">
 				<Link
@@ -135,7 +135,7 @@ const Article: React.FC<Article> = ({
 						{price === 0 ? "free" : "£" + price}
 					</span>
 					<a
-						className="inline-block self-end  ps-1 pe-2 py-[1px] text-sm rounded text-black border border-gray-300 dark:border-zinc-800 md:absolute md:right-3 md:bottom-3"
+						className="inline-block self-end  ps-1 pe-2 py-[1px] text-sm rounded text-black border border-border md:absolute md:right-3 md:bottom-3"
 						href={eventUrl}
 					>
 						{/*<FontAwesomeIcon className="!text-white" icon={faCircleRight} />{" "}*/}

@@ -22,7 +22,7 @@ const LoginButton: FC = () => {
 
   return (
     <button
-      className="py-2 px-2 md:py-0 text-white text-lg md:text-base cursor-pointer text-base font-bold dark:text-white bg-sky-400 dark:bg-sky-500"
+      className="py-2 px-2 md:py-0 text-white text-lg md:text-base cursor-pointer text-base font-bold text-primary bg-sky-400 dark:bg-sky-500"
       onClick={isLoggedIn ? logout : login}
     >
       {isLoggedIn ? "Logout" : "Login / Create Account"}

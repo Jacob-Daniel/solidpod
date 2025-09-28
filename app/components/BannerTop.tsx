@@ -15,7 +15,7 @@ export default function BannerTop({
 	return (
 		<div className="col-span-12 px-5 lg:px-0 md:max-h-[350px] hd:max-h-[390px]">
 			<div
-				className={`col-span-12 relative bg-[${bg}] dark:border dark:border-zinc-800 overflow-hidden md:max-h-[350px] hd:max-h-[390px]`}
+				className={`col-span-12 relative bg-[${bg}] border-border overflow-hidden md:max-h-[350px] hd:max-h-[390px]`}
 			>
 				<div className="col-span-12 relative">
 					<div className="relative flex items-end justify-end overflow-hidden md:max-h-[350px] hd:max-h-[390px]">

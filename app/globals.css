@@ -27,8 +27,21 @@ body.lock-scroll {
     font-family: var(--font-karla);
   }
   :root {
+    --body: 0 0% 100%; /* white page background */
+    --background: 0 0% 100%; /* white */
+    --primary: 222 47% 11%; /* dark text */
+    --border: 210 16% 82%; /* gray-300 */
+    --hover-text: 222 47% 45%; /* approx black/75% */
+    --shadow: 220 14% 90%; /* light shadow */
   }
   .dark {
+    --body: 220 14% 15%; /* zinc-900 */
+    --background:
+      240.02, 6.03%, 9.98%; /* dark background, replaces bg-zinc-800 */
+    --primary: 0 0% 100%; /* white text */
+    --border: 220 14% 30%; /* darker border */
+    --hover-text: 0 0% 75%; /* lighter hover text in dark mode */
+    --shadow: 220 14% 35%; /* darker shadow, replaces shadow-zinc-800 */
   }
 }
 
