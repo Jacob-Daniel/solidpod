@@ -28,7 +28,7 @@ const ArchiveItem: FC<ArchiveItemProps> = ({ resourceUrl }) => {
   if (!dataset) return <p>Loading resource...</p>;
 
   return (
-    <li className="flex flex-col border-gray-300 border-b">
+    <li className="flex flex-col border-b border-border">
       <PublicViewMode
         dataset={dataset}
         resourceUrl={resourceUrl}

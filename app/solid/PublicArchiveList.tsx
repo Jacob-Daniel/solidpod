@@ -8,7 +8,7 @@ interface ArchiveListProps {
 
 const PublicArchiveList: FC<ArchiveListProps> = ({ resources }) => {
   return (
-    <ul className="flex flex-col gap-y-2">
+    <ul className="flex flex-col gap-y-7 text-primary">
       {resources.map((res) => (
         <PublicArchiveItem key={res} resourceUrl={res} />
       ))}
