@@ -18,7 +18,7 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="text-xl md:text-base cursor-pointer font-bold dark:text-white border border-gray-300 rounded px-2"
+      className="text-xl md:text-base cursor-pointer font-bold text-primary border border-border rounded px-2"
     >
       Logout
     </button>

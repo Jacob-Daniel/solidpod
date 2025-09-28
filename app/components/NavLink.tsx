@@ -31,7 +31,7 @@ const NavLink = ({
 	const pathname = usePathname()!.slice(1);
 	const active =
 		server_slug === pathname && type === "desktop"
-			? "!border-b border-gray-300"
+			? "!-2 border-indigo-300"
 			: "";
 	const { closeSubmenu } = useNavigationContext();
 	const handleClick = () => {
@@ -48,7 +48,7 @@ const NavLink = ({
 		return (
 			<Link
 				data-link="link"
-				className={`text-xl md:text-base ${(type === "desktop" || type === "mobile") && "font-bold"} hover:text-black/75 font-sans ${active} ${is_button && "border border-gray-300 dark:border-zinc-700 dark:bg-zinc-800 rounded px-2 py-[5px]"} dark:text-white`}
+				className={`text-primary text-xl md:text-base ${(type === "desktop" || type === "mobile") && "font-bold"} hover:text-hoverText font-sans ${active} ${is_button && "border border-border rounded px-2 py-[5px]"} text-primary`}
 				href={
 					type === "user"
 						? `${process.env.BASE_URL}/dashboard/${slug}`

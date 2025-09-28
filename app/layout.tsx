@@ -61,12 +61,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans dark:bg-zinc-900 text-black dark:text-white`}
+        className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans bg-body text-black text-primary-foreground`}
       >
         <SolidSessionProvider>
           <ClientBasketProvider>
             <Header>
-              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-gray-300 dark:border-zinc-800 relative">
+              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-border relative">
                 <Logo tagline={data.title} />
                 <ThemeToggle type="desktop" />
                 <NavigationProvider>

@@ -21,7 +21,7 @@ const UL = ({
 				type !== "sidebar" &&
 				menu.navigation_menu.navigation_items instanceof Array &&
 				menu.navigation_menu.navigation_items.map((item) => (
-					<li className={`${classNameLi} dark:text-white`} key={item.id}>
+					<li className={`${classNameLi} text-primary`} key={item.id}>
 						<Link
 							onClick={onNavItemClick}
 							href={
@@ -29,7 +29,7 @@ const UL = ({
 									? `${process.env.NEXT_PUBLIC_BASE_URL}/${item.slug === "home" ? "" : item.slug}`
 									: item.url
 							}
-							className={`hover:border-b hover:border-gray-400 first-letter:uppercase inline ${type === "main" ? "text-xl" : "text-sm"}`}
+							className={`hover: hover:border-gray-400 first-letter:uppercase inline ${type === "main" ? "text-xl" : "text-sm"}`}
 							target={item.target}
 						>
 							{item.label}

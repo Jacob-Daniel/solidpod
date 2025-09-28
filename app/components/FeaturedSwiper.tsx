@@ -28,7 +28,7 @@ export default function FeaturedSwiper({
 					return (
 						<div
 							key={index}
-							className="col-span-4 md:col-span-2 relative mb-0 mb-md-0 overflow-clip border border-gray-300 dark:border-zinc-800 rounded-t]"
+							className="col-span-4 md:col-span-2 relative mb-0 mb-md-0 overflow-clip border border-border rounded-t]"
 						>
 							<Link
 								href={`${process.env.BASE_URL}/archive?cat=${category.slug}`}
@@ -71,10 +71,10 @@ function SwiperText({
 	name: string;
 }) {
 	return (
-		<div className="bottom-0 w-full mb-0 flex flex-col px-1 text-center dark:bg-zinc-600 md:py-1">
+		<div className="bottom-0 w-full mb-0 flex flex-col px-1 text-center md:py-1">
 			<Link
 				href={route}
-				className="block link text-sm md:text-base md:font-bold capitalize"
+				className="block text-sm md:text-base md:font-bold capitalize text-primary"
 			>
 				{name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()}
 			</Link>
