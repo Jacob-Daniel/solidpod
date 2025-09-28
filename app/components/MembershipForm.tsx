@@ -176,7 +176,7 @@ export default function ContactForm({
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        className={`grid grid-cols-1 ${className} bg-white`}
+        className={`grid grid-cols-1 ${className} bg-body`}
       >
         {section.form_field &&
           section.form_field instanceof Array &&
