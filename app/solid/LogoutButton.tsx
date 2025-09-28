@@ -8,7 +8,6 @@ export default function LogoutButton() {
   const handleLogout = async () => {
     try {
       await logout();
-      // console.log(session.info.isLoggedIn, "isLoggedIn");
       router.push("/");
     } catch (err) {
       console.error("Error logging out:", err);
