@@ -60,7 +60,7 @@ export default async function DynamicPage({
                     <section
                       id={section.anchor}
                       key={`p-${index}`}
-                      className="relative col-span-12 mb-7 scroll-mt-20"
+                      className="relative col-span-12 mb-7 scroll-mt-20 text-primary"
                     >
                       <RichContentRenderer
                         blocks={section.content}
@@ -75,7 +75,7 @@ export default async function DynamicPage({
               }
             })}
         </div>
-        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-border bg-gray-100 shadow relative border-border text-primary">
+        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-border bg-body shadow relative border-border text-primary">
           {" "}
           {data &&
             data.sidebar instanceof Array &&

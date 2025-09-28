@@ -85,7 +85,7 @@ export default async function Introduction() {
               }
             })}
         </div>
-        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-border bg-gray-100 shadow relative border-border text-primary">
+        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded border-border bg-body shadow relative border-border text-primary">
           {" "}
           {data &&
             data.sidebar instanceof Array &&

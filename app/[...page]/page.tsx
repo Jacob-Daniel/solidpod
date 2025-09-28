@@ -78,7 +78,7 @@ export default async function DynamicPage({
               }
             })}
         </div>
-        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded shadow relative border-border text-primary bg-background">
+        <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 gap-y-7 border p-3 rounded shadow relative border-border text-primary bg-body">
           {" "}
           {data &&
             data.sidebar instanceof Array &&
