@@ -47,8 +47,12 @@ const Archive: FC = () => {
 
   const handleDelete = async (resourceUrl: string, categoryName: string) => {
     if (!session) return;
+    console.log(resourceUrl, "resurl");
+    if (!window.confirm("Are you sure you want to delete this resource?")) {
+      return; // Cancel clicked → exit early
+    }
     await deleteSolidDataset(resourceUrl, { fetch: session.fetch });
-    console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-archive`);
+    // console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-archive`);
 
     setCategories((prev) =>
       prev.map((cat) =>
@@ -66,21 +70,30 @@ const Archive: FC = () => {
   };
   if (!isLoggedIn) return <p>Loading...</p>;
   return (
-    <div>
+    <>
       {loading ? <p>Loading...</p> : null}
       {categories && !categories[0] && <p>Currently no resources found ...</p>}
 
-      {categories.map((cat) => (
-        <div key={cat.name} className="mb-6">
-          <h3 className="font-semibold capitalize">{cat.name}</h3>
-          <ArchiveList
-            resources={cat.resources}
-            fetch={session.fetch}
-            onDelete={(url) => handleDelete(url, cat.name)}
-          />
-        </div>
-      ))}
-    </div>
+      {categories
+        .filter((c) => c.resources[0])
+        .map((cat) => (
+          <section key={cat.name} className="mb-7">
+            <header className="flex">
+              <h3 className="font-semibold capitalize mb-3">
+                {cat.name}:{" "}
+                <span className="font-normal lowercase">
+                  {cat.resources.length}
+                </span>
+              </h3>
+            </header>
+            <ArchiveList
+              resources={cat.resources}
+              fetch={session.fetch}
+              onDelete={(url) => handleDelete(url, cat.name)}
+            />
+          </section>
+        ))}
+    </>
   );
 };
 

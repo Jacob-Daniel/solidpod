@@ -16,13 +16,14 @@ export default function Intros({
 	path: string;
 	icon_colour: string;
 }) {
+	console.log(json, "json");
 	return (
 		<div
 			id={id}
 			className="col-span-6 md:col-span-3 inline-block md:inline lg:col-span-3 border border-border hover:shadow-md hover:border-border hover:border-gray-400 rounded shadow shadow-shadow text-center"
 		>
 			<Link
-				href={`${process.env.NEXT_PUBLIC_BASE_URL}/${json.slug.slug}`}
+				href={`${process.env.NEXT_PUBLIC_BASE_URL}/${json?.slug?.slug}`}
 				className="whitespace-normal grid justify-items-center items-center xl:mb-0 m-auto flex flex-col border-border p-2 py-3 md:p-5"
 			>
 				<StaticIcon

@@ -12,6 +12,7 @@ import Footer from "@/app/components/Footer";
 import { NavigationProvider } from "@/lib/navigationContext";
 import { getAPI } from "@/lib/functions";
 import type { SiteConfig, General } from "@/lib/types";
+import { cache } from "react";
 
 const karla = Karla({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -21,12 +22,12 @@ const karla = Karla({
   variable: "--font-karla",
 });
 
-// const getSiteConfig = cache(() => getAPI<SiteConfig>("/site-config"));
+const getSiteConfig = cache(() =>
+  getAPI<SiteConfig>("/site-config?populate=*"),
+);
+
 export async function generateMetadata(): Promise<Metadata> {
-  // "use cache";
-  const data = await getAPI<SiteConfig>(
-    "/site-config?populate[social_media][populate]=*&populate[SEO][populate]=*",
-  );
+  const data = await getSiteConfig();
   const general: General = {
     title: data.title,
     tagline: data.SEO?.metaDescription ?? "Archive",
@@ -55,31 +56,27 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const data = await getAPI<SiteConfig>(
-    "/site-config?populate[social_media][populate]=*",
-  );
+  const data = await getSiteConfig();
   return (
     <html lang="en">
       <body
         className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans bg-body text-black text-primary-foreground`}
       >
         <SolidSessionProvider>
-          <ClientBasketProvider>
-            <Header>
-              <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-border relative">
-                <Logo tagline={data.title} />
-                <ThemeToggle type="desktop" />
-                <NavigationProvider>
-                  <Nav type="main" />
-                </NavigationProvider>
-              </div>
-            </Header>
-            <div className="w-full max-w-[1500px] align-middle mx-auto">
-              {children}
+          <Header>
+            <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 items-end px-5 lg:px-0 border-b border-border relative">
+              <Logo tagline={data.title} />
+              <ThemeToggle type="desktop" />
+              <NavigationProvider>
+                <Nav type="main" />
+              </NavigationProvider>
             </div>
+          </Header>
+          <div className="w-full max-w-[1500px] align-middle mx-auto">
+            {children}
+          </div>
 
-            <Footer />
-          </ClientBasketProvider>
+          <Footer />
         </SolidSessionProvider>
       </body>
     </html>

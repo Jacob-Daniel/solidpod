@@ -51,14 +51,15 @@ export async function createArchiveResource(
   await ensureContainerWithACL(session, uploadsFolder, resourceVisibility);
 
   // Sanitize title and build fragment
-  const sanitizedTitle = sanitizeStringTurtle(resource.title);
+  const slug = sanitizeStringTurtle(resource.title);
   const timestamp = Date.now();
-  const fragment = `${sanitizedTitle}-${timestamp}`;
+  const fragment = `${slug}-${timestamp}`;
 
   // Create dataset and Thing
   let dataset = createSolidDataset();
   const resourceThing = buildThing(createThing({ name: fragment }))
     .addStringNoLocale(DC("title"), resource.title)
+    .addStringNoLocale(DC("slug"), slug)
     .addStringNoLocale(DC("description"), resource.description)
     .addStringNoLocale(DC("file"), resource.documentUrl || "")
     .addBoolean(DC("allowAnnotations"), resource.allowAnnotations)
@@ -104,7 +105,7 @@ export async function createArchiveResource(
     body: resourceACL,
   });
 
-  fetch(`${process.env.BASE_URL}/api/revalidate-archive`, {
+  fetch(`${process.env.FRONT_END_URL}/api/revalidate-archive`, {
     method: "POST",
   }).catch(console.error);
 

@@ -1,16 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
 import { createArchiveResource } from "@/lib/createArchiveResource";
-import { ensureContainerWithACL } from "@/lib/ensureContainerWithACL";
-import { sanitizeStringTurtle } from "@/lib/sanitizeStringTurtle";
 import { Category } from "@/lib/types";
-// import dynamic from "next/dynamic";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
-import { saveFileInContainer, overwriteFile } from "@inrupt/solid-client";
+import { uploadFile } from "@/lib/uploadFile"; // our new helper
+import { FileInput } from "@/app/solid/FileInput";
 
 export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   const { session, webId } = useSolidSession();
@@ -20,6 +18,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   const [image, setImage] = useState<File | null>(null);
   const [category, setCat] = useState("");
   const [status, setStatus] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [visibility, setVisibility] = useState(false);
   const [allowAnnotations, setAllowAnnotations] = useState(false);
@@ -28,96 +27,57 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   const editor = useEditor({
     extensions: [StarterKit, Link, Image],
     content: "",
-    editorProps: {
-      attributes: {
-        class: "outline-none p-2 min-h-[150px]",
-      },
-    },
-    onUpdate: ({ editor }) => {
-      setDescription(editor.getHTML());
-      // Or save JSON if you prefer
-      // setDescription(JSON.stringify(editor.getJSON()));
-    },
+    editorProps: { attributes: { class: "outline-none p-2 min-h-[150px]" } },
+    onUpdate: ({ editor }) => setDescription(editor.getHTML()),
     immediatelyRender: false,
   });
 
-  const safeSlug = (filename: string) => {
-    return filename
-      .trim()
-      .replace(/\/+$/, "") // remove trailing slashes
-      .replace(/\s+/g, "_") // replace spaces with underscores
-      .replace(/[^a-zA-Z0-9._-]/g, ""); // remove bad chars
-  };
-
+  const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setStatus("Saving...");
-    let documentUrl: string | undefined;
-
-    const turtleTitle = sanitizeStringTurtle(title);
-    let imageUrl: string | undefined;
-
-    if (document) {
-      const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
-      const uploadUrl = new URL("archive/uploads/", podRoot).toString();
-      console.log(uploadUrl, "uploadUrl", podRoot, "root");
-      // Ensure container exists
-      await ensureContainerWithACL(
-        session,
-        uploadUrl,
-        visibility ? "public" : "private",
-      );
-
-      const slug = safeSlug(document.name); // removes spaces and trailing slashes
-      const finalUrl = uploadUrl + slug;
-
-      await overwriteFile(uploadUrl + slug, document, {
-        contentType: document.type,
-        fetch: session.fetch,
-      });
-
-      documentUrl = finalUrl;
-    }
-
+    setMessage("Saving...");
     try {
-      if (image) {
-        const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
-        const uploadUrl = new URL("archive/uploads/", podRoot).toString();
+      let documentUrl: string | undefined;
+      let imageUrl: string | undefined;
 
-        // Ensure container exists first
-        await ensureContainerWithACL(
+      if (document) {
+        documentUrl = await uploadFile(
           session,
-          uploadUrl,
-          visibility ? "public" : "private",
+          document,
+          podRoot,
+          "archive/uploads/",
+          visibility,
         );
+      }
 
-        const slug = safeSlug(image.name);
-        const finalUrl = uploadUrl + slug;
-
-        await overwriteFile(finalUrl, image, {
-          contentType: image.type,
-          fetch: session.fetch,
-        });
-
-        imageUrl = finalUrl;
+      if (image) {
+        imageUrl = await uploadFile(
+          session,
+          image,
+          podRoot,
+          "archive/uploads/",
+          visibility,
+        );
       }
 
       await createArchiveResource(session, {
-        title: turtleTitle,
+        title,
         description,
         date,
         creator: session.info.webId!,
-        visibility: visibility,
+        visibility,
         category,
-        image: imageUrl || "", // optional
+        image: imageUrl || "",
         documentUrl: documentUrl || "",
         allowAnnotations,
       });
 
-      setStatus(`Resource saved${image ? ` with image ${image.name}` : ""}`);
+      setMessage(`Resource saved!`);
+      setStatus("ok");
     } catch (err: any) {
-      setStatus(err.message);
+      setMessage(err.message);
+      setStatus("error");
     } finally {
       setLoading(false);
     }
@@ -126,7 +86,7 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-1 items-start">
       <select
-        className="mb-3 border border-gray-300"
+        className="mb-3 border border-border"
         name="category"
         onChange={(e) => setCat(e.target.value)}
         required
@@ -134,56 +94,51 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         <option value="" defaultChecked>
           Select Category
         </option>
-        {cats.map((cat, i) => {
-          return (
-            <option key={i} value={cat.slug}>
-              {cat.name}
-            </option>
-          );
-        })}
+        {cats.map((cat, i) => (
+          <option key={i} value={cat.slug}>
+            {cat.name}
+          </option>
+        ))}
       </select>
-      <label htmlFor="title">Title:</label>
 
+      <label htmlFor="title">Title:</label>
       <input
-        className="border border-gray-300 dark:boarder-zinc-800 px-1 w-full mb-3"
+        className="border border-border px-1 w-full mb-3"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         required
       />
+
       <label htmlFor="editor">Description:</label>
-      <div className="border border-gray-300 mb-3 w-full p-1 rounded">
-        <EditorContent editor={editor} />
+      <div className="border border-border mb-3 w-full p-1 rounded">
+        <textarea
+          value={description}
+          className="w-full"
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
       </div>
-      <label className="cursor-pointer bg-gray-400 dark:bg-zinc-800 text-white px-3 py-1 rounded mb-2">
-        Choose .pdf,.doc,.docx or .txt for Upload.{" "}
-        <input
-          type="file"
-          accept=".pdf,.doc,.docx,.txt"
-          onChange={(e) => {
-            if (!e.target.files) return;
-            setDocument(e.target.files[0]);
-          }}
-        />
-      </label>
-      <label className="cursor-pointer bg-gray-400 dark:bg-zinc-800 text-white px-3 py-1 rounded mb-3">
-        Choose Image for Upload.{" "}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            if (!e.target.files) return;
-            setImage(e.target.files[0]);
-          }}
-        />
-      </label>
-      <label className="flex w-full gap-x-1 items-baseline">
+
+      <FileInput
+        label="Choose document to upload (.pdf, .doc, .docx, .txt)"
+        accept=".pdf,.doc,.docx,.txt"
+        onFileSelected={setDocument}
+      />
+
+      <FileInput
+        label="Choose image to upload"
+        accept="image/*"
+        onFileSelected={setImage}
+      />
+
+      {/*      <label className="flex w-full gap-x-1 items-baseline">
         Allow annotations by other users:
         <input
           type="checkbox"
           checked={allowAnnotations}
           onChange={() => setAllowAnnotations((prev) => !prev)}
         />
-      </label>
+      </label>*/}
+
       <label className="flex w-full gap-x-1 items-baseline">
         Permission Currently:{" "}
         {visibility ? (
@@ -193,22 +148,25 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
         )}{" "}
         {!visibility && "Check box to set to Public:"}
         <input
-          className="dark:boarder-zinc-800 px-1 text-black inline"
+          className="border-border px-1 text-black inline"
           type="checkbox"
-          value={visibility ? 1 : 0}
-          onChange={() => {
-            setVisibility((prev) => !prev);
-          }}
+          checked={visibility}
+          onChange={() => setVisibility((prev) => !prev)}
           required
         />
       </label>
+
       <button
-        className="border text-white cursor-pointer bg-blue-500 flex-shrink px-2 py-1 rounded"
+        className="border text-white cursor-pointer bg-blue-500 flex-shrink px-2 py-1 rounded mb-5"
         type="submit"
       >
         {loading ? "Processing..." : "Save"}
       </button>
-      <p>{loading ? "" : status}</p>
+      <p
+        className={`py-1 px-2 ${status === "ok" && "bg-green-300 text-green-600"} ${status === "error" && "bg-red-500 text-red-600"}`}
+      >
+        {loading ? "" : message}
+      </p>
     </form>
   );
 }

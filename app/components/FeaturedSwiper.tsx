@@ -31,7 +31,7 @@ export default function FeaturedSwiper({
 							className="col-span-4 md:col-span-2 relative mb-0 mb-md-0 overflow-clip border border-border rounded-t]"
 						>
 							<Link
-								href={`${process.env.BASE_URL}/archive?cat=${category.slug}`}
+								href={`${process.env.NEXT_PUBLIC_BASE_URL}/archive?cat=${category.slug}`}
 								className="category relative"
 							>
 								<Image
@@ -39,7 +39,7 @@ export default function FeaturedSwiper({
 									width={250}
 									height={250}
 									className="z-50 mb-0 object-cover"
-									src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${category.image.url}`}
+									src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${category.image.url}`}
 									priority={false}
 								/>
 							</Link>
@@ -47,7 +47,7 @@ export default function FeaturedSwiper({
 								id={category.id}
 								summary={category.description}
 								path={category.slug}
-								route={`${process.env.BASE_URL}/archive?cat=${category.slug}`}
+								route={`${process.env.NEXT_PUBLIC_BASE_URL}/archive?cat=${category.slug}`}
 								name={category.name}
 							/>
 						</div>

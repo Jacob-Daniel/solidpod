@@ -24,11 +24,11 @@ export default function ResponsiveImage({
 		mobile?.image.url ||
 		(process.env.COMPANY_NAME as string);
 	const mobileUrl = mobile
-		? `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${mobile.image.url}`
+		? `${process.env.STRAPI_BASE_URL}${mobile.image.url}`
 		: undefined;
 
 	const desktopUrl = desktop
-		? `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${desktop.image.url}`
+		? `${process.env.STRAPI_BASE_URL}${desktop.image.url}`
 		: undefined;
 
 	return (

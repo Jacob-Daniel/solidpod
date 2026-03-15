@@ -9,8 +9,8 @@ const LoginButton: FC = () => {
 
   const login = async () => {
     await session.login({
-      redirectUrl: process.env.NEXT_PUBLIC_REDIRECT_URL,
-      oidcIssuer: process.env.NEXT_PUBLIC_CSS_URL,
+      redirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`,
+      oidcIssuer: process.env.NEXT_PUBLIC_SOLID_URL,
       clientName: "NKSJA App",
     });
   };

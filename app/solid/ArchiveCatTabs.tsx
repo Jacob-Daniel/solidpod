@@ -49,7 +49,7 @@ export default function ArchiveCategoryTabs({
       }
     }
   }, [searchParams, categories]);
-
+  console.log(activeImage, "---------------------------------image");
   const activeResources = resources[activeCategory.slug] || [];
   const catCount = activeResources.length;
   return (
@@ -59,7 +59,7 @@ export default function ArchiveCategoryTabs({
           <>
             <div className="mb-3 flex items-end gap-x-5 border-border border-b pb-5">
               <Image
-                src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${activeImage}`}
+                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${activeImage}`}
                 height={60}
                 width={60}
                 alt={activeCategory.name || "archive category"}
@@ -105,7 +105,7 @@ export default function ArchiveCategoryTabs({
           ))}
         </ul>
         <Image
-          src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${activeImage}`}
+          src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${activeImage}`}
           height={activeCategory.imageH || 250}
           width={activeCategory.imageW || 250}
           alt={activeCategory.name || "archive category"}

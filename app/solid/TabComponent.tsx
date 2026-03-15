@@ -28,13 +28,13 @@ export default function TabComponent({
   }
   return (
     <div className="grid grid-cols-12 gap-x-7 col-span-12">
-      <div className="md:border md:border-gray-200 dark:border-zinc-800 md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
+      <div className="border-border md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
         {activeTab === "welcome" && welcome}
         {activeTab === "profile" && <Profile />}
         {activeTab === "archive" && <Archive />}
         {activeTab === "new-archive" && <NewArchive cats={categories} />}
       </div>
-      <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 border p-3 rounded border-gray-200 dark:border-zinc-800 bg-gray-100 shadow relative dark:bg-inherit dark:text-white">
+      <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 border p-3 rounded border-border bg-gray-100 shadow relative border-border text-primary">
         <h2 className="text-sm mb-2 font-bold">{fullName}'s Dashboard </h2>
         <ul className="text-sm">
           {["welcome", "profile", "archive", "new-archive"].map((tab, i) => (

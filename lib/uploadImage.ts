@@ -1,6 +1,6 @@
 import { saveFileInContainer, universalAccess } from "@inrupt/solid-client";
 import { Session } from "@inrupt/solid-client-authn-browser";
-import { ensureContainerWithACL } from "./EnsureContainerWithACL";
+import { ensureContainerWithACL } from "@/lib/ensureContainerWithACL";
 
 export async function uploadImage(
   file: File,

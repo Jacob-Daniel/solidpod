@@ -1,10 +1,6 @@
 "use server";
-import {
-	CreateResponseAction,
-	CreateMembershipResponseAction,
-	CreateMembership,
-} from "@/lib/types";
-import { createAPI, createMembership } from "@/lib/functions";
+import { CreateResponseAction } from "@/lib/types";
+import { createAPI } from "@/lib/functions";
 
 export async function createArchiveAction(webId: {
 	webId: string;
@@ -21,16 +17,4 @@ export async function createArchiveAction(webId: {
 	} else {
 		return null;
 	}
-}
-
-export async function createMembershipAction(
-	customerData: CreateMembership,
-): Promise<CreateMembershipResponseAction> {
-	const data = await createMembership({ data: customerData });
-	if ("error" in data) {
-		if (data.error) {
-			return data;
-		}
-	}
-	return data;
 }

@@ -22,7 +22,7 @@ export default function BlurServerImage({
 	priority?: boolean;
 	blurDataUrl: string;
 }) {
-	const imgurl = `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${imageUrl}`;
+	const imgurl = `${process.env.STRAPI_BASE_URL}${imageUrl}`;
 	return (
 		<Image
 			className={`mx-auto 

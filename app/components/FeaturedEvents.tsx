@@ -32,7 +32,7 @@ export default function FeaturedSwiper({
 								className="col-span-12 md:col-span-4 relative mb-0 mb-md-0 overflow-clip"
 							>
 								<Link
-									href={`${process.env.BASE_URL}/events/${event.slug}`}
+									href={`${process.env.NEXT_PUBLIC_BASE_URL}/events/${event.slug}`}
 									className="event relative"
 								>
 									<BlurImage
@@ -40,7 +40,7 @@ export default function FeaturedSwiper({
 										height={500}
 										className="z-50 max-h-[500px] max-w-[500px] mb-0"
 										title={event.title}
-										sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${event.image.url}`}
+										sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_URL}${event.image.url}`}
 										shadow={false}
 										rounded={false}
 										objectFit="contain"
@@ -51,7 +51,7 @@ export default function FeaturedSwiper({
 									id={event.id}
 									summary={event.summary}
 									path={event.slug}
-									route={`${process.env.BASE_URL}/events/${event.slug}`}
+									route={`${process.env.NEXT_PUBLIC_BASE_URL}/events/${event.slug}`}
 									price={event.price}
 									title={event.title}
 									start_time={startTime}

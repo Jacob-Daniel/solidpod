@@ -29,7 +29,7 @@ export default function BlurImage({
 	useEffect(() => {
 		async function getBase64() {
 			const res = await fetch(
-				`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${image.formats.thumbnail.url}`,
+				`${process.env.NEXT_PUBLIC_STRAPI_URL}${image.formats.thumbnail.url}`,
 			);
 			const blob = await res.blob();
 			const reader = new FileReader();
@@ -42,7 +42,7 @@ export default function BlurImage({
 		getBase64();
 	}, [image.formats.thumbnail.url]);
 
-	const imageUrl = `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${image.url}`;
+	const imageUrl = `${process.env.NEXT_PUBLIC_STRAPI_URL}${image.url}`;
 
 	return (
 		<Image

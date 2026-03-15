@@ -7,7 +7,7 @@ import TagList from "@/app/components/TagList";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
 import { InfoCard, Page, Category, Tags } from "@/lib/types";
 
-async function fetchFeaturedPeitions() {
+async function fetchFeatured() {
   return getAPI<Category[]>("/categories?populate=*");
 }
 
@@ -24,13 +24,12 @@ async function fetchHomePage() {
 export default async function Home() {
   const [[data], featured, tags] = await Promise.all([
     fetchHomePage(),
-    fetchFeaturedPeitions(),
+    fetchFeatured(),
     fetchTags(),
   ]);
   if (!data) return <div>No content available</div>;
-
   const blurDataUrl = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
+    `${process.env.STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
   )
     .then((res) => res.arrayBuffer())
     .then(

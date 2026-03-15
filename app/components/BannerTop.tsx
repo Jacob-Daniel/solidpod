@@ -3,6 +3,7 @@ import ResponsiveImage from "@/app/components/ResponsiveImage";
 import SVG from "@/app/components/SVG";
 import paths from "@/public/svg/paths.json";
 import Image from "next/image";
+import img from "@/public/solid-emblem.svg";
 import BannerOverlay from "./BannerOverlay";
 export default function BannerTop({
 	banner,
@@ -11,6 +12,7 @@ export default function BannerTop({
 	banner: Banner;
 	blurDataUrl: string;
 }) {
+	console.log(img, "img");
 	const bg = banner.bg_colour;
 	return (
 		<div className="col-span-12 px-5 lg:px-0 md:max-h-[350px] hd:max-h-[390px]">
@@ -61,13 +63,13 @@ export default function BannerTop({
 					<BannerOverlay className="absolute z-30 inset-x-0 bottom-0 pb-7 md:top-0 w-full flex items-end md:items-center justify-start px-5 md:px-10 overflow-hidden bg-gradient-to-t from-black from-5% to-transparent to-80% md:bg-none h-full md:max-h-[350px] hd:max-h-[390px]">
 						<div className="relative flex flex-col gap-2 align-baseline items-center text-center max-w-lg pl-0 md:pl-0 md:pr-45 lg:pr-16">
 							<Image
-								src={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/uploads/14262490_0a196e3b2b.webp`}
+								src={img.src}
 								alt="Solid Logo"
-								width={80} // adjust size
-								height={80} // adjust size
-								className="animate-fade-in md:h-[60px] md:w-[60px] lg:w-[80px] lg:h-[80px]"
+								width={352} // adjust size
+								height={322} // adjust size
+								className="animate-fade-in w-[25%] lg:w-[20%] lg:h-auto"
 							/>
-							<blockquote className="relativeitalic text-gray-700 before:content-['“'] before:absolute before:left-0 before:top-15 before:start- before:text-6xl before:text-white md:before:text-gray-400/20">
+							<blockquote className="relative italic text-gray-700 before:content-['“'] before:absolute before:left-0 before:top-15 before:start- before:text-6xl before:text-white md:before:text-gray-400/20">
 								<h2 className="animate-slide-in-lr font-quicksand mb-2 !text-white font-heading font-extrabold text-[1.125rem] md:text-md lg:text-lg leading-none">
 									{banner.heading}
 								</h2>

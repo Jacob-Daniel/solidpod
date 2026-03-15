@@ -19,7 +19,7 @@ export default async function Archive() {
   if (!data) return <div>No content available</div>;
 
   const blurDataUrl = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
+    `${process.env.STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
   )
     .then((res) => res.arrayBuffer())
     .then(

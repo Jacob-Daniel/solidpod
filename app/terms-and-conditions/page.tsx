@@ -38,7 +38,7 @@ export default async function DynamicPage({
         ?.image ?? data?.banner?.image_versions[0]?.image;
 
     blurDataUrl = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
+      `${process.env.STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
     )
       .then((res) => res.arrayBuffer())
       .then(

@@ -51,8 +51,8 @@ const NavLink = ({
 				className={`text-primary text-xl md:text-base ${(type === "desktop" || type === "mobile") && "font-bold"} hover:text-hoverText font-sans ${active} ${is_button && "border border-border rounded px-2 py-[5px]"} text-primary`}
 				href={
 					type === "user"
-						? `${process.env.BASE_URL}/dashboard/${slug}`
-						: `${process.env.BASE_URL}/${slug}`
+						? `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/${slug}`
+						: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`
 				}
 				onClick={(e) => {
 					(handleClick(), onClick && onClick());

@@ -23,11 +23,11 @@ export default function SubLink({
 	const pathname = usePathname()!.slice(1);
 	const active = slug === pathname ? "-2 border-indigo-300" : "";
 	const { activeSubmenuId, closeSubmenu } = useNavigationContext();
-	const url = `${process.env.BASE_URL}/${slug}`;
+	const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`;
 	// const url =
 	// parentSlug && parentSlug
-	// 	? `${process.env.BASE_URL}/${parentSlug}/${slug}`
-	// 	: `${process.env.BASE_URL}/${slug}`;
+	// 	? `${process.env.NEXT_PUBLIC_BASE_URL}/${parentSlug}/${slug}`
+	// 	: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`;
 	return (
 		<Link
 			className={`text-xl md:text-base font-bold align-bottom hover:text-hoverText ${active} mb-1 text-primary`}

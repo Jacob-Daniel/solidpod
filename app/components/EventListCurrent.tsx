@@ -83,7 +83,7 @@ const Article: React.FC<Article> = ({
 	path,
 	price,
 }) => {
-	const eventUrl = `${process.env.BASE_URL}/events/${path}`;
+	const eventUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/events/${path}`;
 	return (
 		<article
 			className={`order  border grid grid-cols-12 md:grid-cols-12 bg-white relative md:pb-0`}
@@ -96,7 +96,7 @@ const Article: React.FC<Article> = ({
 					<BlurImage
 						className=""
 						title={title}
-						sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}${imagepath}`}
+						sourceUrl={`${process.env.NEXT_PUBLIC_STRAPI_URL}${imagepath}`}
 						shadow={false}
 						rounded={false}
 						objectFit="contain"

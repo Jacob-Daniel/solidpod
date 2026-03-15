@@ -117,7 +117,7 @@ const Profile: FC = () => {
           key === "image" ? (
             editMode && (
               <div key={key}>
-                <label className="cursor-pointer bg-blue-500 dark:bg-zinc-800 text-white px-3 py-1 rounded">
+                <label className="cursor-pointer bg-blue-500 bg-background text-white px-3 py-1 rounded">
                   Choose Image for Upload
                   <input
                     type="file"
@@ -164,7 +164,7 @@ const Profile: FC = () => {
           ) : editMode ? (
             <input
               key={key}
-              className="border border-gray-300 dark:border-zinc-800 w-full px-2 py-1"
+              className="border border-border w-full px-2 py-1"
               value={value}
               onChange={(e) =>
                 setProfileData((prev) => ({ ...prev, [key]: e.target.value }))
@@ -181,7 +181,7 @@ const Profile: FC = () => {
 
         <button
           onClick={() => setEditMode(!editMode)}
-          className="border px-3 py-1 rounded bg-blue-500 dark:bg-zinc-800 text-white cursor-pointer"
+          className="border px-3 py-1 rounded bg-blue-500 bg-background text-white cursor-pointer"
         >
           {editMode ? "Cancel" : "Edit Profile"}
         </button>

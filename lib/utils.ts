@@ -27,7 +27,7 @@ export function convertToEmbedUrl(url: string) {
 
 	return url; // If it's not a YouTube URL, return the original URL
 }
-const url = new URL(process.env.BASE_URL as string);
+const url = new URL(process.env.FRONT_END_URL as string);
 export const siteMetadata = ({
 	address,
 	contact,
@@ -62,8 +62,8 @@ export const siteMetadata = ({
 		},
 		url:
 			general?.slug === "/"
-				? process.env.BASE_URL
-				: `${process.env.BASE_URL}/${general?.slug}`,
+				? process.env.FRONT_END_URL
+				: `${process.env.FRONT_END_URL}/${general?.slug}`,
 		locale: "en_GB",
 		countryName: "Great Britain",
 	},
@@ -89,8 +89,8 @@ export const siteMetadata = ({
 	alternates: {
 		canonical:
 			general?.slug === "/"
-				? process.env.BASE_URL
-				: `${process.env.BASE_URL}/${general?.slug}`,
+				? process.env.FRONT_END_URL
+				: `${process.env.FRONT_END_URL}/${general?.slug}`,
 	},
 	classification: "Local Democracy",
 	// structuredData: geolocation
@@ -99,7 +99,7 @@ export const siteMetadata = ({
 	// 			"@type": "Company", // or another appropriate type
 	// 			name: general.title,
 	// 			description: general.tagline,
-	// 			url: `${process.env.BASE_URL}/${general.slug}`,
+	// 			url: `${process.env.FRONT_END_URL}/${general.slug}`,
 	// 			address: {
 	// 				"@type": "PostalAddress",
 	// 				streetAddress: address.address_line_1,
