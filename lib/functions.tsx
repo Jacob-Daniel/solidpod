@@ -11,7 +11,7 @@ export async function getFiles(name: string): Promise<Files> {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${process.env.STRAPI_USER_API_TOKEN}`,
+			Authorization: `Bearer ${process.env.STRAPI_ADMIN_API_TOKEN}`,
 		},
 	});
 	if (!res.ok) throw new Error("Failed to fetch Files");
@@ -42,7 +42,7 @@ export async function getPAPI<T>(
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${process.env.STRAPI_USER_API_TOKEN}`,
+			Authorization: `Bearer ${process.env.STRAPI_ADMIN_API_TOKEN}`,
 		},
 	});
 	if (!response.ok) {
@@ -79,7 +79,7 @@ export async function createAPI<T>({
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${process.env.STRAPI_USER_API_TOKEN}`,
+				Authorization: `Bearer ${process.env.STRAPI_ADMIN_API_TOKEN}`,
 			},
 			body: JSON.stringify({ data }),
 		});
