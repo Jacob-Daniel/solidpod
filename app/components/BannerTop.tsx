@@ -5,14 +5,7 @@ import paths from "@/public/svg/paths.json";
 import Image from "next/image";
 import img from "@/public/solid-emblem.svg";
 import BannerOverlay from "./BannerOverlay";
-export default function BannerTop({
-	banner,
-	blurDataUrl,
-}: {
-	banner: Banner;
-	blurDataUrl: string;
-}) {
-	console.log(img, "img");
+export default function BannerTop({ banner }: { banner: Banner }) {
 	const bg = banner.bg_colour;
 	return (
 		<div className="col-span-12 px-5 lg:px-0 md:max-h-[350px] hd:max-h-[390px]">
@@ -47,7 +40,6 @@ export default function BannerTop({
 								banner={banner.image_versions}
 								alt={banner.heading}
 								priority={true}
-								blurDataUrl={blurDataUrl}
 							/>
 						</div>
 						<div className="w-full items-center justify-end md:hidden flex aspect-[1/1] md:aspect-auto md:max-h-[350px] hd:max-h-[390px]">
@@ -56,7 +48,6 @@ export default function BannerTop({
 								banner={banner.image_versions}
 								alt={banner.heading}
 								priority={true}
-								blurDataUrl={blurDataUrl}
 							/>
 						</div>
 					</div>

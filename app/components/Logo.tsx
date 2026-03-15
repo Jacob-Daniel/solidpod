@@ -13,7 +13,7 @@ export default function Logo({ tagline }: { tagline: string }) {
 				<Link
 					title="home page link"
 					className="relative  text-[#7e4dff]"
-					href={process.env.BASE_URL as string}
+					href={process.env.FRONT_END_URL as string}
 				>
 					{tagline as string}
 				</Link>

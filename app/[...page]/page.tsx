@@ -32,25 +32,11 @@ export default async function DynamicPage({
         label: section?.anchor as string,
         target: "_self",
       })) ?? [];
-  if (data.banner) {
-    const img =
-      data?.banner?.image_versions.find((v) => v.version === "desktop")
-        ?.image ?? data?.banner?.image_versions[0]?.image;
-
-    blurDataUrl = await fetch(
-      `${process.env.STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
-    )
-      .then((res) => res.arrayBuffer())
-      .then(
-        (buf) =>
-          `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-      );
-  }
 
   return (
     <main className="grid grid-cols-12 gap-y-10">
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-        <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
+        <BannerTop banner={data.banner} />
       </div>
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7 scroll-mt-24 mb-16">
         <div className="md:border border-border md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">

@@ -20,7 +20,6 @@ export async function getFiles(name: string): Promise<Files> {
 }
 
 export async function getAPI<T>(query: string): Promise<T> {
-	console.log(query, "query api");
 	const response = await fetch(`${process.env.STRAPI_BASE_URL}/api${query}`, {
 		method: "GET",
 		headers: {
