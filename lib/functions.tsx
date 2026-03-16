@@ -74,7 +74,7 @@ export async function createAPI<T>({
 	route: string;
 }): Promise<T | null> {
 	try {
-		const response = await fetch(`${process.env.STRAPI_BASE_URL}/${route}`, {
+		const response = await fetch(`${process.env.STRAPI_BASE_URL}/api${route}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

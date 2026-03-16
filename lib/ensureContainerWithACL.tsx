@@ -14,9 +14,8 @@ export async function ensureContainerWithACL(
   try {
     // Try to fetch the container
     await getSolidDataset(containerUrl, { fetch: session.fetch });
-    console.log("Container exists:", containerUrl);
   } catch (err: any) {
-    console.log("Container missing, creating:", containerUrl);
+    // console.log("Container missing, creating:", containerUrl);
     const response = await session.fetch(containerUrl, {
       method: "PUT",
       headers: {
@@ -62,6 +61,6 @@ export async function ensureContainerWithACL(
     });
     if (!aclResponse.ok)
       throw new Error(`Failed to create/update ACL: ${aclResponse.status}`);
-    console.log("ACL written for container:", containerUrl);
+    // console.log("ACL written for container:", containerUrl);
   }
 }

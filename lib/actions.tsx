@@ -7,7 +7,7 @@ export async function createArchiveAction(webId: {
 }): Promise<CreateResponseAction | null> {
 	const data = await createAPI<CreateResponseAction>({
 		data: webId,
-		route: "archives",
+		route: "/archives",
 	});
 	if (data && "error" in data) {
 		if (data.error) {

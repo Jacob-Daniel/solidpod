@@ -1,8 +1,7 @@
 "use client";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
-import Image from "next/image";
 import {
   getSolidDataset,
   getThing,
@@ -15,190 +14,136 @@ import {
 } from "@inrupt/solid-client";
 import { FOAF, VCARD } from "@inrupt/vocab-common-rdf";
 import { uploadAvatar } from "@/lib/uploadAvatar";
+import { sanitiseFile, ALLOWED_IMAGE_TYPES } from "@/lib/solid/sanitiseFile";
+import ProfileCard from "@/app/solid/ProfileCard";
+
+type Visibility = "private" | "public";
 
 const Profile: FC = () => {
   const { isLoggedIn, webId, session } = useSolidSession();
-  const [profileData, setProfileData] = useState<Record<string, string>>({});
+
+  const [profileData, setProfileData] = useState({
+    name: "",
+    email: "",
+    image: "",
+  });
   const [avatar, setAvatar] = useState<File | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [permissions, setPermissions] = useState({
-    private: true,
-    public: false,
-  });
-  const loadProfile = async () => {
+  const [avatarError, setAvatarError] = useState("");
+  const [visibility, setVisibility] = useState<Visibility>("private");
+
+  const loadProfile = useCallback(async () => {
     if (!webId) return;
+    setLoading(true);
     try {
       const dataset = await getSolidDataset(webId, { fetch: session.fetch });
       const thing = getThing(dataset, webId);
       if (!thing) return;
 
+      const mboxUrl = getUrl(thing, FOAF.mbox) ?? "";
+      const email = mboxUrl.replace(/^mailto:/, "");
+
       setProfileData({
-        name: getStringNoLocale(thing, FOAF.name) || "",
-        email: getStringNoLocale(thing, FOAF.mbox) || "",
-        image: getUrl(thing, FOAF.img) || getUrl(thing, VCARD.hasPhoto) || "",
+        name: getStringNoLocale(thing, FOAF.name) ?? "",
+        email,
+        image: getUrl(thing, FOAF.img) ?? getUrl(thing, VCARD.hasPhoto) ?? "",
       });
-    } catch (e: any) {
+    } catch (e) {
       console.error("Error loading profile:", e);
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [webId, session.fetch]);
 
   useEffect(() => {
     loadProfile();
-  }, [webId, session.fetch]);
+  }, [loadProfile]);
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAvatarError("");
+    if (!e.target.files?.length) return;
+    const file = e.target.files[0];
+    const result = await sanitiseFile(file, ALLOWED_IMAGE_TYPES);
+    if (!result.ok) {
+      setAvatarError(result.error ?? "Invalid image file.");
+      e.target.value = "";
+      return;
+    }
+    setAvatar(new File([file], result.safeName!, { type: result.mime }));
+  };
 
   const handleSave = async () => {
     if (!webId) return;
     setSaving(true);
     setError("");
-
     try {
       const dataset = await getSolidDataset(webId, { fetch: session.fetch });
       let thing = getThing(dataset, webId);
       if (!thing) {
-        setError("Could not load profile thing.");
-        setSaving(false);
+        setError("Could not load profile.");
         return;
       }
-
-      // Handle avatar upload using helper
       if (avatar) {
-        const podRoot = webId.split("/").slice(0, -1).join("/") + "/";
-        const fileUrl = await uploadAvatar(
-          avatar,
-          podRoot,
-          session,
-          permissions,
-        );
-
+        const podRoot = webId.replace(/\/profile\/card#me$/, "") + "/";
+        const fileUrl = await uploadAvatar(avatar, podRoot, session, {
+          private: visibility === "private",
+          public: visibility === "public",
+        });
         thing = setUrl(thing, FOAF.img, fileUrl);
         setProfileData((prev) => ({ ...prev, image: fileUrl }));
       }
-
-      // Save name & email
       thing = setStringNoLocale(thing, FOAF.name, profileData.name);
-      thing = setStringNoLocale(thing, FOAF.mbox, profileData.email);
-
-      const updatedDataset = setThing(dataset, thing);
-      await saveSolidDatasetAt(webId, updatedDataset, { fetch: session.fetch });
-
+      thing = setUrl(thing, FOAF.mbox, `mailto:${profileData.email}`);
+      await saveSolidDatasetAt(webId, setThing(dataset, thing), {
+        fetch: session.fetch,
+      });
+      setAvatar(null);
       setEditMode(false);
-    } catch (e: any) {
-      console.error(e);
-      setError(e.message || "Error saving profile.");
+    } catch (e) {
+      console.error("Error saving profile:", e);
+      setError("Could not save profile. Please try again.");
     } finally {
       setSaving(false);
     }
   };
 
-  if (!isLoggedIn) return <p>Loading...</p>;
+  const handleEditToggle = () => {
+    setEditMode((prev) => !prev);
+    setError("");
+    setAvatarError("");
+  };
+
+  if (!isLoggedIn || loading) {
+    return <p className="text-neutral-400 text-sm">Loading profile…</p>;
+  }
 
   return (
     <div className="col-span-12 flex flex-col gap-4">
-      <div className="flex items-center gap-4">
-        {profileData.image ? (
-          <Image
-            width={60}
-            height={60}
-            src={profileData.image}
-            alt="Profile picture"
-            className="w-24 h-24 rounded-full border"
-          />
-        ) : (
-          <div className="w-24 h-24 flex items-center justify-center rounded-full border bg-gray-100">
-            <span className="text-gray-400">No image</span>
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-3 items-start">
-        {Object.entries(profileData).map(([key, value]) =>
-          key === "image" ? (
-            editMode && (
-              <div key={key}>
-                <label className="cursor-pointer bg-blue-500 bg-background text-white px-3 py-1 rounded">
-                  Choose Image for Upload
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => {
-                      if (!e.target.files) return;
-                      setAvatar(e.target.files[0]);
-                    }}
-                  />
-                </label>
-
-                <div className="flex gap-3 items-center">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={permissions.private}
-                      onChange={(e) =>
-                        setPermissions((prev) => ({
-                          ...prev,
-                          private: e.target.checked,
-                        }))
-                      }
-                    />
-                    Private (only me)
-                  </label>
-
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={permissions.public}
-                      onChange={(e) =>
-                        setPermissions((prev) => ({
-                          ...prev,
-                          public: e.target.checked,
-                        }))
-                      }
-                    />
-                    Public read
-                  </label>
-                </div>
-              </div>
-            )
-          ) : editMode ? (
-            <input
-              key={key}
-              className="border border-border w-full px-2 py-1"
-              value={value}
-              onChange={(e) =>
-                setProfileData((prev) => ({ ...prev, [key]: e.target.value }))
-              }
-              placeholder={key}
-            />
-          ) : (
-            <p key={key}>
-              <strong>{key}: </strong>
-              {value || "Not set"}
-            </p>
-          ),
-        )}
-
-        <button
-          onClick={() => setEditMode(!editMode)}
-          className="border px-3 py-1 rounded bg-blue-500 bg-background text-white cursor-pointer"
-        >
-          {editMode ? "Cancel" : "Edit Profile"}
-        </button>
-
-        {editMode && (
-          <>
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="border text-white cursor-pointer bg-green-600 flex-shrink px-3 py-1 rounded"
-            >
-              {saving ? "Saving..." : "Save"}
-            </button>
-            {error && <span className="text-red-500 p-1">{error}</span>}
-          </>
-        )}
-      </div>
+      <ProfileCard
+        webId={webId ?? ""}
+        name={profileData.name}
+        email={profileData.email}
+        image={profileData.image}
+        editMode={editMode}
+        saving={saving}
+        visibility={visibility}
+        avatar={avatar}
+        avatarError={avatarError}
+        error={error}
+        onNameChange={(val) =>
+          setProfileData((prev) => ({ ...prev, name: val }))
+        }
+        onEmailChange={(val) =>
+          setProfileData((prev) => ({ ...prev, email: val }))
+        }
+        onVisibilityChange={setVisibility}
+        onAvatarChange={handleAvatarChange}
+        onEditToggle={handleEditToggle}
+        onSave={handleSave}
+      />
     </div>
   );
 };

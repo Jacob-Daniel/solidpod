@@ -9,10 +9,6 @@ async function getCategoryResources(base: string, category: string) {
     const dataset = await getSolidDataset(containerUrl);
     return getContainedResourceUrlAll(dataset);
   } catch (err: any) {
-    // console.warn(
-    //   `Container missing or unauthorized: ${containerUrl}`,
-    //   err.message,
-    // );
     return [];
   }
 }
@@ -21,7 +17,7 @@ export async function buildCategoryResources(
   webIds: string[],
   categories: string[],
 ) {
-  const archiveBases = webIds.map((w) => w.replace(/\/profile\/card#me$/, ""));
+  const archiveBases = webIds.map((w) => w.replace(/\/profile\/card#.*$/, ""));
   const categoryResources: { [category: string]: string[] } = {};
 
   for (const cat of categories) {

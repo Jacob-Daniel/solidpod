@@ -16,7 +16,6 @@ export default function Intros({
 	path: string;
 	icon_colour: string;
 }) {
-	console.log(json, "json");
 	return (
 		<div
 			id={id}
