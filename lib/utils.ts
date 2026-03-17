@@ -2,8 +2,6 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Metadata } from "next";
 import {
-	Address,
-	Person,
 	SocialMedia,
 	SharedSEO,
 	General,
@@ -27,23 +25,17 @@ export function convertToEmbedUrl(url: string) {
 
 	return url; // If it's not a YouTube URL, return the original URL
 }
-const url = new URL(process.env.FRONT_END_URL as string);
 export const siteMetadata = ({
-	address,
-	contact,
 	social,
-	geolocation,
 	general,
 	seo,
 }: {
-	address?: Address;
-	contact?: Person[];
 	social: SocialMedia[];
 	geolocation?: Geo;
 	general?: General;
 	seo: SharedSEO;
 }): Metadata => ({
-	metadataBase: "https://mg.jacobdaniel.co.uk" as unknown as URL,
+	metadataBase: process.env.FRONT_END_URL as unknown as URL,
 	title: {
 		default: general?.title || "",
 		template: `${general?.title} %s`,
@@ -93,31 +85,6 @@ export const siteMetadata = ({
 				: `${process.env.FRONT_END_URL}/${general?.slug}`,
 	},
 	classification: "Local Democracy",
-	// structuredData: geolocation
-	// 	? {
-	// 			"@context": "https://schema.org",
-	// 			"@type": "Company", // or another appropriate type
-	// 			name: general.title,
-	// 			description: general.tagline,
-	// 			url: `${process.env.FRONT_END_URL}/${general.slug}`,
-	// 			address: {
-	// 				"@type": "PostalAddress",
-	// 				streetAddress: address.address_line_1,
-	// 				addressLocality: address.address_line_2,
-	// 				addressRegion: address.county,
-	// 				postalCode: address.postcode,
-	// 				addressCountry: "UK",
-	// 			},
-	// 			telephone: contact.phone || undefined,
-	// 			geo: {
-	// 				latitude: geolocation.latitude,
-	// 				longitude: geolocation.longitude,
-	// 			},
-	// 			image: general?.image?.url || "",
-	// 			priceRange: seo.seo_priceRange || "N/A",
-	// 			keywords: seo.seo_key_words.split(","),
-	// 		}
-	// 	: undefined,
 });
 
 export function formatDate(
@@ -146,19 +113,10 @@ export function formatDate(
 
 	const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-	let hours = date.getHours();
-	let minutes = date.getMinutes();
 	const month = abbrMonth
 		? monthNames[date.getMonth()].substring(0, 3)
 		: monthNames[date.getMonth()];
 	const day = dayNames[date.getDay()];
-	const ampm = hours >= 12 ? "pm" : "am";
-
-	hours = hours % 12 || 12;
-	const formattedHours = hours.toString().padStart(2, "0");
-	const formattedMinutes = minutes.toString().padStart(2, "0");
-
-	const strTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
 
 	const year = abbrYear
 		? "'" + (date.getFullYear() % 100).toString().padStart(2, "0")

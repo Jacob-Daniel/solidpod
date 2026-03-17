@@ -9,8 +9,8 @@ import {
 } from "@inrupt/solid-client";
 import {
   sanitiseFile,
-  ALLOWED_IMAGE_TYPES,
-  ALLOWED_DOC_TYPES,
+  // ALLOWED_IMAGE_TYPES,
+  // ALLOWED_DOC_TYPES,
   ALLOWED_TYPES,
 } from "@/lib/solid/sanitiseFile";
 
@@ -28,13 +28,13 @@ interface EditFileUploaderProps {
 }
 
 const EditFileUploader: FC<EditFileUploaderProps> = ({
-  dataset,
+  // dataset,
   thing,
   predicate,
   uploadsFolder,
   fetch,
   onThingUpdate,
-  label,
+  // label,
   accept,
   allowedTypes = ALLOWED_TYPES,
 }) => {

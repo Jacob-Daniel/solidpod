@@ -1,4 +1,4 @@
-import { Banner, Section } from "@/lib/types";
+import { Banner } from "@/lib/types";
 import ResponsiveImage from "@/app/components/ResponsiveImage";
 import SVG from "@/app/components/SVG";
 import paths from "@/public/svg/paths.json";

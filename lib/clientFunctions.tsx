@@ -1,63 +1,8 @@
 "use client";
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { useVisibility } from "@/lib/VisibilityContext";
 import { useNavigationContext } from "@/lib/navigationContext"; // Adjust the path as needed
-import {
-	RichTextContent,
-	ContentBlock,
-	TextNode,
-	ListBlock,
-	ListItemNode,
-	HeadingBlock,
-	FormStateParams,
-} from "@/lib/types";
-
-export const validateInput = (
-	type:
-		| "mailing_list"
-		| "last_name"
-		| "email"
-		| "name"
-		| "postcode"
-		| "display_name"
-		| "comment",
-	value: string,
-): string | null => {
-	const regex = /^[a-zA-Z]+$/;
-	// const regexComment = /^[^<>]$/;
-	const postcodeRegex = /^([A-Z]{1,2}[0-9]{1,2}[A-Z]?)\s?[0-9][A-Z]{2}$/i; // Case-insensitive
-	switch (type) {
-		case "postcode":
-			return postcodeRegex.test(value) || value === ""
-				? null
-				: "Only UK postcode permitted";
-		case "name":
-		case "last_name":
-			if (!value.length) {
-				return "Field must not be empty";
-			}
-			if (value.length > 20) {
-				return "Too many characters";
-			}
-			if (!regex.test(value)) {
-				return "Only letters and spaces are allowed";
-			}
-			return null;
-		case "email": // Validate email format
-			return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-				? null
-				: "incorrect format";
-			// case "comment":
-			// if (!regexComment.test(value)) {
-			// 	return "No script tags are allowed";
-			// }
-			if (value.length > 300) {
-				return "Maximum 300 characters";
-			}
-		default:
-			return null;
-	}
-};
+import { RichTextContent, ContentBlock, TextNode } from "@/lib/types";
 
 export function formatDate(
 	date: Date | undefined | null,
@@ -163,11 +108,6 @@ export function strReverse(str: string) {
 	return word;
 }
 
-// Define the renderTextNode function
-function renderTextNode(node: TextNode): string {
-	return node.text; // Directly return the text from the node
-}
-
 // Function to render inline content (text nodes)
 export function renderInline(node: TextNode): string {
 	return node.text;
@@ -188,35 +128,6 @@ export function isRichTextContent(
 	return false;
 }
 
-export async function humanValidator({
-	human,
-	count,
-	setCount,
-	setHumanError,
-	setMessage,
-	formRef,
-	r,
-}: FormStateParams) {
-	setCount(count + 1);
-
-	if (count >= 3) {
-		setMessage("Sorry too many failed attempts...");
-		setHumanError(true);
-		return false;
-	}
-	if (human !== r) {
-		setMessage(
-			`Incorrect Human field checker value. <b>${2 - count}</b> attempts remaining.`,
-		);
-		setHumanError(true);
-		return false;
-	} else {
-		setHumanError(false);
-		setMessage("");
-		return true;
-	}
-}
-
 export function toSlug(text: string): string {
 	return text
 		.toLowerCase()
@@ -224,16 +135,6 @@ export function toSlug(text: string): string {
 		.replace(/[^a-z0-9 -]/g, "")
 		.replace(/\s+/g, "-")
 		.replace(/-+/g, "-");
-}
-
-interface TiptapTextNode {
-	type?: string;
-	text?: string;
-}
-
-interface TiptapBlockNode {
-	type: string;
-	children?: TiptapTextNode[];
 }
 
 export function convertTiptapToStrapi(doc: { content: any[] }): any[] {

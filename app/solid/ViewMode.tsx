@@ -5,7 +5,7 @@ import { getThing, getStringNoLocale } from "@inrupt/solid-client";
 interface ViewModeProps {
   dataset: any;
   resourceUrl: string;
-  fragment?: string; // optional, from createArchiveResource
+  fragment?: string;
 }
 
 const ViewMode: FC<ViewModeProps> = ({ dataset, resourceUrl, fragment }) => {
@@ -23,7 +23,7 @@ const ViewMode: FC<ViewModeProps> = ({ dataset, resourceUrl, fragment }) => {
 
   const stringFields = Object.entries(thing.predicates)
     .filter(([_, value]) => value.literals) // only predicates that have literals
-    .map(([predicate, value]) => ({
+    .map(([predicate]) => ({
       predicate,
       value: getStringNoLocale(thing, predicate) || "",
     }))

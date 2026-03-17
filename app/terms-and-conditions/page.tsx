@@ -1,6 +1,5 @@
 import { getAPI } from "@/lib/functions";
 import UlPageContentAnchors from "@/app/components/UlPageContentAnchors";
-import BannerTop from "@/app/components/BannerTop";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
 type Tags = {
   label: string;
@@ -8,16 +7,13 @@ type Tags = {
   fragment: string;
 };
 
-import { Page } from "@/lib/types";
+import { Page, Section, LayoutTextSection } from "@/lib/types";
 import { notFound } from "next/navigation";
 
-export default async function DynamicPage({
-  params,
-}: {
-  params: { page?: string[] };
-}) {
-  let { page } = params;
-  let blurDataUrl;
+export default async function DynamicPage() {
+  function isContentSection(section: Section): section is LayoutTextSection {
+    return section.__component === "content.content";
+  }
   const [[data]] = await Promise.all([
     getAPI<Page[]>(
       `/pages?filters[slug][$eq]=terms-and-conditions&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
@@ -26,26 +22,13 @@ export default async function DynamicPage({
   if (!data) notFound();
   const tags: Tags[] =
     data?.sections
-      ?.filter((section) => section.__component === "content.content")
-      ?.map((section) => ({
-        fragment: section?.anchor as string,
-        label: section?.anchor as string,
+      ?.filter(isContentSection)
+      .filter((section) => section.anchor)
+      .map((section) => ({
+        fragment: section.anchor!,
+        label: section.anchor!,
         target: "_self",
       })) ?? [];
-  if (data.banner) {
-    const img =
-      data?.banner?.image_versions.find((v) => v.version === "desktop")
-        ?.image ?? data?.banner?.image_versions[0]?.image;
-
-    blurDataUrl = await fetch(
-      `${process.env.STRAPI_BASE_URL}${img?.formats.thumbnail.url}`,
-    )
-      .then((res) => res.arrayBuffer())
-      .then(
-        (buf) =>
-          `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-      );
-  }
 
   return (
     <main className="grid grid-cols-12 gap-y-10">
@@ -62,10 +45,7 @@ export default async function DynamicPage({
                       key={`p-${index}`}
                       className="relative col-span-12 mb-7 scroll-mt-20 text-primary"
                     >
-                      <RichContentRenderer
-                        blocks={section.content}
-                        className=""
-                      />
+                      <RichContentRenderer blocks={section.content} />
                     </section>
                   );
 
@@ -89,7 +69,6 @@ export default async function DynamicPage({
                       )}
                       <UlPageContentAnchors
                         list={tags}
-                        type="sidebar"
                         className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar text-slate-800 text-primary"
                         classNameLi="pb-1 !leading-none"
                         page="introduction"

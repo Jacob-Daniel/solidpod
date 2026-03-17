@@ -1,16 +1,20 @@
 /**
- * uploadValidation.ts
+ * sanitiseFile.ts
  *
- * Client-side upload validation utility.
+ * Client-side upload validation and string sanitisation utilities.
  *
- * NOTE: This is a first line of defence only. All checks here
- * must also be enforced server-side / in your Solid server middleware.
- * Magic byte checks in the browser are advisory — a determined user
- * can bypass them. The server is the authoritative gatekeeper.
+ * NOTE: First line of defence only. Magic byte checks in the browser
+ * are advisory — a determined user can bypass them by calling the pod
+ * PUT endpoint directly. Your Solid server (CSS/ESS) is the
+ * authoritative gatekeeper. Set X-Content-Type-Options: nosniff and
+ * a strict Content-Security-Policy on your Next.js host.
  */
 
 // ---------------------------------------------------------------------------
 // Allowed types
+// NOTE: image/svg+xml is intentionally excluded — SVG contains executable
+// content (<script>, <foreignObject>, event handlers) and must never be
+// treated as a safe image format.
 // ---------------------------------------------------------------------------
 
 export const ALLOWED_IMAGE_TYPES = [
@@ -31,6 +35,7 @@ export const ALLOWED_TYPES = [
   ...ALLOWED_IMAGE_TYPES,
   ...ALLOWED_DOC_TYPES,
 ] as const;
+
 export type AllowedMimeType = (typeof ALLOWED_TYPES)[number];
 
 // ---------------------------------------------------------------------------
@@ -40,16 +45,20 @@ export type AllowedMimeType = (typeof ALLOWED_TYPES)[number];
 const MAGIC_BYTES: Record<string, number[][]> = {
   "image/jpeg": [[0xff, 0xd8, 0xff]],
   "image/png": [[0x89, 0x50, 0x4e, 0x47]],
-  "image/webp": [[0x52, 0x49, 0x46, 0x46]], // RIFF....WEBP — checked further below
-  "image/gif": [[0x47, 0x49, 0x46, 0x38]], // GIF8
-  "application/pdf": [[0x25, 0x50, 0x44, 0x46]], // %PDF
-  // Word .doc (OLE2) and .docx (ZIP/PK) share magic bytes with other Office formats;
-  // we accept them at the magic-byte level and rely on extension + server for specifics.
+  // WebP: RIFF header checked at bytes 0-3, fourcc 'WEBP' checked at 8-11
+  // in a separate pass below — do not rely on this entry alone.
+  "image/webp": [[0x52, 0x49, 0x46, 0x46]],
+  "image/gif": [[0x47, 0x49, 0x46, 0x38]],
+  "application/pdf": [[0x25, 0x50, 0x44, 0x46]],
+  // OLE2 container (.doc) — also used by older Office formats;
+  // extension check + server validation handles the specifics.
   "application/msword": [[0xd0, 0xcf, 0x11, 0xe0]],
+  // ZIP/PK container (.docx)
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
-    [0x50, 0x4b, 0x03, 0x04], // PK (ZIP)
+    [0x50, 0x4b, 0x03, 0x04],
   ],
-  "text/plain": [], // No reliable magic bytes; rely on extension + server
+  // No reliable magic bytes for plain text
+  "text/plain": [],
 };
 
 // ---------------------------------------------------------------------------
@@ -67,11 +76,6 @@ export interface ValidationResult {
   error?: string;
 }
 
-/**
- * Result returned by sanitiseFile — the main entry point for components.
- * On success: ok=true, safeName and mime are populated.
- * On failure: ok=false, error describes the problem.
- */
 export interface SanitiseResult {
   ok: boolean;
   error?: string;
@@ -83,29 +87,26 @@ export interface SanitiseResult {
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Read the first N bytes of a File as a Uint8Array */
 async function readHeader(file: File, bytes: number): Promise<Uint8Array> {
-  const slice = file.slice(0, bytes);
-  const buf = await slice.arrayBuffer();
+  const buf = await file.slice(0, bytes).arrayBuffer();
   return new Uint8Array(buf);
 }
 
-/** Return true if the header starts with the given magic sequence */
 function matchesMagic(header: Uint8Array, magic: number[]): boolean {
   return magic.every((byte, i) => header[i] === byte);
 }
 
-/** Sanitise a filename: strip path traversal, collapse whitespace, limit length */
+/** Strip path traversal, collapse whitespace, limit length. */
 export function sanitiseFilename(name: string): string {
   return name
     .replace(/[/\\]/g, "") // no path separators
-    .replace(/\.\./g, "") // no traversal
+    .replace(/\.\./g, "") // no traversal sequences
     .replace(/\s+/g, "_") // spaces → underscores
     .replace(/[^\w.\-]/g, "") // only word chars, dots, hyphens
-    .slice(0, 200); // max length
+    .slice(0, 200);
 }
 
-/** Derive a safe content-type from the filename extension as a fallback */
+/** Derive a safe content-type from the filename extension. */
 export function extensionToMime(filename: string): AllowedMimeType | null {
   const ext = filename.split(".").pop()?.toLowerCase();
   const map: Record<string, AllowedMimeType> = {
@@ -122,21 +123,41 @@ export function extensionToMime(filename: string): AllowedMimeType | null {
   return ext ? (map[ext] ?? null) : null;
 }
 
+/** Return the safe content-type to use when calling overwriteFile / PUT. */
+export function safeContentType(file: File): string {
+  return extensionToMime(file.name) ?? "application/octet-stream";
+}
+
+// ---------------------------------------------------------------------------
+// Turtle / RDF identifier sanitiser
+// ---------------------------------------------------------------------------
+
+/**
+ * Sanitise a string for use as a Turtle local name or RDF identifier.
+ *
+ * - Strips all characters outside [A-Za-z0-9_\-\.]
+ * - Ensures the result starts with a letter or underscore
+ * - Caps length to avoid oversized URIs and database field overflows
+ *
+ * @param name      - Raw input string
+ * @param maxLength - Maximum output length (default 128)
+ */
+export function sanitizeStringTurtle(name: string, maxLength = 128): string {
+  if (!name) return "_";
+  let sanitized = name
+    .trim()
+    .replace(/[^A-Za-z0-9_\-\.]/g, "_")
+    .slice(0, maxLength);
+  if (!/^[A-Za-z_]/.test(sanitized)) {
+    sanitized = "_" + sanitized;
+  }
+  return sanitized;
+}
+
 // ---------------------------------------------------------------------------
 // Main validator
 // ---------------------------------------------------------------------------
 
-/**
- * Validate a File object before upload.
- *
- * Checks (in order):
- *   1. File exists
- *   2. Size limit
- *   3. MIME type is on the allowlist
- *   4. Magic bytes match the declared MIME type
- *
- * Returns { valid: true } or { valid: false, error: "..." }
- */
 export async function validateUpload(
   file: File,
   allowedTypes: readonly string[] = ALLOWED_TYPES,
@@ -152,20 +173,18 @@ export async function validateUpload(
     return { valid: false, error: `File exceeds the ${mb} MB limit.` };
   }
 
-  // 3. MIME type allowlist
-  // Prefer extension-derived MIME over file.type (file.type is browser-supplied
-  // and can be spoofed or absent). Use file.type as a fallback only.
+  // 3. MIME allowlist — derive from extension, never trust file.type alone
   const mimeFromExt = extensionToMime(file.name);
   const declaredMime = mimeFromExt ?? file.type;
 
   if (!allowedTypes.includes(declaredMime)) {
     return {
       valid: false,
-      error: `File type "${declaredMime}" is not permitted. Allowed: ${allowedTypes.join(", ")}`,
+      error: `File type "${declaredMime}" is not permitted.`,
     };
   }
 
-  // 4. Magic bytes (skip for plain text — no reliable signature)
+  // 4. Magic bytes (skipped for text/plain — no reliable signature)
   if (declaredMime !== "text/plain") {
     const magicSets = MAGIC_BYTES[declaredMime];
     if (magicSets && magicSets.length > 0) {
@@ -181,32 +200,31 @@ export async function validateUpload(
     }
   }
 
-  return { valid: true };
-}
+  // 5. WebP secondary check — verify RIFF fourcc is 'WEBP' at bytes 8-11.
+  // The RIFF header alone (bytes 0-3) is shared with WAV, AVI, and other
+  // formats, so a WAV renamed to .webp would pass step 4 without this check.
+  if (declaredMime === "image/webp") {
+    const header12 = await readHeader(file, 12);
+    const isWebP =
+      header12[8] === 0x57 && // W
+      header12[9] === 0x45 && // E
+      header12[10] === 0x42 && // B
+      header12[11] === 0x50; // P
+    if (!isWebP) {
+      return {
+        valid: false,
+        error: "File contents do not match its declared type. Upload rejected.",
+      };
+    }
+  }
 
-/**
- * Convenience wrapper: returns a safe content-type string to use when
- * calling overwriteFile / PUT. Never trusts file.type alone.
- */
-export function safeContentType(file: File): string {
-  return extensionToMime(file.name) ?? "application/octet-stream";
+  return { valid: true };
 }
 
 // ---------------------------------------------------------------------------
 // Main entry point for components
 // ---------------------------------------------------------------------------
 
-/**
- * Validate and sanitise a File in one call.
- *
- * Usage in components:
- *   const result = await sanitiseFile(file, allowedTypes);
- *   if (!result.ok) { setError(result.error); return; }
- *   const safeFile = new File([file], result.safeName!, { type: result.mime });
- *
- * Runs all validation checks then returns a clean safeName and mime
- * derived from the file extension — never from the browser-supplied file.type.
- */
 export async function sanitiseFile(
   file: File,
   allowedTypes: readonly string[] = ALLOWED_TYPES,

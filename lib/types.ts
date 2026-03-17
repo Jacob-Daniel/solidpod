@@ -1,11 +1,5 @@
-import {
-	RichTextContent,
-	ContentBlock,
-	IContentType,
-} from "@/lib/dynamicTypes";
+import { RichTextContent } from "@/lib/dynamicTypes";
 
-import { CreateBasketResponse } from "@/lib/userTypes";
-import { Metadata } from "next";
 import { Icon } from "next/dist/lib/metadata/types/metadata-types";
 
 export * from "./dynamicTypes";
@@ -25,7 +19,6 @@ interface BaseDoc {
 
 export interface Session {
 	jwt: string;
-	basket: CreateBasketResponse | null;
 	orderId: string | null;
 	user: User;
 }
@@ -35,7 +28,6 @@ export interface User extends BaseDoc {
 	username: string;
 	name?: string | null;
 	email?: string | null;
-	petition?: Petition;
 }
 
 export interface SessionUser {
@@ -57,18 +49,6 @@ export interface IParams {
 	tech: string;
 	subcat: string;
 }
-
-export type Prices = {
-	[type: string]: number;
-};
-
-export type IPrices = {
-	data: Array<{
-		documentId: string;
-		type: string;
-		price: number;
-	}>;
-};
 
 /* ---------- Media ---------- */
 export interface FormatDetails {
@@ -226,12 +206,6 @@ export interface LayoutTextSection {
 	anchor?: string;
 }
 
-export interface ContentGallery {
-	__component: "content.gallery";
-	id: number;
-	images: Media[];
-}
-
 export interface LayoutCalendar {
 	__component: "layout.calendar";
 	id: number;
@@ -243,7 +217,6 @@ export interface LayoutSidebar {
 	__component: "layout.sidebar";
 	id: number;
 	heading: string;
-	place: Place;
 	RichTextContent: RichTextContent;
 }
 
@@ -310,19 +283,6 @@ export interface Video {
 	};
 }
 
-export interface SectionGallery {
-	id: number;
-	heading: string;
-	sub_heading: string;
-	bg_colour: string;
-	gallery: {
-		id: number;
-		heading?: string;
-		description?: string;
-		media: Media[];
-	};
-}
-
 export interface SectionWelcome {
 	id: number;
 	bg_colour: string;
@@ -339,12 +299,6 @@ export type WelcomeOptions = {
 
 /* ---------- Page & Section Types ---------- */
 
-export interface EventPage extends BaseDoc {
-	sections: Section[];
-	sidebar: Sidebar[];
-	seo: SEO;
-}
-
 export interface Page extends BaseDoc, SEO {
 	title: string;
 	slug: string;
@@ -355,7 +309,6 @@ export interface Page extends BaseDoc, SEO {
 }
 
 export type SidebarComponent =
-	| PetitionStats
 	| FormSection
 	| HeadingComponent
 	| LayoutSidebar
@@ -367,16 +320,10 @@ export interface HomePage extends BaseDoc {
 
 export type Section =
 	| Banner
-	| PlacesSection
 	| TabsSection
 	| FeaturedSection
-	| FeaturedEventSection
-	| VolunteerSection
 	| LayoutTextSection
-	| PersonSection
 	| FormSection
-	| LayoutCalendar
-	| ContentGallery
 	| InfoCardSection
 	| ButtonSection
 	| ContentHeading
@@ -439,22 +386,6 @@ export interface SelectField {
 	select_options: SelectOption[];
 }
 
-export interface PlacesSection {
-	__component: "layout.places-section";
-	id: number;
-	heading: string;
-	content: RichTextContent;
-	bg_colour: string;
-	places: { place: Place[] };
-}
-
-export interface PersonSection {
-	__component: "layout.people-section";
-	id: number;
-	bg_colour: string;
-	people: Person[];
-}
-
 export interface FeaturedSection {
 	__component: "layout.featured";
 	id: number;
@@ -464,52 +395,6 @@ export interface FeaturedSection {
 	bg_colour: string;
 }
 
-export interface FeaturedEventSection {
-	__component: "layout.featured-events-section";
-	id: number;
-	heading: string;
-	content: RichTextContent;
-	number_of_events: number;
-	bg_colour: string;
-}
-
-export interface VolunteerSection {
-	__component: "layout.volunteer-section";
-	id: number;
-	heading: string;
-	text: string;
-	slug: string;
-	bg_colour: string;
-	calendar_enabled: true;
-	banner: ImageVersion[];
-}
-
-/* ---------- People & Organisations ---------- */
-export interface Person {
-	name: string;
-	tel: string;
-	role: string;
-	email: string;
-	image: Media;
-	bio: LayoutTextSection;
-	organisation: Organisation;
-	place: Place;
-}
-
-export interface Organisation extends BaseDoc {
-	name: string;
-	slug: string;
-	summary: string;
-	external_website_url: string;
-	logo: Media;
-	people: Person[];
-	manages_places: Place[];
-	social_media?: {
-		id: number;
-		social: SocialMedia[];
-	};
-}
-
 export interface SocialMedia {
 	id: number;
 	url: string;
@@ -517,49 +402,6 @@ export interface SocialMedia {
 	handle: string;
 	platform: string;
 	is_active: boolean;
-}
-
-/* ---------- Places & Events ---------- */
-export interface Place {
-	id: number;
-	name: string;
-	summary: string;
-	slug: string;
-	calendar_enabled: true;
-	image: Media;
-	geo: Geo;
-	address: Address;
-	managing_organisation: Organisation;
-	events: Event[];
-	people: Person[];
-}
-
-export interface IEvent {
-	data: Event[];
-}
-export interface Event extends BaseDoc {
-	title: string;
-	slug: string;
-	locale?: string | null;
-	summary: string;
-	content: RichTextContent;
-	start_date: string;
-	end_date: string;
-	price: number;
-	image: Media;
-	location: Place;
-	people?: Person;
-}
-
-export interface Petition extends BaseDoc, PetitionMeta {
-	title: string;
-	slug: string;
-	demand: RichTextContent;
-	reason: RichTextContent;
-	image: Media;
-	signatures: Signature[];
-	status: string;
-	last_signature: string;
 }
 
 export interface Category extends BaseDoc {
@@ -574,79 +416,8 @@ export interface Category extends BaseDoc {
 	image: IImage;
 }
 
-export interface API {
-	data: Data;
-	meta: Metadata;
-}
-
-export type Data = Signature[] | User | Media | Petition[];
-
-export interface UploadPetition {
-	title: string;
-	slug?: string;
-	demand: RichTextContent;
-	reason: RichTextContent;
-	image: number;
-	end_date: string;
-	targetCount: number;
-	tags?: string[];
-	createdByUser?: string;
-	target: string;
-	ward?: string;
-	borough?: string;
-}
-
-export interface PetitionMeta {
-	end_date: string;
-	signaturesCount: number;
-	targetCount: number;
-	tags: string[];
-	createdByUser: string;
-	target: string;
-	ward?: string;
-	borough?: string;
-	last_signature: string;
-}
-
-// subHeading?: string;
-// heading?: string;
-// bgColour?: string;
-// ctaLabel?: boolean;
-// ctaLink?: boolean;
-// totalSignatures: number;
-// targetCount?: number;
-// startDate?: string;
-// endDate?: string;
-// showProgressBar?: boolean;
-// showTimeLeft?: boolean;
-// showTargetCount?: boolean;
-
-export interface Signature extends BaseDoc {
-	first_name: string;
-	last_name: string;
-	comment: string;
-	anonymize: boolean;
-	user: User;
-	petition: Petition;
-}
-
-export interface PetitionStats {
-	__component: "content.petition-stats";
-	subHeading?: string;
-	heading?: string;
-	bgColour?: string;
-	ctaLabel?: boolean;
-	ctaLink?: boolean;
-	signaturesCount: number;
-	targetCount?: number;
-	startDate?: string;
-	endDate?: string;
-	showProgressBar?: boolean;
-	showTimeLeft?: boolean;
-	showTargetCount?: boolean;
-}
-
 /* ---------- Metadata ---------- */
+
 export interface Meta {
 	pagination: {
 		page: number;
@@ -697,19 +468,16 @@ export interface SharedSEO {
 
 /* ---------- Navigation ---------- */
 
+interface NavigationMenu extends BaseDoc {
+	title: string;
+	type: string;
+	navigation_items: MenuItem[];
+}
+
 export type NavigationComponent = {
 	__component: "layout.navigation";
 	id: number;
-	navigation_menu: {
-		id: number;
-		documentId: string;
-		title: string;
-		type: string;
-		createdAt: string;
-		updatedAt: string;
-		publishedAt: string;
-		navigation_items: MenuItem[];
-	};
+	navigation_menu: NavigationMenu;
 };
 
 export interface IMenu {
@@ -768,15 +536,6 @@ export interface Geo {
 	what3words: string;
 }
 
-export type Address = {
-	address_line_1: string;
-	address_line_2: string;
-	address_line_3: string;
-	postcode: string;
-	town: string;
-	geo_locaiton: Geo;
-};
-
 export interface CertLogos {
 	id: number;
 	name: string;
@@ -830,31 +589,12 @@ export interface Footer extends BaseDoc {
 	meta: Record<string, unknown>;
 }
 
-export type FooterComponent =
-	| HeadingComponent
-	| PlaceComponent
-	| NavigationComponent
-	| SocialMediaComponent;
+export type FooterComponent = HeadingComponent | NavigationComponent;
 
 export type HeadingComponent = {
 	__component: "content.heading";
 	id: number;
 	heading: string;
-};
-
-export type PlaceComponent = {
-	__component: "layout.place";
-	id: number;
-	heading: string;
-	place: Place;
-};
-
-export type ContactComponent = {
-	__component: "organisation.contact";
-
-	id: number;
-	heading: string;
-	organisation: Organisation;
 };
 
 export interface ImageFormat {
@@ -869,13 +609,6 @@ export interface ImageFormat {
 	sizeInBytes?: number;
 }
 
-export type SocialMediaComponent = {
-	__component: "layout.social-platforms";
-	id: number;
-	heading: string | null;
-	organisation: Organisation;
-};
-
 export interface GradientStop {
 	offset: string;
 	color: string;
@@ -889,108 +622,6 @@ export interface Intro {
 	icon: string;
 }
 
-/*Membership*/
-
-export interface CreateMembership {
-	name: string;
-	message: string;
-	webId: string;
-}
-
-export type CreateMembershipResponseAction =
-	| CreateMebershipeErrorResponse
-	| Member;
-
-export interface CreateMebershipeErrorResponse {
-	error: {
-		status: number;
-		name: string;
-		message: string;
-		details: { field: string; code: string };
-	};
-}
-
-export interface Member extends BaseDoc {
-	first_name: string;
-	last_name: string;
-	email: string;
-	mailing_list: boolean;
-	postcode: string;
-}
-
-export interface CreatePetition {
-	title: string;
-	demand: string;
-	ward: string;
-	decision_maker: string;
-	image: string;
-	reason: string;
-	user?: string;
-}
-
-//Signature
-
-export interface CreateSignature {
-	first_name: string;
-	last_name: string;
-	email: string;
-	postcode: string;
-	mailing_list: boolean;
-	comment?: string;
-	display_name?: boolean;
-	user?: string;
-	petition: { connect: { documentId: string } };
-}
-
-export type CreateResponseAction =
-	| CreateErrorResponse
-	| CreateSignature
-	| CreatePetition
-	| UploadPetition;
-
-export interface CreateErrorResponse {
-	error: {
-		status: number;
-		name: string;
-		message: string;
-		details: { field: string; code: string };
-	};
-}
-
-//functions
-
-export type FormStateParams = {
-	human: string | null;
-	count: number;
-	setCount: React.Dispatch<React.SetStateAction<number>>;
-	setHumanError: React.Dispatch<React.SetStateAction<boolean>>;
-	setMessage: React.Dispatch<React.SetStateAction<string>>;
-	formRef: React.RefObject<HTMLFormElement | null>;
-	r: string;
-};
-
-// Map
-
-export interface ILeaflet {
-	loadingstate: boolean;
-	activestate: boolean;
-	buttextstate: string;
-	displaystate: string;
-	height: string;
-}
-
-export interface IEvent extends BaseDoc {
-	title: string;
-	start_date: string;
-	end_date: string;
-	price: string;
-	summary: string;
-	content: RichTextContent;
-	image: Media;
-	location: Place;
-	// cat_id: number;
-}
-
 export interface Share {
 	classes: string;
 	id: number;
@@ -1001,3 +632,5 @@ export interface Share {
 }
 
 export type FileUploadResponse = Media;
+
+export type CreateResponseAction = any;

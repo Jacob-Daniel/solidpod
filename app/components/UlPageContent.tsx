@@ -1,10 +1,9 @@
 "use client";
 import Link from "next/link";
-import { MenuItem, NavigationComponent } from "@/lib/types";
+import { NavigationComponent } from "@/lib/types";
 import { useScrollSpy } from "@/lib/clientFunctions";
 const UlPageContent = ({
 	menu,
-	type,
 	className,
 	classNameLi,
 	onNavItemClick,

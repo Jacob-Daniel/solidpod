@@ -4,12 +4,13 @@ import { useState } from "react";
 import { ComponentType, ReactNode } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
 import { Category } from "@/lib/types";
+
 interface TabComponentProps {
   welcome: ReactNode;
   profile: ComponentType;
   archive: ComponentType;
-  newarchive: ComponentType;
-  categories: Category[] | undefined;
+  newarchive: ComponentType<{ cats: Category[] }>;
+  categories?: Category[] | undefined;
 }
 
 export default function TabComponent({
@@ -19,7 +20,7 @@ export default function TabComponent({
   newarchive: NewArchive,
   categories,
 }: TabComponentProps) {
-  const { isLoggedIn, webId, fullName } = useSolidSession();
+  const { isLoggedIn, fullName } = useSolidSession();
   const [activeTab, setActiveTab] = useState<
     "welcome" | "profile" | "archive" | "new-archive"
   >("welcome");
@@ -32,7 +33,9 @@ export default function TabComponent({
         {activeTab === "welcome" && welcome}
         {activeTab === "profile" && <Profile />}
         {activeTab === "archive" && <Archive />}
-        {activeTab === "new-archive" && <NewArchive cats={categories} />}
+        {activeTab === "new-archive" && (
+          <NewArchive cats={categories ?? []} />
+        )}{" "}
       </div>
       <aside className="hidden md:flex-1 md:flex md:flex-col md:col-span-3 border p-3 rounded border-border bg-gray-100 shadow relative border-border text-primary">
         <h2 className="text-sm mb-2 font-bold">{fullName}'s Dashboard </h2>

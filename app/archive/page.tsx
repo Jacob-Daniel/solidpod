@@ -5,7 +5,7 @@ import FeaturedSwiper from "@/app/components/FeaturedSwiper";
 import BannerTop from "@/app/components/BannerTop";
 import ArchiveCategoryTabs from "@/app/solid/ArchiveCatTabs";
 
-import { Page, FeaturedSection, PlacesSection, Category } from "@/lib/types";
+import { Page, Category } from "@/lib/types";
 import RichPageContentRender from "@/app/components/RichPageContentRender";
 
 export default async function Archive() {
@@ -17,14 +17,6 @@ export default async function Archive() {
     getPAPI<{ webId: string }[]>("/archives?populate=*"),
   ]);
   if (!data) return <div>No content available</div>;
-
-  const blurDataUrl = await fetch(
-    `${process.env.STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
-  )
-    .then((res) => res.arrayBuffer())
-    .then(
-      (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-    );
   const categories = {
     slugs: featured.map((f) => f.slug),
     images: featured.map((f) => f.image),
@@ -39,7 +31,7 @@ export default async function Archive() {
   return (
     <main className="grid grid-cols-12 gap-y-10">
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-        <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
+        <BannerTop banner={data.banner} />
       </div>
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">
         {data &&
@@ -49,10 +41,7 @@ export default async function Archive() {
               case "content.content":
                 return (
                   <div key={`a-${index}`} className="relative col-span-12">
-                    <RichPageContentRender
-                      blocks={section.content}
-                      className="w-full"
-                    />
+                    <RichPageContentRender blocks={section.content} />
                   </div>
                 );
 
@@ -62,13 +51,8 @@ export default async function Archive() {
                     key={`p-${index}`}
                     className="relative col-span-12 grid grid-cols-12 pb-20"
                   >
-                    <Frame section={section}>
-                      <FeaturedSwiper
-                        featured={featured}
-                        section={section}
-                        view={-0}
-                        gap={0}
-                      />
+                    <Frame>
+                      <FeaturedSwiper featured={featured} section={section} />
                     </Frame>
                   </div>
                 );
@@ -91,13 +75,7 @@ export default async function Archive() {
   );
 }
 
-function Frame({
-  section,
-  children,
-}: {
-  section: FeaturedSection | PlacesSection;
-  children: ReactNode;
-}) {
+function Frame({ children }: { children: ReactNode }) {
   return (
     <div className="relative col-span-12 grid grid-cols-12">
       <div className="col-span-12 grid grid-cols-12 md:flex-row gap-y-5 lg:px-0 md:gap-x-5">

@@ -1,8 +1,9 @@
 "use client";
 import { FC, useState, useEffect } from "react";
-import EditFileForm from "./EditFileForm";
-import { getSolidDataset, getThing } from "@inrupt/solid-client";
-import ViewMode from "./ViewMode";
+// import EditFileForm from "./EditFileForm";
+// import { getSolidDataset, getThing } from "@inrupt/solid-client";
+import { getSolidDataset } from "@inrupt/solid-client";
+// import ViewMode from "./ViewMode";
 import Link from "next/link";
 interface ArchiveItemProps {
   resourceUrl: string;
@@ -15,7 +16,7 @@ const ArchiveItem: FC<ArchiveItemProps> = ({
   fetch,
   onDelete,
 }) => {
-  const [mode, setMode] = useState<"view" | "edit">("view");
+  // const [mode, setMode] = useState<"view" | "edit">("view");
   const [dataset, setDataset] = useState<any>(null);
 
   useEffect(() => {

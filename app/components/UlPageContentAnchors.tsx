@@ -10,14 +10,12 @@ type Tags = {
 };
 const UlPageContentAnchors = ({
 	list,
-	type,
 	className,
 	classNameLi,
 	onNavItemClick,
 	page,
 }: {
 	list: Tags[];
-	type: string;
 	className: string;
 	classNameLi: string;
 	onNavItemClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;

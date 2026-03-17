@@ -1,4 +1,3 @@
-import React from "react";
 import { SVG } from "@/lib/types";
 
 const CustomSVG = ({

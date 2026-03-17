@@ -1,8 +1,4 @@
-import React from "react";
 import {
-	ContentBlock,
-	IImage,
-	IContentType,
 	RichTextContent,
 	InlineNode,
 	TextNode,
@@ -14,10 +10,8 @@ import Link from "next/link";
 
 export default function RichContentRenderer({
 	blocks,
-	className = "",
 }: {
 	blocks: RichTextContent;
-	className?: string;
 }) {
 	if (!blocks || !Array.isArray(blocks)) {
 		return <div>No content available</div>;

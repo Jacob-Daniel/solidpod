@@ -36,7 +36,7 @@ const PublicViewMode: FC<ViewModeProps> = ({
   }, [thing]);
 
   const stringFields = Object.entries(thing.predicates)
-    .map(([predicate, value]) => {
+    .map(([predicate]) => {
       const literalValue = getStringNoLocale(thing, predicate);
       const urlValue = getUrl(thing, predicate);
 

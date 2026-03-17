@@ -2,11 +2,7 @@
 import { FC, useEffect, useState } from "react";
 import { useSolidSession } from "@/lib/sessionContext";
 import { loadResources } from "@/app/solid/loadResources";
-import {
-  getSolidDataset,
-  getContainedResourceUrlAll,
-  deleteSolidDataset,
-} from "@inrupt/solid-client";
+import { deleteSolidDataset } from "@inrupt/solid-client";
 import ArchiveList from "@/app/solid/ArchiveList";
 
 interface ArchiveCategory {
@@ -18,10 +14,6 @@ const Archive: FC = () => {
   const { isLoggedIn, session, webId } = useSolidSession();
   const [categories, setCategories] = useState<ArchiveCategory[]>([]);
   const [loading, setLoading] = useState(true);
-  console.log(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-archive`,
-    "ologi",
-  );
 
   const ARCHIVE_FOLDER = webId
     ? webId.replace("profile/card#me", "") + "archive/"
@@ -47,7 +39,6 @@ const Archive: FC = () => {
 
   const handleDelete = async (resourceUrl: string, categoryName: string) => {
     if (!session) return;
-    console.log(resourceUrl, "resurl");
     if (!window.confirm("Are you sure you want to delete this resource?")) {
       return; // Cancel clicked → exit early
     }

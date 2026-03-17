@@ -8,7 +8,7 @@ type Tags = {
   fragment: string;
 };
 
-import { Page } from "@/lib/types";
+import { Page, Section, LayoutTextSection } from "@/lib/types";
 import { notFound } from "next/navigation";
 
 export default async function DynamicPage({
@@ -16,8 +16,11 @@ export default async function DynamicPage({
 }: {
   params: Promise<{ page?: string[] }>;
 }) {
+  function isContentSection(section: Section): section is LayoutTextSection {
+    return section.__component === "content.content";
+  }
+
   let { page } = await params;
-  let blurDataUrl;
   const [[data]] = await Promise.all([
     getAPI<Page[]>(
       `/pages?filters[slug][$eq]=${page}&populate[banner][populate][image_versions][populate]=image&populate[sections][on][layout.featured][populate]=*&populate[sidebar][on][layout.sidebar][populate]=*&populate[sections][on][content.content][populate]=*&populate[sections][on][layout.info-card-section][populate]=*`,
@@ -26,10 +29,11 @@ export default async function DynamicPage({
   if (!data) notFound();
   const tags: Tags[] =
     data?.sections
-      ?.filter((section) => section.__component === "content.content")
-      ?.map((section) => ({
-        fragment: section?.anchor as string,
-        label: section?.anchor as string,
+      ?.filter(isContentSection)
+      .filter((section) => section.anchor)
+      .map((section) => ({
+        fragment: section.anchor!,
+        label: section.anchor!,
         target: "_self",
       })) ?? [];
 
@@ -51,10 +55,7 @@ export default async function DynamicPage({
                       key={`p-${index}`}
                       className="relative col-span-12 mb-7 scroll-mt-20 text-primary"
                     >
-                      <RichContentRenderer
-                        blocks={section.content}
-                        className=""
-                      />
+                      <RichContentRenderer blocks={section.content} />
                     </section>
                   );
 
@@ -78,7 +79,6 @@ export default async function DynamicPage({
                       )}
                       <UlPageContentAnchors
                         list={tags}
-                        type="sidebar"
                         className="text-sm overflow-y-auto max-h-[30vh] thin-scrollbar text-primary"
                         classNameLi="pb-1 !leading-none"
                         page="introduction"

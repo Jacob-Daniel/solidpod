@@ -2,7 +2,7 @@ import { getAPI } from "@/lib/functions";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
 import Profile from "@/app/solid/Profile";
 import Archive from "@/app/solid/Archive";
-import NewArchive from "@/app/solid/CreateResourceForm";
+import NewArchive from "@/app/solid/NewArchive";
 import TabComponent from "./TabComponent";
 import { Page } from "@/lib/types";
 
@@ -26,7 +26,7 @@ export default async function Intro() {
               key={`p-${index}`}
               className="relative col-span-12 mb-7 scroll-mt-20"
             >
-              <RichContentRenderer blocks={section.content} className="" />
+              <RichContentRenderer blocks={section.content} />
             </section>
           );
 

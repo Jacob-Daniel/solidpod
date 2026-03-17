@@ -10,18 +10,17 @@ import {
   saveSolidDatasetAt,
   createThing,
   setUrl,
-  setBoolean,
 } from "@inrupt/solid-client";
 import Image from "next/image";
 import { useSolidSession } from "@/lib/sessionContext";
 
-import EditDescription from "./EditDescription";
+// import EditDescription from "./EditDescription";
 import { FileInputUpload } from "@/app/solid/FileInputUpload";
-import { uploadFile } from "@/lib/uploadFile";
-import namespace from "@rdfjs/namespace";
+// import { uploadFile } from "@/lib/uploadFile";
+// import namespace from "@rdfjs/namespace";
 import MessageModal from "@/app/components/MessageModal";
 
-const DC = namespace("http://purl.org/dc/terms/");
+// const DC = namespace("http://purl.org/dc/terms/");
 
 interface EditFileFormProps {
   dataset: SolidDataset;
@@ -41,20 +40,19 @@ const EditFileForm: FC<EditFileFormProps> = ({
   resourceUrl,
   thingUrl,
   fetch,
-  onSave,
 }) => {
   const existingThing = getThing(dataset, thingUrl);
   const initialThing = existingThing ?? createThing({ url: thingUrl });
   const [thing, setThingState] = useState<Thing>(initialThing);
   const formRef = useRef<HTMLFormElement>(null);
   const [fields, setFields] = useState<Field[]>([]);
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const [message, setMessage] = useState("");
   const [processing, setProcessing] = useState(false);
-  const { session, webId } = useSolidSession();
-  const [visibility, setVisibility] = useState(false);
+  const { webId } = useSolidSession();
+  // const [visibility, setVisibility] = useState(false);
 
-  const uploadsFolder = resourceUrl.replace(/\/[^\/]+$/, "/") + "uploads/";
+  // const uploadsFolder = resourceUrl.replace(/\/[^\/]+$/, "/") + "uploads/";
   const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
   useEffect(() => {
     if (!thing) return;
@@ -75,9 +73,9 @@ const EditFileForm: FC<EditFileFormProps> = ({
     );
   };
 
-  const handleThingUpdate = (updatedThing: Thing) => {
-    setThingState(updatedThing);
-  };
+  // const handleThingUpdate = (updatedThing: Thing) => {
+  //   setThingState(updatedThing);
+  // };
 
   const renderFilePreview = (predicateUrl: string) => {
     const fileUrl = getStringNoLocale(thing, predicateUrl);
@@ -161,12 +159,12 @@ const EditFileForm: FC<EditFileFormProps> = ({
         fetch,
       });
       setMessage("Resource Saved!");
-      setStatus("ok");
+      // setStatus("ok");
       setThingState(updatedThing);
       // if (onSave) onSave();
     } catch (err) {
       setMessage("Error saving Resource");
-      setStatus("error");
+      // setStatus("error");
       console.error("Error saving dataset:", err);
     } finally {
       setProcessing(false);

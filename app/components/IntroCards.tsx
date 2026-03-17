@@ -4,16 +4,10 @@ import Link from "next/link";
 export default function Intros({
 	json,
 	id,
-	pagination,
-	route,
-	path,
 	icon_colour,
 }: {
 	json: InfoCard;
 	id: string;
-	pagination: string;
-	route: string;
-	path: string;
 	icon_colour: string;
 }) {
 	return (

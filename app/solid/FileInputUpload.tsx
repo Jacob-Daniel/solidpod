@@ -3,8 +3,8 @@ import { uploadFile } from "@/lib/uploadFile";
 import { useSolidSession } from "@/lib/sessionContext";
 import {
   sanitiseFile,
-  ALLOWED_IMAGE_TYPES,
-  ALLOWED_DOC_TYPES,
+  // ALLOWED_IMAGE_TYPES,
+  // ALLOWED_DOC_TYPES,
   ALLOWED_TYPES,
 } from "@/lib/solid/sanitiseFile";
 

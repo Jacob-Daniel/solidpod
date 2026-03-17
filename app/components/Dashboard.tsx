@@ -1,6 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
 import Profile from "@/app/solid/Profile";
 import Archive from "@/app/solid/Archive";
@@ -17,7 +16,6 @@ type Props = {
 
 export default function Dashboard({ page, cats }: Props) {
   const { isLoggedIn, session } = useSolidSession();
-  const router = useRouter();
   useEffect(() => {
     handleIncomingSolidLogin(session.info);
   }, [session]);

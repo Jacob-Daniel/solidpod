@@ -1,15 +1,13 @@
 import { getAPI } from "@/lib/functions";
-import * as React from "react";
 import UL from "@/app/components/UL";
 
 import {
-	// ILeaflet,
 	Footer as IFooter,
 	FooterComponent,
 	HeadingComponent,
 } from "@/lib/types";
 
-export default async function Footer(): Promise<JSX.Element> {
+export default async function Footer() {
 	const [footer] = await Promise.all([
 		getAPI<IFooter>(
 			"/footer?populate[column_one][on][content.heading][populate][populate]=*&populate[column_two][on][content.heading][populate][populate]=*&populate[column_three][on][content.heading][populate]=*&populate[column_one][on][layout.navigation][populate][navigation_menu][populate]=navigation_items&populate[column_two][on][layout.navigation][populate][navigation_menu][populate]=navigation_items",

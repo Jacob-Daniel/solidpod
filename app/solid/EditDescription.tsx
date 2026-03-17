@@ -1,10 +1,6 @@
 "use client";
 import { FC, useEffect } from "react";
-import {
-  Thing,
-  getStringNoLocale,
-  setStringNoLocale,
-} from "@inrupt/solid-client";
+import { Thing, getStringNoLocale } from "@inrupt/solid-client";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";

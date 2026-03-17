@@ -1,12 +1,11 @@
 import Link from "next/link";
-import { MenuItem, NavigationComponent } from "@/lib/types";
+import { NavigationComponent } from "@/lib/types";
 const UL = ({
 	menu,
 	type,
 	className,
 	classNameLi,
 	onNavItemClick,
-	page,
 }: {
 	menu: NavigationComponent;
 	type: string;

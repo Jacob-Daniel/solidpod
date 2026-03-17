@@ -4,7 +4,7 @@ import type { Tags } from "@/lib/types";
 export default function TagList({ tags }: { tags: Tags[] }) {
   return (
     <div className="col-span-6 flex flex-wrap gap-2 justify-center">
-      {tags.map((tag, index) => {
+      {tags.map((tag) => {
         const colorClass = "";
         return (
           <Link

@@ -1,6 +1,4 @@
 "use client";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import { Pagination } from "swiper/modules";
 import Link from "next/link";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -10,13 +8,9 @@ import { FeaturedSection, Category } from "@/lib/types";
 export default function FeaturedSwiper({
 	featured,
 	section,
-	view,
-	gap,
 }: {
 	featured: Category[];
 	section: FeaturedSection;
-	view: number;
-	gap: number;
 }) {
 	return (
 		<div
@@ -44,9 +38,6 @@ export default function FeaturedSwiper({
 								/>
 							</Link>
 							<SwiperText
-								id={category.id}
-								summary={category.description}
-								path={category.slug}
 								route={`${process.env.NEXT_PUBLIC_BASE_URL}/archive?cat=${category.slug}`}
 								name={category.name}
 							/>
@@ -57,19 +48,7 @@ export default function FeaturedSwiper({
 	);
 }
 
-function SwiperText({
-	id,
-	summary,
-	path,
-	route,
-	name,
-}: {
-	id: number;
-	summary: string;
-	path: string;
-	route: string;
-	name: string;
-}) {
+function SwiperText({ route, name }: { route: string; name: string }) {
 	return (
 		<div className="bottom-0 w-full mb-0 flex flex-col px-1 text-center md:py-1">
 			<Link

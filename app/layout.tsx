@@ -1,4 +1,3 @@
-import { ClientBasketProvider } from "@/app/components/ClientBasketProvider";
 import { SolidSessionProvider } from "@/lib/sessionContext";
 import type { Metadata } from "next";
 import { siteMetadata } from "@/lib/utils";
@@ -13,6 +12,7 @@ import { NavigationProvider } from "@/lib/navigationContext";
 import { getAPI } from "@/lib/functions";
 import type { SiteConfig, General } from "@/lib/types";
 import { cache } from "react";
+import { headers } from "next/headers";
 
 const karla = Karla({
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -35,10 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
     website: data.SEO?.ogUrl || "url",
     slug: data.title,
   };
-
   return siteMetadata({
     social: (data.social_media && data.social_media) || [],
-    // geolocation: data.manages_places[0].address.geo_locaiton || [],
     general: general,
     seo: {
       metaTitle: data.title,
@@ -57,8 +55,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const data = await getSiteConfig();
+  const nonce = (await headers()).get("x-nonce") ?? "";
+
   return (
     <html lang="en">
+      <head>
+        <meta property="csp-nonce" content={nonce} />
+      </head>
       <body
         className={`${karla.variable} w-full h-full min-h-[500px] text-slate-900 font-sans bg-body text-black text-primary-foreground`}
       >
@@ -75,7 +78,6 @@ export default async function RootLayout({
           <div className="w-full max-w-[1500px] align-middle mx-auto">
             {children}
           </div>
-
           <Footer />
         </SolidSessionProvider>
       </body>

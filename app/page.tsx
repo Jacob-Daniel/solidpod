@@ -3,16 +3,11 @@ import { getAPI } from "@/lib/functions";
 import FeaturedSwiper from "@/app/components/FeaturedSwiper";
 import IntroCards from "@/app/components/IntroCards";
 import BannerTop from "@/app/components/BannerTop";
-import TagList from "@/app/components/TagList";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
-import { InfoCard, Page, Category, Tags } from "@/lib/types";
+import { InfoCard, Page, Category } from "@/lib/types";
 
 async function fetchFeatured() {
   return getAPI<Category[]>("/categories?populate=*");
-}
-
-async function fetchTags() {
-  return getAPI<Tags[]>("/tags");
 }
 
 async function fetchHomePage() {
@@ -22,23 +17,16 @@ async function fetchHomePage() {
 }
 
 export default async function Home() {
-  const [[data], featured, tags] = await Promise.all([
+  const [[data], featured] = await Promise.all([
     fetchHomePage(),
     fetchFeatured(),
-    fetchTags(),
   ]);
   if (!data) return <div>No content available</div>;
-  const blurDataUrl = await fetch(
-    `${process.env.STRAPI_BASE_URL}${data?.banner?.image_versions[1].image.formats.thumbnail.url}`,
-  )
-    .then((res) => res.arrayBuffer())
-    .then(
-      (buf) => `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`,
-    );
+
   return (
     <main className="grid grid-cols-12 gap-y-10 mb">
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12">
-        <BannerTop banner={data.banner} blurDataUrl={blurDataUrl as string} />
+        <BannerTop banner={data.banner} />
       </div>
       <div className="col-span-12 lg:col-span-10 lg:col-start-2 grid grid-cols-12 px-5 lg:px-0">
         {data &&
@@ -58,9 +46,6 @@ export default async function Home() {
                           key={id}
                           json={card}
                           id={`tab${id}`}
-                          pagination="swiper-pagination-use"
-                          route=""
-                          path=""
                           icon_colour="!text-black"
                         />
                       ))}
@@ -74,22 +59,14 @@ export default async function Home() {
                   >
                     {" "}
                     <div className="col-span-12">
-                      <RichContentRenderer
-                        blocks={section.content}
-                        className=""
-                      />
+                      <RichContentRenderer blocks={section.content} />
                     </div>
                   </section>
                 );
               case "layout.featured":
                 return (
                   <Frame key={index}>
-                    <FeaturedSwiper
-                      featured={featured}
-                      section={section}
-                      view={-0}
-                      gap={30}
-                    />
+                    <FeaturedSwiper featured={featured} section={section} />
                   </Frame>
                 );
               default:

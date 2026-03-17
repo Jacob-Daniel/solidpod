@@ -8,20 +8,22 @@ import {
 import { Session } from "@inrupt/solid-client-authn-browser";
 import namespace from "@rdfjs/namespace";
 import { ensureContainerWithACL } from "@/lib/ensureContainerWithACL";
-import { sanitizeStringTurtle } from "@/lib/sanitizeStringTurtle";
+import { sanitizeStringTurtle } from "@/lib/solid/sanitizeStringTurtle";
 
-const DC = namespace("http://purl.org/dc/terms/");
+const DCTERMS = namespace("http://purl.org/dc/terms/");
+const SCHEMA = namespace("http://schema.org/");
+const EX = namespace("https://your-domain.com/vocab#");
 
 interface ArchiveResource {
   title: string;
   description: string;
-  date: string;
+  date?: string;
   creator: string;
   visibility: boolean;
   category: string;
-  image: string;
-  documentUrl: string;
-  allowAnnotations: boolean;
+  image?: string;
+  documentUrl?: string;
+  allowAnnotations?: boolean;
 }
 
 export async function createArchiveResource(
@@ -57,16 +59,27 @@ export async function createArchiveResource(
 
   // Create dataset and Thing
   let dataset = createSolidDataset();
-  const resourceThing = buildThing(createThing({ name: fragment }))
-    .addStringNoLocale(DC("title"), resource.title)
-    .addStringNoLocale(DC("slug"), slug)
-    .addStringNoLocale(DC("description"), resource.description)
-    .addStringNoLocale(DC("file"), resource.documentUrl || "")
-    .addBoolean(DC("allowAnnotations"), resource.allowAnnotations)
-    .addStringNoLocale(DC("date"), resource.date)
-    .addStringNoLocale(DC("img"), resource.image)
-    .addUrl(DC("creator"), resource.creator)
-    .build();
+  let builder = buildThing(createThing({ name: fragment }))
+    .addStringNoLocale(DCTERMS("title"), resource.title)
+    .addStringNoLocale(DCTERMS("description"), resource.description)
+    .addDatetime(
+      DCTERMS("created"),
+      new Date(resource.date ?? Date.now()), // <-- default to now if undefined
+    )
+    .addUrl(DCTERMS("creator"), resource.creator)
+    .addStringNoLocale(EX("slug"), slug)
+    .addBoolean(EX("allowAnnotations"), resource.allowAnnotations ?? false) // <-- default false
+    .addStringNoLocale(EX("category"), resource.category);
+
+  if (resource.documentUrl) {
+    builder = builder.addUrl(SCHEMA("contentUrl"), resource.documentUrl);
+  }
+
+  if (resource.image) {
+    builder = builder.addUrl(SCHEMA("image"), resource.image);
+  }
+
+  const resourceThing = builder.build();
 
   dataset = setThing(dataset, resourceThing);
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useWindowListener } from "@/lib/clientFunctions";
 import ListItem from "@/app/components/ListItem";

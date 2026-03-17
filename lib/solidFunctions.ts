@@ -6,8 +6,6 @@ import {
   getStringNoLocale,
 } from "@inrupt/solid-client";
 
-const FOAF = "http://xmlns.com/foaf/0.1/";
-
 const FOAF_NAME = "http://xmlns.com/foaf/0.1/name";
 
 export async function getNameFromWebId(webId: string): Promise<string> {

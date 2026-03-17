@@ -3,7 +3,7 @@ import { useSolidSession } from "@/lib/sessionContext";
 import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
-  const { session, logout } = useSolidSession();
+  const { logout } = useSolidSession();
   const router = useRouter();
   const handleLogout = async () => {
     try {

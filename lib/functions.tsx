@@ -1,9 +1,4 @@
-import {
-	Files,
-	CreateMembership,
-	CreateMembershipResponseAction,
-	Meta,
-} from "@/lib/types";
+import { Files, Meta } from "@/lib/types";
 
 export async function getFiles(name: string): Promise<Files> {
 	const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/file-system/folder?path=${name}`;
@@ -70,7 +65,7 @@ export async function createAPI<T>({
 	data,
 	route,
 }: {
-	data: CreateMembership | { webId: string };
+	data: any | { webId: string };
 	route: string;
 }): Promise<T | null> {
 	try {

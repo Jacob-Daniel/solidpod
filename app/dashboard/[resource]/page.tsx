@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function ResourcePage() {
   const params = useSearchParams();
-  const { session, isLoggedIn, webId, fullName } = useSolidSession();
+  const { session, fullName } = useSolidSession();
   const router = useRouter();
   const serverUrl = params.get("serverUrl");
   const podName = params.get("podName");

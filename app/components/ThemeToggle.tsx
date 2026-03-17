@@ -3,7 +3,7 @@
 import { useState } from "react";
 import StaticIcon from "@/app/components/StaticIcon";
 
-export default function ThemeToggle({ type }: { type: string }) {
+export default function ThemeToggle({ type: _type }: { type: string }) {
   const [isDark, setIsDark] = useState(false);
 
   const toggleTheme = () => {

@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useNavigationContext } from "@/lib/navigationContext";
@@ -25,7 +24,7 @@ const NavLink = ({
 	is_button,
 	server_slug,
 }: ILinks) => {
-	const { isLoggedIn, session } = useSolidSession();
+	const { isLoggedIn } = useSolidSession();
 
 	const { setVisible } = useVisibility();
 	const pathname = usePathname()!.slice(1);
@@ -54,7 +53,7 @@ const NavLink = ({
 						? `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/${slug}`
 						: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`
 				}
-				onClick={(e) => {
+				onClick={() => {
 					(handleClick(), onClick && onClick());
 				}}
 			>

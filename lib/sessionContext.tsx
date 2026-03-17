@@ -1,17 +1,13 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import {
-  session,
-  handleIncomingRedirect,
-  login,
-  logout,
-} from "@/lib/solidSession";
+import { session, handleIncomingRedirect, login } from "@/lib/solidSession";
 import {
   getSolidDataset,
   getThing,
   getStringNoLocale,
 } from "@inrupt/solid-client";
-import { FOAF, VCARD, SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
+// import { FOAF, VCARD, SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
+import { FOAF } from "@inrupt/vocab-common-rdf";
 
 interface SessionContextType {
   session: typeof session;
@@ -32,7 +28,7 @@ export const SolidSessionProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(session.info.isLoggedIn);
   const [fullName, setFullName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
   const [webId, setWebId] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<any>(null);
 
@@ -57,10 +53,10 @@ export const SolidSessionProvider: React.FC<{ children: React.ReactNode }> = ({
 
             setFullName(fullname || "");
 
-            const schemaEmail = getStringNoLocale(thing, VCARD.hasEmail); // or SCHEMA_INRUPT.email
+            // const schemaEmail = getStringNoLocale(thing, VCARD.hasEmail); // or SCHEMA_INRUPT.email
 
             setFullName(fullname || "");
-            setEmail(schemaEmail || "");
+            // setEmail(schemaEmail || "");
           }
         } catch (err) {
           console.error("Error fetching Solid profile:", err);
