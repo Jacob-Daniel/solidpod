@@ -2,6 +2,7 @@ import { getAPI } from "@/lib/functions";
 import RichContentRenderer from "@/app/components/RichPageContentRender";
 import Profile from "@/app/solid/Profile";
 import Archive from "@/app/solid/Archive";
+import EditResourcePanel from "@/app/solid/EditResourcePanel";
 import NewArchive from "@/app/solid/NewArchive";
 import TabComponent from "./TabComponent";
 import { Page } from "@/lib/types";
@@ -45,6 +46,7 @@ export default async function Intro() {
             profile={Profile}
             archive={Archive}
             newarchive={NewArchive}
+            editResource={EditResourcePanel}
           />
         </div>
       </div>
