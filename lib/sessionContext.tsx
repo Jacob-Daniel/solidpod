@@ -6,12 +6,14 @@ import {
   getThing,
   getStringNoLocale,
 } from "@inrupt/solid-client";
+import { checkVerifiedAction } from "@/lib/actions";
 // import { FOAF, VCARD, SCHEMA_INRUPT } from "@inrupt/vocab-common-rdf";
 import { FOAF } from "@inrupt/vocab-common-rdf";
 
 interface SessionContextType {
   session: typeof session;
   isLoggedIn: boolean;
+  isVerified: boolean;
   login: typeof login;
   logout: () => Promise<void>;
   fullName?: string;
@@ -31,12 +33,21 @@ export const SolidSessionProvider: React.FC<{ children: React.ReactNode }> = ({
   // const [email, setEmail] = useState<string>("");
   const [webId, setWebId] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<any>(null);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     (async () => {
       await handleIncomingRedirect();
-      setIsLoggedIn(session.info.isLoggedIn);
-      setWebId(session.info.webId);
+
+      const loggedIn = session.info.isLoggedIn;
+      const currentWebId = session.info.webId;
+      setIsLoggedIn(loggedIn);
+      setWebId(currentWebId);
+      if (!loggedIn || !currentWebId) {
+        setIsVerified(false);
+        return;
+      }
+      checkVerifiedAction(currentWebId).then(setIsVerified);
 
       if (session.info.isLoggedIn && session.info.webId) {
         try {
@@ -63,7 +74,7 @@ export const SolidSessionProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
     })();
-  }, []);
+  }, [isLoggedIn, webId]);
 
   const doLogout = async () => {
     await session.logout();
@@ -83,6 +94,7 @@ export const SolidSessionProvider: React.FC<{ children: React.ReactNode }> = ({
         webId,
         user,
         setUser,
+        isVerified,
       }}
     >
       {children}

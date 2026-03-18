@@ -1,6 +1,6 @@
 "use server";
 import { CreateResponseAction } from "@/lib/types";
-import { createAPI } from "@/lib/functions";
+import { createAPI, getAPI } from "@/lib/functions";
 
 export async function createArchiveAction(webId: {
 	webId: string;
@@ -16,5 +16,22 @@ export async function createArchiveAction(webId: {
 		return data;
 	} else {
 		return null;
+	}
+}
+
+export async function getArchiveByWebId(webId: string) {
+	const encoded = encodeURIComponent(webId);
+	const result = await getAPI<{ webId: string; verified: boolean }[]>(
+		`/archives?filters[webId][$eq]=${encoded}`,
+	);
+	return result?.[0] ?? null;
+}
+
+export async function checkVerifiedAction(webId: string): Promise<boolean> {
+	try {
+		const archive = await getArchiveByWebId(webId);
+		return archive?.verified === true;
+	} catch {
+		return false;
 	}
 }

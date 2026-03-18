@@ -5,6 +5,7 @@ import Image from "next/image";
 type Visibility = "private" | "public";
 
 interface ProfileCardProps {
+  isVerified: boolean;
   webId: string;
   name: string;
   email: string;
@@ -43,6 +44,7 @@ function getPodHandle(webId: string): { username: string; host: string } {
 }
 
 const ProfileCard: FC<ProfileCardProps> = ({
+  isVerified,
   webId,
   name,
   email,
@@ -215,13 +217,21 @@ const ProfileCard: FC<ProfileCardProps> = ({
             <label className="block text-[11px] font-semibold tracking-wide uppercase text-neutral-400 dark:text-neutral-500">
               Profile image
             </label>
-            <label className="inline-flex items-center gap-2 cursor-pointer rounded-lg border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-[13px] text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors">
-              Choose image
+            <label
+              className={`inline-flex items-center gap-2 rounded-lg border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-[13px] transition-colors
+  ${
+    !isVerified
+      ? "text-amber-600 cursor-not-allowed"
+      : "cursor-pointer text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+  }`}
+            >
+              {!isVerified ? "Account not yet verified." : "Choose Image"}
               <input
                 type="file"
                 accept="image/*"
-                className="hidden"
                 onChange={onAvatarChange}
+                className="hidden"
+                {...(!isVerified && { disabled: true, hidden: true })}
               />
             </label>
             {avatar && (

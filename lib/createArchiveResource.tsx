@@ -10,6 +10,8 @@ import namespace from "@rdfjs/namespace";
 import { ensureContainerWithACL } from "@/lib/ensureContainerWithACL";
 import { sanitizeStringTurtle } from "@/lib/solid/sanitizeStringTurtle";
 
+import { checkVerifiedAction } from "./actions";
+
 const DCTERMS = namespace("http://purl.org/dc/terms/");
 const SCHEMA = namespace("http://schema.org/");
 const EX = namespace("https://your-domain.com/vocab#");
@@ -31,7 +33,11 @@ export async function createArchiveResource(
   resource: ArchiveResource,
 ) {
   if (!session.info.webId) throw new Error("User not logged in");
-
+  const verified = await checkVerifiedAction(session.info.webId!);
+  if (!verified)
+    throw new Error(
+      "Your account is pending verification. Please wait for approval before creating resources.",
+    );
   // Base WebID folder
   const url = new URL(session.info.webId);
   url.hash = "";

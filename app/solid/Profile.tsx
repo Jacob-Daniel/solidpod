@@ -20,7 +20,7 @@ import ProfileCard from "@/app/solid/ProfileCard";
 type Visibility = "private" | "public";
 
 const Profile: FC = () => {
-  const { isLoggedIn, webId, session } = useSolidSession();
+  const { isLoggedIn, webId, session, isVerified } = useSolidSession();
 
   const [profileData, setProfileData] = useState({
     name: "",
@@ -123,6 +123,7 @@ const Profile: FC = () => {
   return (
     <div className="col-span-12 flex flex-col gap-4">
       <ProfileCard
+        isVerified={isVerified}
         webId={webId ?? ""}
         name={profileData.name}
         email={profileData.email}

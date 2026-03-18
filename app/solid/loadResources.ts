@@ -7,7 +7,15 @@ export async function loadResources(
   archiveUrl: string,
   fetch: typeof window.fetch,
 ) {
-  const dataset = await getSolidDataset(archiveUrl, { fetch });
+  let dataset;
+  try {
+    dataset = await getSolidDataset(archiveUrl, { fetch });
+  } catch (err: any) {
+    if (err?.message?.includes("404") || err?.message?.includes("Not Found")) {
+      return []; // container doesn't exist yet, nothing to load
+    }
+    throw err;
+  }
   const contained = getContainedResourceUrlAll(dataset);
   const categoryUrls = contained.filter(
     (url) => url.endsWith("/") && !url.endsWith("/uploads/"),

@@ -8,7 +8,7 @@ import { uploadFile } from "@/lib/uploadFile";
 import { FileInput } from "@/app/solid/FileInput";
 
 export default function CreateResourceForm({ cats }: { cats: Category[] }) {
-  const { session, webId } = useSolidSession();
+  const { session, webId, isVerified } = useSolidSession();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -128,8 +128,12 @@ export default function CreateResourceForm({ cats }: { cats: Category[] }) {
       </label>
 
       <button
-        className="border text-white cursor-pointer bg-blue-500 px-2 py-1 rounded mb-5"
+        className="border text-white px-2 py-1 rounded mb-5 transition-colors
+          bg-blue-500 enabled:cursor-pointer 
+          disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
         type="submit"
+        disabled={!isVerified || loading}
+        title={!isVerified ? "Your account is pending verification" : undefined}
       >
         {loading ? "Processing..." : "Save"}
       </button>
