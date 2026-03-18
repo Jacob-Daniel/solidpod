@@ -4,6 +4,7 @@ import RichContentRenderer from "@/app/components/RichPageContentRender";
 import Profile from "@/app/solid/Profile";
 import Archive from "@/app/solid/Archive";
 import NewArchive from "@/app/solid/NewArchive";
+import EditResourcePanel from "@/app/solid/EditResourcePanel";
 import TabComponent from "@/app/solid/TabComponent";
 import type { Page, Category } from "@/lib/types";
 import { useSolidSession } from "@/lib/sessionContext";
@@ -62,6 +63,7 @@ export default function Dashboard({ page, cats }: Props) {
           archive={Archive}
           newarchive={NewArchive}
           categories={cats}
+          editResource={EditResourcePanel}
         />
       </div>
     </main>

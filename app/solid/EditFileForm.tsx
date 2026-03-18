@@ -46,13 +46,10 @@ const EditFileForm: FC<EditFileFormProps> = ({
   const [thing, setThingState] = useState<Thing>(initialThing);
   const formRef = useRef<HTMLFormElement>(null);
   const [fields, setFields] = useState<Field[]>([]);
-  // const [status, setStatus] = useState("");
   const [message, setMessage] = useState("");
   const [processing, setProcessing] = useState(false);
   const { webId } = useSolidSession();
-  // const [visibility, setVisibility] = useState(false);
 
-  // const uploadsFolder = resourceUrl.replace(/\/[^\/]+$/, "/") + "uploads/";
   const podRoot = webId?.replace(/\/profile\/card#me$/, "") + "/";
   useEffect(() => {
     if (!thing) return;
@@ -154,17 +151,13 @@ const EditFileForm: FC<EditFileFormProps> = ({
         }
       }
 
-      console.log(resourceUrl, "res url", dataset, updatedThing, "updated");
       await saveSolidDatasetAt(resourceUrl, setThing(dataset, updatedThing), {
         fetch,
       });
       setMessage("Resource Saved!");
-      // setStatus("ok");
       setThingState(updatedThing);
-      // if (onSave) onSave();
     } catch (err) {
       setMessage("Error saving Resource");
-      // setStatus("error");
       console.error("Error saving dataset:", err);
     } finally {
       setProcessing(false);
@@ -179,9 +172,6 @@ const EditFileForm: FC<EditFileFormProps> = ({
     >
       {fields.map((f) => {
         const fieldName = f.predicate.split("/").pop()?.split("#").pop();
-        {
-          /*console.log(f, "fields");*/
-        }
         switch (fieldName) {
           case "img":
           case "file":

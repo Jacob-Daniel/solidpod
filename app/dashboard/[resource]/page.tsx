@@ -7,19 +7,21 @@ import { useSolidSession } from "@/lib/sessionContext";
 import { useRouter } from "next/navigation";
 
 export default function ResourcePage() {
-  const params = useSearchParams();
+  const searchParams = useSearchParams();
   const { session, fullName } = useSolidSession();
   const router = useRouter();
-  const serverUrl = params.get("serverUrl");
-  const podName = params.get("podName");
-  const archiveDir = params.get("archiveDir");
-  const fileName = params.get("fileName");
+  const [tabState, setTabState] = useState<string>("");
+  const serverUrl = searchParams.get("serverUrl");
+  const t = searchParams.get("tab");
+  const podName = searchParams.get("podName");
+  const archiveDir = searchParams.get("archiveDir");
+  const fileName = searchParams.get("fileName");
   const [dataset, setDataset] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<
     "" | "profile" | "archive" | "new-archive"
   >("");
   const resourceUrl = `${serverUrl}/${podName}/archive/${archiveDir}/${fileName}`;
-
+  console.log(tabState, "state tab", t);
   if (!fileName)
     return (
       <main className="grid grid-cols-12 gap-y-5 md:gap-y-10 min-h-[600px]">
@@ -33,7 +35,7 @@ export default function ResourcePage() {
 
   useEffect(() => {
     if (!resourceUrl) return;
-
+    setTabState(searchParams.get("tab") || "");
     const loadDataset = async () => {
       try {
         const ds = await getSolidDataset(resourceUrl, { fetch: session.fetch });
@@ -48,7 +50,7 @@ export default function ResourcePage() {
 
   useEffect(() => {
     if (!activeTab) return;
-    router.push(`/dashboard#${activeTab}`);
+    router.push(`/dashboard?tab=${activeTab}`);
   }, [activeTab]);
 
   if (!dataset)
@@ -64,13 +66,6 @@ export default function ResourcePage() {
   return (
     <main className="grid grid-cols-12 gap-y-5 md:gap-y-10 min-h-[600px]">
       <div className="col-span-12 lg:col-start-2 lg:col-span-10 grid grid-cols-12 gap-y-20 px-5 lg:px-0 md:gap-x-7">
-        {/*        <TabComponent
-          welcome={Intro}
-          profile={Profile}
-          archive={Archive}
-          newarchive={NewArchive}
-          categories={cats}
-        />*/}
         <section className="border border-border md:rounded md:p-5 flex-1 col-span-12 md:col-span-9 grid-cols-12">
           <h1 className="text-xl font-bold mb-4">Edit {fileName}</h1>
           <EditFileForm

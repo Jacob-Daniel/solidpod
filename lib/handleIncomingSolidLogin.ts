@@ -8,7 +8,6 @@ export const handleIncomingSolidLogin = async (
 
   const webId = solidSessionInfo.webId;
   const data = { webId: webId };
-  console.log(data, "=============login data");
   // Fire-and-forget, safe to call multiple times
   createArchiveAction(data).catch((err) =>
     console.error("Failed to store webId:", err),

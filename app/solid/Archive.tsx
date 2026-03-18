@@ -4,13 +4,18 @@ import { useSolidSession } from "@/lib/sessionContext";
 import { loadResources } from "@/app/solid/loadResources";
 import { deleteSolidDataset } from "@inrupt/solid-client";
 import ArchiveList from "@/app/solid/ArchiveList";
+import type { EditingResource } from "@/app/solid/TabComponent";
 
 interface ArchiveCategory {
   name: string;
   resources: string[];
 }
 
-const Archive: FC = () => {
+interface Props {
+  onEdit: (resource: EditingResource) => void;
+}
+
+const Archive: FC<Props> = ({ onEdit }) => {
   const { isLoggedIn, session, webId } = useSolidSession();
   const [categories, setCategories] = useState<ArchiveCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -40,10 +45,9 @@ const Archive: FC = () => {
   const handleDelete = async (resourceUrl: string, categoryName: string) => {
     if (!session) return;
     if (!window.confirm("Are you sure you want to delete this resource?")) {
-      return; // Cancel clicked → exit early
+      return;
     }
     await deleteSolidDataset(resourceUrl, { fetch: session.fetch });
-    // console.log(`${process.env.NEXT_PUBLIC_BASE_URL}/api/revalidate-archive`);
 
     setCategories((prev) =>
       prev.map((cat) =>
@@ -81,6 +85,7 @@ const Archive: FC = () => {
               resources={cat.resources}
               fetch={session.fetch}
               onDelete={(url) => handleDelete(url, cat.name)}
+              onEdit={onEdit}
             />
           </section>
         ))}
