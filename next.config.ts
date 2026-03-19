@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
 			{
 				protocol: "http",
 				hostname: "localhost",
-				port: "3000",
+				port: "3019",
 				pathname: "/**/images/**",
 			},
 			{
@@ -56,19 +56,12 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: "https",
-				hostname: "img.youtube.com",
-				port: "",
-				pathname: "/vi/**",
+				hostname: "nksja-css.northkensingtonlibrary.org",
+				pathname: "/**/archive/uploads/**",
 			},
 			{
 				protocol: "https",
-				hostname: "youtube.com",
-				port: "",
-				pathname: "/s/**",
-			},
-			{
-				protocol: "https",
-				hostname: "strapi.jacobdaniel.co.uk",
+				hostname: "nksja-admin.northkensingtonlibrary.org",
 				pathname: "/uploads/**",
 			},
 		],
