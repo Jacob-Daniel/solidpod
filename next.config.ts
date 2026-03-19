@@ -33,7 +33,6 @@ const nextConfig: NextConfig = {
 		},
 	],
 	images: {
-		dangerouslyAllowLocalIP: process.env.NODE_ENV === "development",
 		formats: ["image/avif", "image/webp"],
 		remotePatterns: [
 			{
@@ -56,11 +55,13 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: "https",
+				port: "",
 				hostname: "nksja-css.northkensingtonlibrary.org",
 				pathname: "/**/archive/uploads/**",
 			},
 			{
 				protocol: "https",
+				port: "",
 				hostname: "nksja-admin.northkensingtonlibrary.org",
 				pathname: "/uploads/**",
 			},
